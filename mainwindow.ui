@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>734</width>
+    <height>475</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>US Roasters Coffee Profiles</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0" rowspan="2" colspan="4">
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <family>Book Antiqua</family>
+       </font>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Current Profiles&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="4" rowspan="5">
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="5" colspan="3">
+     <widget class="QLabel" name="choose_label">
+      <property name="font">
+       <font>
+        <family>Book Antiqua</family>
+       </font>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Choose a type of profile:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="8" colspan="2">
+     <widget class="QComboBox" name="time_box"/>
+    </item>
+    <item row="1" column="8">
+     <widget class="QPushButton" name="select_button">
+      <property name="text">
+       <string>Select</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="9">
+     <widget class="QPushButton" name="cancel_button">
+      <property name="text">
+       <string>Cancel</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="4">
+     <widget class="QListView" name="pro_list"/>
+    </item>
+    <item row="2" column="5" colspan="6">
+     <widget class="QTableView" name="pro_table"/>
+    </item>
+    <item row="3" column="0" rowspan="2">
+     <widget class="QPushButton" name="new_button">
+      <property name="text">
+       <string>New</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1" rowspan="2">
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>Download</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="2" rowspan="2">
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="text">
+       <string>Edit</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="3" rowspan="2">
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="text">
+       <string>Remove</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="5">
+     <widget class="QPushButton" name="set_button">
+      <property name="text">
+       <string>Set</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="6">
+     <widget class="QSpinBox" name="value_box">
+      <property name="maximum">
+       <number>1000</number>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="7" colspan="3">
+     <widget class="QLineEdit" name="name_edit">
+      <property name="placeholderText">
+       <string>new profile name</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="10">
+     <widget class="QPushButton" name="create_button">
+      <property name="text">
+       <string>Create</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
