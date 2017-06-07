@@ -6,6 +6,7 @@
 #include <QStringListModel>
 #include <QAbstractItemView>
 #include <QStandardItemModel>
+#include <QThread>
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +21,9 @@ public:
     ~MainWindow();
     void populate_list( void );
     void hide_right_side( void );
+    void set_headers( void );
+    void beautify( void );
+    void mock_download( void );
 
 private slots:
     void on_new_button_clicked();
@@ -27,9 +31,8 @@ private slots:
     void on_select_button_clicked();
     void on_pro_table_clicked(const QModelIndex &index);
     void on_set_button_clicked();
-    void set_headers( void );
+    void on_download_button_clicked();
     void on_create_button_clicked();
-    void beautify( void );
 
 private:
     Ui::MainWindow *ui;

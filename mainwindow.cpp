@@ -31,6 +31,9 @@ void MainWindow::beautify( void ) {
     ui->create_button->setStyleSheet( "color: white; background-color: blue" );
     ui->select_button->setStyleSheet( "color: white; background-color: blue" );
     ui->set_button->setStyleSheet( "color: white; background-color: blue" );
+    ui->download_button->setStyleSheet( "color: white; background-color: blue" );
+    ui->edit_button->setStyleSheet( "color: white; background-color: blue" );
+    ui->remove_button->setStyleSheet( "color: white; background-color: red" );
 }
 
 MainWindow::~MainWindow()
@@ -130,4 +133,20 @@ void MainWindow::on_create_button_clicked()
     QString str = ui->name_edit->text( );
     list << str;
     data_model->setStringList( list );
+}
+
+void MainWindow::on_download_button_clicked()
+{
+    ui->download_button->setEnabled( false );
+    auto str = "Downloading " + ui->pro_list->currentIndex( ).data( ).toString( ) + " to roaster...";
+    ui->status_label->setText( str );
+    int val = 0;
+    while( val <= 100 ) {
+        val += 5;
+        QThread::msleep( 250 );
+        ui->progress_bar->setValue( val );
+    }
+    ui->status_label->setText( "..." );
+    ui->progress_bar->setValue( 0 );
+    ui->download_button->setEnabled( true );
 }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>734</width>
-    <height>475</height>
+    <width>756</width>
+    <height>491</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0" rowspan="2" colspan="4">
+    <item row="0" column="0" colspan="4">
      <widget class="QLabel" name="label">
       <property name="font">
        <font>
@@ -34,7 +34,7 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="5" colspan="3">
+    <item row="0" column="5" colspan="2">
      <widget class="QLabel" name="choose_label">
       <property name="font">
        <font>
@@ -46,82 +46,104 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="8" colspan="2">
+    <item row="0" column="7" colspan="2">
      <widget class="QComboBox" name="time_box"/>
     </item>
-    <item row="1" column="8">
+    <item row="1" column="7">
      <widget class="QPushButton" name="select_button">
       <property name="text">
        <string>Select</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="9">
-     <widget class="QPushButton" name="cancel_button">
-      <property name="text">
-       <string>Cancel</string>
-      </property>
-     </widget>
-    </item>
     <item row="2" column="0" colspan="4">
      <widget class="QListView" name="pro_list"/>
     </item>
-    <item row="2" column="5" colspan="6">
+    <item row="2" column="5" colspan="4">
      <widget class="QTableView" name="pro_table"/>
     </item>
-    <item row="3" column="0" rowspan="2">
+    <item row="3" column="0">
      <widget class="QPushButton" name="new_button">
       <property name="text">
-       <string>New</string>
+       <string>New Profile</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="1" rowspan="2">
-     <widget class="QPushButton" name="pushButton">
+    <item row="3" column="1">
+     <widget class="QPushButton" name="download_button">
       <property name="text">
        <string>Download</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="2" rowspan="2">
-     <widget class="QPushButton" name="pushButton_2">
+    <item row="3" column="2">
+     <widget class="QPushButton" name="edit_button">
       <property name="text">
        <string>Edit</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="3" rowspan="2">
-     <widget class="QPushButton" name="pushButton_3">
+    <item row="3" column="3">
+     <widget class="QPushButton" name="remove_button">
       <property name="text">
        <string>Remove</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="5">
+    <item row="4" column="0" colspan="4">
+     <widget class="QComboBox" name="roaster_box"/>
+    </item>
+    <item row="4" column="5">
      <widget class="QPushButton" name="set_button">
       <property name="text">
        <string>Set</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="6">
+    <item row="4" column="6">
      <widget class="QSpinBox" name="value_box">
       <property name="maximum">
        <number>1000</number>
       </property>
      </widget>
     </item>
-    <item row="4" column="7" colspan="3">
+    <item row="5" column="0" colspan="5">
+     <widget class="QProgressBar" name="progress_bar">
+      <property name="value">
+       <number>0</number>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="5" rowspan="2" colspan="4">
      <widget class="QLineEdit" name="name_edit">
       <property name="placeholderText">
        <string>new profile name</string>
       </property>
      </widget>
     </item>
-    <item row="4" column="10">
+    <item row="5" column="9" rowspan="2">
      <widget class="QPushButton" name="create_button">
       <property name="text">
        <string>Create</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0" colspan="4">
+     <widget class="QLabel" name="status_label">
+      <property name="font">
+       <font>
+        <family>Book Antiqua</family>
+       </font>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="8">
+     <widget class="QPushButton" name="cancel_button">
+      <property name="text">
+       <string>Cancel</string>
       </property>
      </widget>
     </item>
