@@ -15,22 +15,24 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0" colspan="4">
-     <widget class="QLabel" name="label">
-      <property name="font">
-       <font>
-        <family>Book Antiqua</family>
-       </font>
-      </property>
+    <item row="3" column="3">
+     <widget class="QPushButton" name="remove_button">
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Current Profiles&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>Remove</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="4" rowspan="5">
+    <item row="0" column="4" rowspan="8">
      <widget class="Line" name="line">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="8">
+     <widget class="QPushButton" name="save_button">
+      <property name="text">
+       <string>Save</string>
       </property>
      </widget>
     </item>
@@ -41,102 +43,17 @@
         <family>Book Antiqua</family>
        </font>
       </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <property name="lineWidth">
+       <number>5</number>
+      </property>
       <property name="text">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Choose a type of profile:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="7" colspan="2">
-     <widget class="QComboBox" name="time_box"/>
-    </item>
-    <item row="1" column="7">
-     <widget class="QPushButton" name="select_button">
-      <property name="text">
-       <string>Select</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0" colspan="4">
-     <widget class="QListView" name="pro_list"/>
-    </item>
-    <item row="2" column="5" colspan="4">
-     <widget class="QTableView" name="pro_table"/>
-    </item>
-    <item row="3" column="0">
-     <widget class="QPushButton" name="new_button">
-      <property name="text">
-       <string>New Profile</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QPushButton" name="download_button">
-      <property name="text">
-       <string>Download</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="2">
-     <widget class="QPushButton" name="edit_button">
-      <property name="text">
-       <string>Edit</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="3">
-     <widget class="QPushButton" name="remove_button">
-      <property name="text">
-       <string>Remove</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0" colspan="4">
-     <widget class="QComboBox" name="roaster_box"/>
-    </item>
-    <item row="4" column="5">
-     <widget class="QPushButton" name="set_button">
-      <property name="text">
-       <string>Set</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="6">
-     <widget class="QSpinBox" name="value_box">
-      <property name="maximum">
-       <number>1000</number>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0" colspan="5">
-     <widget class="QProgressBar" name="progress_bar">
-      <property name="value">
-       <number>0</number>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="5" rowspan="2" colspan="4">
-     <widget class="QLineEdit" name="name_edit">
-      <property name="placeholderText">
-       <string>new profile name</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="9" rowspan="2">
-     <widget class="QPushButton" name="create_button">
-      <property name="text">
-       <string>Create</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="0" colspan="4">
-     <widget class="QLabel" name="status_label">
-      <property name="font">
-       <font>
-        <family>Book Antiqua</family>
-       </font>
-      </property>
-      <property name="text">
-       <string>...</string>
       </property>
      </widget>
     </item>
@@ -147,9 +64,131 @@
       </property>
      </widget>
     </item>
+    <item row="1" column="7">
+     <widget class="QPushButton" name="select_button">
+      <property name="text">
+       <string>Select</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="7" colspan="2">
+     <widget class="QComboBox" name="time_box"/>
+    </item>
+    <item row="2" column="5" colspan="4">
+     <widget class="QTableView" name="pro_table"/>
+    </item>
+    <item row="3" column="1">
+     <widget class="QPushButton" name="download_button">
+      <property name="text">
+       <string>Download</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QPushButton" name="new_button">
+      <property name="text">
+       <string>New Profile</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0" rowspan="2" colspan="4">
+     <widget class="QProgressBar" name="progress_bar">
+      <property name="value">
+       <number>0</number>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="5" colspan="4">
+     <widget class="QLineEdit" name="name_edit">
+      <property name="placeholderText">
+       <string>New profile name</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0" colspan="4">
+     <widget class="QComboBox" name="roaster_box"/>
+    </item>
+    <item row="3" column="2">
+     <widget class="QPushButton" name="edit_button">
+      <property name="text">
+       <string>Edit</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="5">
+     <widget class="QPushButton" name="set_button">
+      <property name="text">
+       <string>Set</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="6" colspan="2">
+     <widget class="QSpinBox" name="value_box">
+      <property name="maximum">
+       <number>1000</number>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0" colspan="4">
+     <widget class="QLabel" name="status_label">
+      <property name="font">
+       <font>
+        <family>Book Antiqua</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <property name="lineWidth">
+       <number>5</number>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="4">
+     <widget class="QListView" name="pro_list"/>
+    </item>
+    <item row="1" column="0" colspan="4">
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <family>Book Antiqua</family>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <property name="lineWidth">
+       <number>5</number>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Current Profiles&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>756</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
