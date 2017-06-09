@@ -7,6 +7,7 @@ MainWindow::MainWindow( QWidget *parent ) :
 {
     ui->setupUi(this);
     EDITING = false;
+    current_index = 0;
     ui->progress_bar->setVisible( false );
     set_up_menu( );
     beautify( );                                            //changes style sheets for buttons, list and table
@@ -25,7 +26,6 @@ MainWindow::MainWindow( QWidget *parent ) :
 
 
 //style sheet settings for the window background, buttons, the list and the table
-//NOTE: make UI more beautiful?
 void MainWindow::beautify( ) {
     QColor color( 28, 49, 68 );
     this->setStyleSheet( "background-color: white" );
@@ -262,7 +262,6 @@ void MainWindow::on_set_button_clicked( )
 //button click handler for the save button:
 //checks to see if we have a valid profile name
 //and if so adds the new name to the list
-//TODO: also add the profile information from the table
 //TODO: improve validity check to catch whitespace only names
 void MainWindow::on_save_button_clicked( )
 {
@@ -338,9 +337,8 @@ void MainWindow::on_download_button_clicked( )
 void MainWindow::on_edit_button_clicked( )
 {
     EDITING = true;                                            //set editing to true so the save button works accordingly
-    current_index = ui->pro_list->currentIndex( ).row( );      //find the current
     show_right_side( );
-    ui->name_edit->setText( coffee_profiles[current_index]->get_title( ) );
+    ui->name_edit->setText( coffee_profiles.at( current_index )->get_title( ) );
     ui->choose_label->setVisible( false );                     //hide a couple things
     ui->time_box->setVisible( false );
     ui->select_button->setVisible( false );
@@ -456,5 +454,29 @@ void MainWindow::update_profile_object( int index ) {
         profile->set( CoffeeRoastingProfile::CAT_HEAT, i, table_model->data( table_model->index( i, 2 ) ).toInt( ) );
         profile->set( CoffeeRoastingProfile::DRUM_HEAT, i, table_model->data( table_model->index( i, 3 ) ).toInt( ) );
         profile->set( CoffeeRoastingProfile::FAN_SPEED, i, table_model->data( table_model->index( i, 4 ) ).toInt( ) );
+    }
+}
+
+
+
+//click handler for profiles list:
+//if in edit mode, saves and changes the profile being edited
+//if not, simply changes the value for current_index
+void MainWindow::on_pro_list_clicked( const QModelIndex &index ) {
+    if( EDITING ) {
+        const int old_index = current_index;
+        current_index = index.row( );
+        update_profile_object( old_index );
+        QString str = ui->name_edit->text( );
+        if( !str.isEmpty( ) ) {                                         //if the user changes the profile name
+            coffee_profiles[old_index]->set_title( str );
+            list[old_index] = str;
+            data_model->setStringList( list );                          //reset the models string list so it updates
+        }
+        ui->pro_list->selectionModel( )->setCurrentIndex( data_model->index( current_index, 0 ), QItemSelectionModel::Select );
+        ui->edit_button->click( );
+    }
+    else {
+        current_index = index.row( );
     }
 }

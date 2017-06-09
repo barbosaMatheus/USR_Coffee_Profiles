@@ -44,6 +44,8 @@ private slots:
     void quit( );
     void contact( );
 
+    void on_pro_list_clicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
     QStringListModel *data_model;
