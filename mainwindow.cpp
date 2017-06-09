@@ -7,7 +7,7 @@ MainWindow::MainWindow( QWidget *parent ) :
 {
     ui->setupUi(this);
     EDITING = false;
-    ui->progress_bar->setEnabled( false );
+    ui->progress_bar->setVisible( false );
     set_up_menu( );
     beautify( );                                            //changes style sheets for buttons, list and table
     hide_right_side( );                                     //hide stuff on the right side that will show up only when needed
@@ -173,6 +173,7 @@ void MainWindow::hide_right_side( ) {
 void MainWindow::on_new_button_clicked( )
 {
     ui-> status_label->setText( " New profile being created" );
+    EDITING = false;
     show_right_side( );
 }
 
@@ -291,6 +292,7 @@ void MainWindow::on_save_button_clicked( )
     const int min = ui->time_box->currentIndex( ) == 0 ? 15 : 20;
     CoffeeRoastingProfile* p = new CoffeeRoastingProfile( str, min );
     coffee_profiles.push_back( p );
+    update_profile_object( coffee_profiles.size( )-1 );
     list << str;                                                    //append new name to the list
     data_model->setStringList( list );                              //reset the models string list so it updates
     QString status = str + " profile added";                        //inform the user that a new profile was added
@@ -307,7 +309,7 @@ void MainWindow::on_save_button_clicked( )
 void MainWindow::on_download_button_clicked( )
 {
     if( ( ui->roaster_box->currentIndex( ) > 0 ) && ( list.size( ) > 0 ) ) {                                    //if a roaster has been chosen
-        ui->progress_bar->setEnabled( true );
+        ui->progress_bar->setVisible( true );
         ui->download_button->setEnabled( false );                                   //disable the download button to prevent a crash
         auto str = "Downloaded " +
                 ui->pro_list->currentIndex( ).data( ).toString( ) +
@@ -319,7 +321,7 @@ void MainWindow::on_download_button_clicked( )
         ui->progress_bar->setValue( 100 );
         ui->download_button->setEnabled( true );                                    //enable the download button again
         ui->progress_bar->setValue( 0 );                                            //reset progress bar
-        ui->progress_bar->setEnabled( false );
+        ui->progress_bar->setVisible( false );
     }
     else {                                                                          //if a roaster has not been chosen
         QMessageBox msg;
