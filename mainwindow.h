@@ -7,6 +7,7 @@
 #include <QAbstractItemView>
 #include <QStandardItemModel>
 #include <QMessageBox>
+#include "coffeeroastingprofile.h"
 
 namespace Ui {
 class MainWindow;
@@ -19,12 +20,15 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow( );
-    void populate_list( );
+    void update_list( );
     void hide_right_side( );
+    void show_right_side( );
     void set_headers( );
     void beautify( );
     void mock_download( );
     void set_up_menu( );
+    void fill_table( );
+    void update_profile_object( int index );
 
 private slots:
     void on_new_button_clicked( );
@@ -47,6 +51,9 @@ private:
     QStringList list;
     QStringList horizontal_labels;
     QStringList vertical_labels;
+    QVector<CoffeeRoastingProfile*> coffee_profiles;
+    bool EDITING;  //true if we are in edit mode
+    int current_index; //index of the current profile we are editing
 };
 
 #endif // MAINWINDOW_H

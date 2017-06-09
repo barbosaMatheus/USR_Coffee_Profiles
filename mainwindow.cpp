@@ -6,6 +6,8 @@ MainWindow::MainWindow( QWidget *parent ) :
     ui( new Ui::MainWindow )
 {
     ui->setupUi(this);
+    EDITING = false;
+    ui->progress_bar->setEnabled( false );
     set_up_menu( );
     beautify( );                                            //changes style sheets for buttons, list and table
     hide_right_side( );                                     //hide stuff on the right side that will show up only when needed
@@ -14,7 +16,7 @@ MainWindow::MainWindow( QWidget *parent ) :
     set_headers( );                                         //set table headers for vertical and horizontal
     ui->pro_table->setModel( table_model );                 //attach model to table
     ui->pro_list->setModel( data_model );                   //connect the list ui object to the model
-    populate_list( );                                       //populate local list of profiles
+    update_list( );                                         //update local list of profiles
     for( int i = 60; i < 80; i++ ) {                        //hide extra rows since 15 min is default
         ui->pro_table->setRowHidden( i, true );
     }
@@ -113,10 +115,13 @@ MainWindow::~MainWindow( )
 
 
 
-//populating of profiles list with mock profiles for now
+//updating profiles list with mock profiles for now
 //TODO: get profiles from the cloud and not generated locally
-void MainWindow::populate_list( ) {
-    list << "Costa Rican Dark" << "Colombian Light" << "Brazilian Dark";
+void MainWindow::update_list( ) {
+    for( auto it = coffee_profiles.begin( ); it != coffee_profiles.end( ); ++it ) {
+        list << ( *it )->get_title( );
+    }
+
     data_model->setStringList( list );
 }
 
@@ -168,17 +173,7 @@ void MainWindow::hide_right_side( ) {
 void MainWindow::on_new_button_clicked( )
 {
     ui-> status_label->setText( " New profile being created" );
-    ui->choose_label->setVisible( true );
-    ui->time_box->setVisible( true );
-    ui->select_button->setVisible( true );
-    ui->cancel_button->setVisible( true );
-    ui->pro_table->setVisible( true );
-    ui->set_button->setVisible( true );
-    ui->value_box->setVisible( true );
-    ui->value_box->setValue( 0 );
-    ui->save_button->setVisible( true );
-    ui->name_edit->setVisible( true );
-    ui->name_edit->setText( "" );
+    show_right_side( );
 }
 
 
@@ -194,6 +189,7 @@ void MainWindow::on_cancel_button_clicked( )
     table_model->setRowCount( 80 );                                 //reset row size
     table_model->setHorizontalHeaderLabels( horizontal_labels );    //the labels objects are unchanged so we just have to reset
     table_model->setVerticalHeaderLabels( vertical_labels );
+    EDITING = false;                                                //in case we were editing
 }
 
 
@@ -265,17 +261,41 @@ void MainWindow::on_set_button_clicked( )
 //button click handler for the save button:
 //checks to see if we have a valid profile name
 //and if so adds the new name to the list
+//TODO: also add the profile information from the table
+//TODO: improve validity check to catch whitespace only names
 void MainWindow::on_save_button_clicked( )
 {
+    if( EDITING ) {
+        update_profile_object( current_index );
+        QString str = ui->name_edit->text( );
+        if( !str.isEmpty( ) ) {                                         //if the user changes the profile name
+            coffee_profiles[current_index]->set_title( str );
+            list[current_index] = str;
+            data_model->setStringList( list );                          //reset the models string list so it updates
+        }
+        QString status = str + " updated";                              //inform the user that the profile was updated
+        ui->status_label->setText( status );
+        EDITING = false;
+        hide_right_side( );
+        return;
+    }
     QString str = ui->name_edit->text( );
     if( str.isEmpty( ) ) {                                          //if the user tries to create a nameless profile
-        ui-> status_label->setText( " Cannot add empty name" );       //send the warning message
+        QMessageBox msg;
+        msg.setWindowTitle( "Action Not Permitted" );
+        msg.setText( "Cannot add empty name" );
+        msg.addButton( QMessageBox::StandardButton::Ok );
+        msg.exec( );                                                //send the warning message
         return;                                                     //return so we do nothing else in this function
     }
+    const int min = ui->time_box->currentIndex( ) == 0 ? 15 : 20;
+    CoffeeRoastingProfile* p = new CoffeeRoastingProfile( str, min );
+    coffee_profiles.push_back( p );
     list << str;                                                    //append new name to the list
     data_model->setStringList( list );                              //reset the models string list so it updates
     QString status = str + " profile added";                        //inform the user that a new profile was added
     ui->status_label->setText( status );
+    hide_right_side( );
 }
 
 
@@ -286,7 +306,8 @@ void MainWindow::on_save_button_clicked( )
 //If not, it sends a warning message to the user
 void MainWindow::on_download_button_clicked( )
 {
-    if( ui->roaster_box->currentIndex( ) > 0 ) {                                    //if a roaster has been chosen
+    if( ( ui->roaster_box->currentIndex( ) > 0 ) && ( list.size( ) > 0 ) ) {                                    //if a roaster has been chosen
+        ui->progress_bar->setEnabled( true );
         ui->download_button->setEnabled( false );                                   //disable the download button to prevent a crash
         auto str = "Downloaded " +
                 ui->pro_list->currentIndex( ).data( ).toString( ) +
@@ -296,20 +317,14 @@ void MainWindow::on_download_button_clicked( )
         ui->progress_bar->setValue( 50 );
         ui->progress_bar->setValue( 75 );
         ui->progress_bar->setValue( 100 );
-        /*int val = 0;                                                                //start the download percent at 0
-        while( val <= 100 ) {                                                       //from 0 to 100
-            val += 2;                                                               //increment by 2
-            QThread::msleep( 50 );                                                  //every 50 ms
-            ui->progress_bar->setValue( val );                                      //update progress bar
-        }
-        ui-> status_label->setText( " ..." );                                         //reset the status text to neutral*/
         ui->download_button->setEnabled( true );                                    //enable the download button again
         ui->progress_bar->setValue( 0 );                                            //reset progress bar
+        ui->progress_bar->setEnabled( false );
     }
     else {                                                                          //if a roaster has not been chosen
         QMessageBox msg;
         msg.setWindowTitle( "Action Not Permitted" );
-        msg.setText( "You must choose a roaster before downloading" );
+        msg.setText( "You must choose a roaster from the drop down menu and a profile from the list before downloading" );
         msg.addButton( QMessageBox::StandardButton::Ok );
         msg.exec( );
     }
@@ -318,11 +333,18 @@ void MainWindow::on_download_button_clicked( )
 
 
 //button click handler for the edit button:
-//TODO: allow edit action
 void MainWindow::on_edit_button_clicked( )
 {
-    ui-> status_label->setText( " ..." );
-    ui-> status_label->setText( " Action not available" );
+    EDITING = true;                                            //set editing to true so the save button works accordingly
+    current_index = ui->pro_list->currentIndex( ).row( );      //find the current
+    show_right_side( );
+    ui->name_edit->setText( coffee_profiles[current_index]->get_title( ) );
+    ui->choose_label->setVisible( false );                     //hide a couple things
+    ui->time_box->setVisible( false );
+    ui->select_button->setVisible( false );
+    fill_table( );                                             //fill table with current data
+    QString str = " Editing " + coffee_profiles.at( current_index )->get_title( );
+    ui->status_label->setText( str );
 }
 
 
@@ -378,4 +400,59 @@ void MainWindow::contact( ) {
     msg.setText( str );
     msg.setStandardButtons( QMessageBox::StandardButton::Ok );
     msg.exec( );
+}
+
+
+
+//shows all the widgets on the right side of the window
+void MainWindow::show_right_side( ) {
+    ui->choose_label->setVisible( true );
+    ui->time_box->setVisible( true );
+    ui->select_button->setVisible( true );
+    ui->cancel_button->setVisible( true );
+    ui->pro_table->setVisible( true );
+    ui->set_button->setVisible( true );
+    ui->value_box->setVisible( true );
+    ui->value_box->setValue( 0 );
+    ui->save_button->setVisible( true );
+    ui->name_edit->setVisible( true );
+    ui->name_edit->setText( "" );
+}
+
+
+
+//fills the qtableview in the window with the selected
+//profile's information
+void MainWindow::fill_table( ) {
+    //qDebug( "\n\nHERE 1!!\n\n" );
+    CoffeeRoastingProfile *profile = coffee_profiles.at( current_index );
+    //qDebug( "\n\nHERE 2!!\n\n" );
+    const int mins = profile->get_mins( );
+    const int rows = 4*mins;
+
+    for( int i = 0; i < rows; ++i ) {
+        table_model->setData( table_model->index( i, 0 ), profile->get( CoffeeRoastingProfile::CAT_SET_PT, i ) );
+        table_model->setData( table_model->index( i, 1 ), profile->get( CoffeeRoastingProfile::DRUM_SET_PT, i ) );
+        table_model->setData( table_model->index( i, 2 ), profile->get( CoffeeRoastingProfile::CAT_HEAT, i ) );
+        table_model->setData( table_model->index( i, 3 ), profile->get( CoffeeRoastingProfile::DRUM_HEAT, i ) );
+        table_model->setData( table_model->index( i, 4 ), profile->get( CoffeeRoastingProfile::FAN_SPEED, i ) );
+    }
+}
+
+
+
+//updates the data for the chosen profile
+//using the data in the table
+void MainWindow::update_profile_object( int index ) {
+    CoffeeRoastingProfile *profile = coffee_profiles.at( index );
+    const int mins = profile->get_mins( );
+    const int rows = 4*mins;
+
+    for( int i = 0; i < rows; ++i ) {    //loop through the rows in the table and update
+        profile->set( CoffeeRoastingProfile::CAT_SET_PT, i, table_model->data( table_model->index( i, 0 ) ).toInt( ) );
+        profile->set( CoffeeRoastingProfile::DRUM_SET_PT, i, table_model->data( table_model->index( i, 1 ) ).toInt( ) );
+        profile->set( CoffeeRoastingProfile::CAT_HEAT, i, table_model->data( table_model->index( i, 2 ) ).toInt( ) );
+        profile->set( CoffeeRoastingProfile::DRUM_HEAT, i, table_model->data( table_model->index( i, 3 ) ).toInt( ) );
+        profile->set( CoffeeRoastingProfile::FAN_SPEED, i, table_model->data( table_model->index( i, 4 ) ).toInt( ) );
+    }
 }
