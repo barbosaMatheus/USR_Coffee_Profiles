@@ -7,6 +7,10 @@
 #include <QAbstractItemView>
 #include <QStandardItemModel>
 #include <QMessageBox>
+#include <QFile>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonDocument>
 #include "coffeeroastingprofile.h"
 
 namespace Ui {
@@ -43,6 +47,7 @@ private slots:
     void help( );
     void quit( );
     void contact( );
+    void save( );
 
     void on_pro_list_clicked(const QModelIndex &index);
 

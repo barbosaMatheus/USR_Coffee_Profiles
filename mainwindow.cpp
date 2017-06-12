@@ -91,19 +91,22 @@ void MainWindow::beautify( ) {
 
 //sets up the menu bar at the top
 void MainWindow::set_up_menu( ) {
-    QAction *help = new QAction( "&User Help", this );
+    QAction *help = new QAction( "&User Help", this );                              //make all the menu action objects
     QAction *contact = new QAction( "&Contact Us", this );
     QAction *quit = new QAction( "&Quit", this );
-    QMenu *Help;
+    QAction *save = new QAction( "&Save Profiles", this );
+    QMenu *Help;                                                                    //make all menu objects
     QMenu *file;
-    file = menuBar( )->addMenu( "&File" );
+    file = menuBar( )->addMenu( "&File" );                                          //add menus to menus bar and get the objects
     Help = menuBar( )->addMenu( "&Help" );
-    Help->addAction( help );
+    Help->addAction( help );                                                        //add actions to menu objects
     Help->addAction( contact );
     file->addAction( quit );
-    connect( help, SIGNAL( triggered( ) ), this, SLOT( help( ) ) );
+    file->addAction( save );
+    connect( help, SIGNAL( triggered( ) ), this, SLOT( help( ) ) );                 //connect menu actions to slots
     connect( quit, SIGNAL( triggered( ) ), this, SLOT( quit( ) ) );
     connect( contact, SIGNAL( triggered( ) ), this, SLOT( contact( ) ) );
+    connect( save, SIGNAL( triggered( ) ), this, SLOT( save( ) ) );
 }
 
 
@@ -118,11 +121,30 @@ MainWindow::~MainWindow( )
 //updating profiles list with mock profiles for now
 //TODO: get profiles from the cloud and not generated locally
 void MainWindow::update_list( ) {
-    for( auto it = coffee_profiles.begin( ); it != coffee_profiles.end( ); ++it ) {
+    /*for( auto it = coffee_profiles.begin( ); it != coffee_profiles.end( ); ++it ) {
         list << ( *it )->get_title( );
+    }*/
+
+    QFile profiles( "profiles.json" );                                  //create the file object to read profiles from json encoding
+    if( !profiles.open( QIODevice::ReadOnly ) ) ui->status_label->setText( "Can't open file" );//if the file fails to open we just get out of here
+
+    QByteArray ba = profiles.readAll( );                                //read file information as a byte array
+    QJsonDocument doc( QJsonDocument::fromJson( ba ) );                 //create json doc object from byte array
+    QVector<QJsonObject> json_array;                                    //create json object array
+    QJsonObject json = doc.object( );                                   //get the json object from the document
+    const int num_profiles = json["count"].toInt( );                    //read in the number of profiles saved
+    for( int i = 0; i < num_profiles; ++i )                             //loop through the json object of objects
+        json_array.append( json[QString::number( i )].toObject( ) );    //extract each json object which contains a profile
+
+    for( int i = 0; i < json_array.size( ); ++i ) {                     //loop through the json objects
+        CoffeeRoastingProfile* profile = new CoffeeRoastingProfile( );  //create new profile object
+        const QString title = profile->read( json_array.at( i ) );       //read the json into the profile object and get its title
+        list << title;                                                  //add the title to the list of profiles
+        coffee_profiles.push_back( profile );                           //add the profile to the current list
     }
 
-    data_model->setStringList( list );
+    profiles.close( );                                                  //close the file since we are done
+    data_model->setStringList( list );                                  //update the data model
 }
 
 
@@ -404,6 +426,26 @@ void MainWindow::contact( ) {
 
 
 
+//save action slot: deletes old file and creates
+//new file with current profile information
+void MainWindow::save( ) {
+    QFile profiles( "profiles.json" );                                                  //create the file object
+    profiles.open( QIODevice::WriteOnly );                                              //open the file again (recreating it)
+    QJsonObject json_profiles;                                                          //create json object to hold all the profiles
+    json_profiles["count"] = coffee_profiles.size( );                                   //add the count value to the top json object
+    for( int i = 0; i < coffee_profiles.size( ); ++i ) {                                //loop through current profiles in RAM
+        QJsonObject json;                                                               //make json object
+        coffee_profiles[i]->write( json );                                              //write profile to json
+        json_profiles[QString::number( i )] = json;                                     //insert a profile json object into the top json object
+    }
+    QJsonDocument doc( json_profiles );                                                 //create json document obect from the json object
+    profiles.write( doc.toJson( ) );                                                    //write json info to file as a string
+    profiles.close( );                                                                  //close file
+    ui->status_label->setText( "Profile information saved to computer" );               //notify user
+}
+
+
+
 //shows all the widgets on the right side of the window
 void MainWindow::show_right_side( ) {
     ui->choose_label->setVisible( true );
@@ -424,9 +466,7 @@ void MainWindow::show_right_side( ) {
 //fills the qtableview in the window with the selected
 //profile's information
 void MainWindow::fill_table( ) {
-    //qDebug( "\n\nHERE 1!!\n\n" );
     CoffeeRoastingProfile *profile = coffee_profiles.at( current_index );
-    //qDebug( "\n\nHERE 2!!\n\n" );
     const int mins = profile->get_mins( );
     const int rows = 4*mins;
 

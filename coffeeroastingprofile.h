@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QVector>
+#include <QJsonObject>
 
 class CoffeeRoastingProfile {
 public:
@@ -30,6 +31,8 @@ public:
     void set( Index index, int time, int val );
     void set_title( QString title );
     void set_mins( int mins );
+    QString read( QJsonObject json );
+    void write( QJsonObject &json );
 
 private:
     QString title;                      //profile title
