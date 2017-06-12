@@ -121,12 +121,8 @@ MainWindow::~MainWindow( )
 //updating profiles list with mock profiles for now
 //TODO: get profiles from the cloud and not generated locally
 void MainWindow::update_list( ) {
-    /*for( auto it = coffee_profiles.begin( ); it != coffee_profiles.end( ); ++it ) {
-        list << ( *it )->get_title( );
-    }*/
-
     QFile profiles( "profiles.json" );                                  //create the file object to read profiles from json encoding
-    if( !profiles.open( QIODevice::ReadOnly ) ) ui->status_label->setText( "Can't open file" );//if the file fails to open we just get out of here
+    if( !profiles.open( QIODevice::ReadOnly ) ) return;                 //if the file fails to open we just get out of here
 
     QByteArray ba = profiles.readAll( );                                //read file information as a byte array
     QJsonDocument doc( QJsonDocument::fromJson( ba ) );                 //create json doc object from byte array
@@ -280,17 +276,24 @@ void MainWindow::on_set_button_clicked( )
 }
 
 
+//checks if a string is empty or whitespace
+bool MainWindow::is_invalid( QString str ) {
+    if( str.isEmpty( ) ) return false;
+    if( std::all_of( str.begin( ), str.end( ), isspace ) ) return false;
+    return true;
+}
+
+
 
 //button click handler for the save button:
 //checks to see if we have a valid profile name
 //and if so adds the new name to the list
-//TODO: improve validity check to catch whitespace only names
 void MainWindow::on_save_button_clicked( )
 {
     if( EDITING ) {
         update_profile_object( current_index );
         QString str = ui->name_edit->text( );
-        if( !str.isEmpty( ) ) {                                         //if the user changes the profile name
+        if( is_invalid( str ) ) {                                       //if the user changes the profile name
             coffee_profiles[current_index]->set_title( str );
             list[current_index] = str;
             data_model->setStringList( list );                          //reset the models string list so it updates
@@ -372,11 +375,14 @@ void MainWindow::on_edit_button_clicked( )
 
 
 //button click handler for the remove button:
-//TODO: allow removal
 void MainWindow::on_remove_button_clicked( )
 {
-    ui-> status_label->setText( " ..." );
-    ui-> status_label->setText( " Action not available" );
+    const QString str = "Removed " + coffee_profiles.at( current_index )->get_title( );
+    coffee_profiles.remove( current_index );
+    list.removeAt( current_index );
+    current_index = -1;
+    data_model->setStringList( list );
+    ui-> status_label->setText( str );
 }
 
 
@@ -429,6 +435,8 @@ void MainWindow::contact( ) {
 //save action slot: deletes old file and creates
 //new file with current profile information
 void MainWindow::save( ) {
+    QFile::remove( "profiles.json" );                                                   //remove the file so we can clean
+    if( ui->save_button->isVisible( ) ) ui->save_button->click( );                      //do a local save if in edit/create mode
     QFile profiles( "profiles.json" );                                                  //create the file object
     profiles.open( QIODevice::WriteOnly );                                              //open the file again (recreating it)
     QJsonObject json_profiles;                                                          //create json object to hold all the profiles

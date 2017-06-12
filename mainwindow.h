@@ -48,6 +48,7 @@ private slots:
     void quit( );
     void contact( );
     void save( );
+    bool is_invalid( QString str );
 
     void on_pro_list_clicked(const QModelIndex &index);
 
