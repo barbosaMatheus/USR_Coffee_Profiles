@@ -7,6 +7,7 @@ MainWindow::MainWindow( QWidget *parent ) :
 {
     ui->setupUi(this);
     EDITING = false;
+    SAVED = true;
     current_index = 0;
     ui->progress_bar->setVisible( false );
     set_up_menu( );
@@ -95,14 +96,18 @@ void MainWindow::set_up_menu( ) {
     QAction *contact = new QAction( "&Contact Us", this );
     QAction *quit = new QAction( "&Quit", this );
     QAction *save = new QAction( "&Save Profiles", this );
+    QAction *cloud_dl = new QAction( "&Download from Cloud" );
     QMenu *Help;                                                                    //make all menu objects
-    QMenu *file;
-    file = menuBar( )->addMenu( "&File" );                                          //add menus to menus bar and get the objects
+    QMenu *File;
+    QMenu *Cloud;
+    File = menuBar( )->addMenu( "&File" );                                          //add menus to menus bar and get the objects
     Help = menuBar( )->addMenu( "&Help" );
+    Cloud = menuBar( )->addMenu( "&Cloud" );
     Help->addAction( help );                                                        //add actions to menu objects
     Help->addAction( contact );
-    file->addAction( quit );
-    file->addAction( save );
+    File->addAction( quit );
+    File->addAction( save );
+    Cloud->addAction( cloud_dl );
     connect( help, SIGNAL( triggered( ) ), this, SLOT( help( ) ) );                 //connect menu actions to slots
     connect( quit, SIGNAL( triggered( ) ), this, SLOT( quit( ) ) );
     connect( contact, SIGNAL( triggered( ) ), this, SLOT( contact( ) ) );
@@ -119,7 +124,6 @@ MainWindow::~MainWindow( )
 
 
 //updating profiles list with mock profiles for now
-//TODO: get profiles from the cloud and not generated locally
 void MainWindow::update_list( ) {
     QFile profiles( "profiles.json" );                                  //create the file object to read profiles from json encoding
     if( !profiles.open( QIODevice::ReadOnly ) ) return;                 //if the file fails to open we just get out of here
@@ -192,6 +196,7 @@ void MainWindow::on_new_button_clicked( )
 {
     ui-> status_label->setText( " New profile being created" );
     EDITING = false;
+    SAVED = false;
     show_right_side( );
 }
 
@@ -251,6 +256,7 @@ void MainWindow::on_pro_table_clicked(const QModelIndex &index)
 //any number of cells
 void MainWindow::on_set_button_clicked( )
 {
+    SAVED = false;
     auto selected = this->ui->pro_table->selectionModel( )->selectedIndexes( );                     //gets all selected cells in a QVector
     if( selected.size( ) > 0 ) {                                                                    //if non-empty
         int val = ui->value_box->value( );                                                          //save value box value
@@ -278,9 +284,8 @@ void MainWindow::on_set_button_clicked( )
 
 //checks if a string is empty or whitespace
 bool MainWindow::is_invalid( QString str ) {
-    if( str.isEmpty( ) ) return false;
-    if( std::all_of( str.begin( ), str.end( ), isspace ) ) return false;
-    return true;
+    if( str.trimmed( ).isEmpty( ) ) return true;
+    return false;
 }
 
 
@@ -293,7 +298,7 @@ void MainWindow::on_save_button_clicked( )
     if( EDITING ) {
         update_profile_object( current_index );
         QString str = ui->name_edit->text( );
-        if( is_invalid( str ) ) {                                       //if the user changes the profile name
+        if( !is_invalid( str ) ) {                                      //if the user changes the profile name
             coffee_profiles[current_index]->set_title( str );
             list[current_index] = str;
             data_model->setStringList( list );                          //reset the models string list so it updates
@@ -305,7 +310,7 @@ void MainWindow::on_save_button_clicked( )
         return;
     }
     QString str = ui->name_edit->text( );
-    if( str.isEmpty( ) ) {                                          //if the user tries to create a nameless profile
+    if( is_invalid( str ) ) {                                          //if the user tries to create a nameless profile
         QMessageBox msg;
         msg.setWindowTitle( "Action Not Permitted" );
         msg.setText( "Cannot add empty name" );
@@ -362,6 +367,7 @@ void MainWindow::on_download_button_clicked( )
 void MainWindow::on_edit_button_clicked( )
 {
     EDITING = true;                                            //set editing to true so the save button works accordingly
+    SAVED = false;
     show_right_side( );
     ui->name_edit->setText( coffee_profiles.at( current_index )->get_title( ) );
     ui->choose_label->setVisible( false );                     //hide a couple things
@@ -377,6 +383,7 @@ void MainWindow::on_edit_button_clicked( )
 //button click handler for the remove button:
 void MainWindow::on_remove_button_clicked( )
 {
+    SAVED = false;
     const QString str = "Removed " + coffee_profiles.at( current_index )->get_title( );
     coffee_profiles.remove( current_index );
     list.removeAt( current_index );
@@ -435,6 +442,7 @@ void MainWindow::contact( ) {
 //save action slot: deletes old file and creates
 //new file with current profile information
 void MainWindow::save( ) {
+    SAVED = true;
     QFile::remove( "profiles.json" );                                                   //remove the file so we can clean
     if( ui->save_button->isVisible( ) ) ui->save_button->click( );                      //do a local save if in edit/create mode
     QFile profiles( "profiles.json" );                                                  //create the file object
@@ -527,4 +535,23 @@ void MainWindow::on_pro_list_clicked( const QModelIndex &index ) {
     else {
         current_index = index.row( );
     }
+}
+
+
+
+//handles the close event in order to tell the
+//user that they might be exiting without saving
+void MainWindow::closeEvent( QCloseEvent *event )  // show prompt when user wants to close app
+{
+    if( SAVED ) {
+        event->accept( );
+        return;
+    }
+    event->ignore();
+    QString msg = "You may have unsaved changes. Click File->Save Profiles to save data to your computer, or click \'Yes\' to exit.";
+    if (QMessageBox::Yes == QMessageBox::question(this, "Close Confirmation", msg, QMessageBox::Yes | QMessageBox::Cancel))
+    {
+        event->accept();
+    }
+
 }

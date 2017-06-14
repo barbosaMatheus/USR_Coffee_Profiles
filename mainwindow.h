@@ -11,6 +11,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QCloseEvent>
 #include "coffeeroastingprofile.h"
 
 namespace Ui {
@@ -23,6 +24,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+    void closeEvent( QCloseEvent *event );
     ~MainWindow( );
     void update_list( );
     void hide_right_side( );
@@ -61,6 +63,7 @@ private:
     QStringList vertical_labels;
     QVector<CoffeeRoastingProfile*> coffee_profiles;
     bool EDITING;  //true if we are in edit mode
+    bool SAVED;    //true if latest changes have been saved
     int current_index; //index of the current profile we are editing
 };
 
