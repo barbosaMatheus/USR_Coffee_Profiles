@@ -12,6 +12,9 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QCloseEvent>
+#include <QProcess>
+#include <QtSerialPort>
+#include <windows.h>
 #include "coffeeroastingprofile.h"
 
 namespace Ui {
@@ -35,6 +38,9 @@ public:
     void set_up_menu( );
     void fill_table( );
     void update_profile_object( int index );
+    bool is_invalid( QString str );
+    void send_to_roaster( CoffeeRoastingProfile pro );
+    void send_serial_byte( char b, QSerialPort *serial );
 
 private slots:
     void on_new_button_clicked( );
@@ -50,9 +56,8 @@ private slots:
     void quit( );
     void contact( );
     void save( );
-    bool is_invalid( QString str );
-
     void on_pro_list_clicked(const QModelIndex &index);
+    void run_python( );
 
 private:
     Ui::MainWindow *ui;

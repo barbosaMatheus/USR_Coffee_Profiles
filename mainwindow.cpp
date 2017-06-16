@@ -99,19 +99,20 @@ void MainWindow::set_up_menu( ) {
     QAction *cloud_dl = new QAction( "&Download from Cloud" );
     QMenu *Help;                                                                    //make all menu objects
     QMenu *File;
-    QMenu *Cloud;
+    QMenu *Tools;
     File = menuBar( )->addMenu( "&File" );                                          //add menus to menus bar and get the objects
     Help = menuBar( )->addMenu( "&Help" );
-    Cloud = menuBar( )->addMenu( "&Cloud" );
+    Tools = menuBar( )->addMenu( "&Tools" );
     Help->addAction( help );                                                        //add actions to menu objects
     Help->addAction( contact );
     File->addAction( quit );
     File->addAction( save );
-    Cloud->addAction( cloud_dl );
+    Tools->addAction( cloud_dl );
     connect( help, SIGNAL( triggered( ) ), this, SLOT( help( ) ) );                 //connect menu actions to slots
     connect( quit, SIGNAL( triggered( ) ), this, SLOT( quit( ) ) );
     connect( contact, SIGNAL( triggered( ) ), this, SLOT( contact( ) ) );
     connect( save, SIGNAL( triggered( ) ), this, SLOT( save( ) ) );
+    connect( cloud_dl, SIGNAL( triggered( ) ), this, SLOT( run_python( ) ) );
 }
 
 
@@ -138,7 +139,7 @@ void MainWindow::update_list( ) {
 
     for( int i = 0; i < json_array.size( ); ++i ) {                     //loop through the json objects
         CoffeeRoastingProfile* profile = new CoffeeRoastingProfile( );  //create new profile object
-        const QString title = profile->read( json_array.at( i ) );       //read the json into the profile object and get its title
+        const QString title = profile->read( json_array.at( i ) );      //read the json into the profile object and get its title
         list << title;                                                  //add the title to the list of profiles
         coffee_profiles.push_back( profile );                           //add the profile to the current list
     }
@@ -337,18 +338,17 @@ void MainWindow::on_save_button_clicked( )
 //If not, it sends a warning message to the user
 void MainWindow::on_download_button_clicked( )
 {
-    if( ( ui->roaster_box->currentIndex( ) > 0 ) && ( list.size( ) > 0 ) ) {                                    //if a roaster has been chosen
+    if( ( ui->roaster_box->currentIndex( ) > 0 ) && ( list.size( ) > 0 ) ) {        //if a roaster has been chosen
         ui->progress_bar->setVisible( true );
+        ui->progress_bar->setValue( 0 );
         ui->download_button->setEnabled( false );                                   //disable the download button to prevent a crash
-        auto str = "Downloaded " +
+        auto str = "Downloading " +
                 ui->pro_list->currentIndex( ).data( ).toString( ) +
                 " to " + ui->roaster_box->currentText( );                           //build the status string
         ui->status_label->setText( str );                                           //set the status text
-        ui->progress_bar->setValue( 25 );
-        ui->progress_bar->setValue( 50 );
-        ui->progress_bar->setValue( 75 );
-        ui->progress_bar->setValue( 100 );
+        send_to_roaster( *( coffee_profiles[ui->pro_list->currentIndex( ).row( )] ) );
         ui->download_button->setEnabled( true );                                    //enable the download button again
+        ui->status_label->setText( "..." );
         ui->progress_bar->setValue( 0 );                                            //reset progress bar
         ui->progress_bar->setVisible( false );
     }
@@ -554,4 +554,69 @@ void MainWindow::closeEvent( QCloseEvent *event )  // show prompt when user want
         event->accept();
     }
 
+}
+
+
+
+//download from cloud action slot: calls the python code
+//which gets data from the remote aws database and returns
+//the json strings to create profile objects
+//TODO: test/allow multiple profile download
+//TODO: make GUI support for cloud download
+void MainWindow::run_python( ) {
+    QProcess *p = new QProcess( this );
+    QString app_path = QCoreApplication::applicationDirPath( ) + "/remote_fetch.py";
+    QString py_path = "C:/Python27/python";
+    p->start( py_path, QStringList( ) << app_path );
+    p->waitForFinished( -1 );
+    QString str = p->readAllStandardOutput( );
+    str.replace( "\\n", "\n" );
+    QString out = str.mid( 4, str.size( )-10 );
+    ui->status_label->setText( out );
+    QJsonDocument doc = QJsonDocument::fromJson( out.toUtf8( ) );
+    if( !doc.isNull( ) ) {
+        QJsonObject json = doc.object( );
+        CoffeeRoastingProfile* profile = new CoffeeRoastingProfile( );  //create new profile object
+        const QString title = profile->read( json );                    //read the json into the profile object and get its title
+        list << title;                                                  //add the title to the list of profiles
+        coffee_profiles.push_back( profile );                           //add the profile to the current list
+        data_model->setStringList( list );
+    }
+    else ui->status_label->setText( "Invalid JSON" );
+}
+
+
+
+//downloads a selected profile to a roaster
+//over serial connection
+//TODO: allow user to choose serial port
+void MainWindow::send_to_roaster( CoffeeRoastingProfile pro ) {
+    QSerialPort *serial = new QSerialPort( this );                                      //create the serial port object
+    serial->setBaudRate( QSerialPort::Baud9600 );                                       //set the  baudrate
+    serial->setPortName( "COM5" );                                                      //set the serial port
+    if( !serial->open( QIODevice::ReadWrite ) ) {                                       //open the serial port for write only
+        qDebug( ) << serial->errorString(  );
+    }
+    char c1 = 60;
+    char c2 = 2;
+    char c3 = 3;
+    char c4 = 4;
+
+    send_serial_byte( c1, serial );
+    serial->close( );
+}
+
+
+
+//sends a single byte over serial connection
+//if the connection is established before
+void MainWindow::send_serial_byte( char b, QSerialPort *serial ) {
+    char response = 0;
+
+    while( response != 1 ) {
+        while( !serial->isWritable( ) );
+        serial->write( QByteArray( 1, b ) );
+        serial->waitForReadyRead( -1 );
+        serial->read( &response, 1 );
+    }
 }
