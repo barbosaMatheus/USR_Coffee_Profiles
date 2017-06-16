@@ -40,7 +40,7 @@ public:
     void update_profile_object( int index );
     bool is_invalid( QString str );
     void send_to_roaster( CoffeeRoastingProfile pro );
-    void send_serial_byte( char b, QSerialPort *serial );
+    void send_serial_bytes( QByteArray bytes, QSerialPort *serial );
 
 private slots:
     void on_new_button_clicked( );

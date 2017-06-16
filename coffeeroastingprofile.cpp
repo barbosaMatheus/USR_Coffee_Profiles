@@ -100,3 +100,23 @@ void CoffeeRoastingProfile::write( QJsonObject &json ) {
         json[key] = data_pt;
     }
 }
+
+
+QByteArray CoffeeRoastingProfile::to_byte_array( int time ) {
+    ProfileDataPoint pt = data.at( time );
+    char csp = pt.cat_sp / 6;
+    char dsp = pt.drum_sp / 6;
+    char cpc = pt.cat_heat;
+    char dpc = pt.drum_heat;
+    char fsp = pt.fan_speed;
+
+    QByteArray arr;
+    arr.append( csp ).append( dsp ).append( cpc ).append( dpc ).append( fsp );
+    return arr;
+}
+
+
+CoffeeRoastingProfile::ProfileDataPoint CoffeeRoastingProfile::get_data( int time ) {
+    CoffeeRoastingProfile::ProfileDataPoint pt = data.at( time );
+    return pt;
+}

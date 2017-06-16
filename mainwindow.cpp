@@ -597,12 +597,20 @@ void MainWindow::send_to_roaster( CoffeeRoastingProfile pro ) {
     if( !serial->open( QIODevice::ReadWrite ) ) {                                       //open the serial port for write only
         qDebug( ) << serial->errorString(  );
     }
-    char c1 = 60;
-    char c2 = 2;
-    char c3 = 3;
-    char c4 = 4;
-
-    send_serial_byte( c1, serial );
+    const int num_pts = pro.get_mins( ) * 4;
+    char n = num_pts;
+    send_serial_bytes( QByteArray( 1, n ), serial );
+    for( int i = 0; i < num_pts; ++i ) {
+        char c1 = pro.get( CoffeeRoastingProfile::Index::CAT_SET_PT, i ) / 6;
+        char c2 = pro.get( CoffeeRoastingProfile::Index::DRUM_SET_PT, i ) / 6;
+        char c3 = pro.get( CoffeeRoastingProfile::Index::CAT_HEAT, i );
+        char c4 = pro.get( CoffeeRoastingProfile::Index::DRUM_HEAT, i );
+        char c5 = pro.get( CoffeeRoastingProfile::Index::FAN_SPEED, i );
+        QByteArray arr;
+        arr.append( c1 ).append( c2 ).append( c3 ).append( c4 ).append( c5 );
+        send_serial_bytes( arr, serial );
+        ui->progress_bar->setValue( i/num_pts );
+    }
     serial->close( );
 }
 
@@ -610,12 +618,12 @@ void MainWindow::send_to_roaster( CoffeeRoastingProfile pro ) {
 
 //sends a single byte over serial connection
 //if the connection is established before
-void MainWindow::send_serial_byte( char b, QSerialPort *serial ) {
+void MainWindow::send_serial_bytes( QByteArray bytes, QSerialPort *serial ) {
     char response = 0;
 
     while( response != 1 ) {
         while( !serial->isWritable( ) );
-        serial->write( QByteArray( 1, b ) );
+        serial->write( bytes );
         serial->waitForReadyRead( -1 );
         serial->read( &response, 1 );
     }

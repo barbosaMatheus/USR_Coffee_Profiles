@@ -28,11 +28,13 @@ public:
     int get( Index index, int time ) const;
     QString get_title( ) const;
     int get_mins( ) const;
+    ProfileDataPoint get_data( int time );
     void set( Index index, int time, int val );
     void set_title( QString title );
     void set_mins( int mins );
     QString read( QJsonObject json );
     void write( QJsonObject &json );
+    QByteArray to_byte_array( int time );
 
 private:
     QString title;                      //profile title
