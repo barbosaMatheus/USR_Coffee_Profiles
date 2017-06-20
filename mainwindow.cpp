@@ -564,16 +564,35 @@ void MainWindow::closeEvent( QCloseEvent *event )  // show prompt when user want
 //TODO: test/allow multiple profile download
 //TODO: make GUI support for cloud download
 void MainWindow::run_python( ) {
-    QProcess *p = new QProcess( this );
-    QString app_path = QCoreApplication::applicationDirPath( ) + "/remote_fetch.py";
-    QString py_path = "C:/Python27/python";
-    p->start( py_path, QStringList( ) << app_path );
-    p->waitForFinished( -1 );
-    QString str = p->readAllStandardOutput( );
-    str.replace( "\\n", "\n" );
-    QString out = str.mid( 4, str.size( )-10 );
-    ui->status_label->setText( out );
-    QJsonDocument doc = QJsonDocument::fromJson( out.toUtf8( ) );
+    QProcess *p = new QProcess( this );                                                         //create a process object pointer
+    QString app_path = "C:/USR_Coffee_Profiles/remote_fetch.py";                                //save the absolute path to the script
+    QString py_path = "C:/Python27/python";                                                     //save the absolute path to Python
+    p->start( py_path, QStringList( ) << app_path );                                            //start the process by running the python code
+    p->waitForFinished( -1 );                                                                   //wait here for the process to finish
+    QString str = p->readAllStandardOutput( );                                                  //get the console output from the python execution
+    str.replace( "\\n", "\n" );                                                                 //replace the literal \n in the string with an actual new line
+    QStringList json_list = str.split( "',), (u'", QString::SplitBehavior::SkipEmptyParts );    //split the string with ',), (u' weird but it is what it is, that's what the output has in between json strings
+
+    for( int i = 0; i < json_list.size( ); ++i ) {                                              //loop through the json strings
+        if( json_list.size( ) == 1 )
+            parse_json_str( json_list[i].mid( 4, json_list[i].size( )-6 ) );
+        else if( i == 0 )                                                                       //if it's the first, cleanup the first four chars
+            parse_json_str( json_list[i].mid( 4 ) );
+        else if(  i == json_list.size( )-1 )                                                    //if it's the last, cleanup the last four chars
+            parse_json_str( json_list[i].left( json_list[i].size( )-6 ) );
+        else parse_json_str( json_list[i] );
+    }
+}
+
+
+
+//parses a json string into a json doc
+//then takes the object out of it. Also
+//uses the CoffeeRoastingProfile functions
+//to create a new profile from the json
+//object and adds the new names to the list
+void MainWindow::parse_json_str( QString json_str ) {
+    QJsonDocument doc = QJsonDocument::fromJson( json_str.toUtf8( ) );
     if( !doc.isNull( ) ) {
         QJsonObject json = doc.object( );
         CoffeeRoastingProfile* profile = new CoffeeRoastingProfile( );  //create new profile object
