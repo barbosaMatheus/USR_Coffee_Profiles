@@ -18,6 +18,7 @@ MainWindow::MainWindow( QWidget *parent ) :
     set_headers( );                                         //set table headers for vertical and horizontal
     ui->pro_table->setModel( table_model );                 //attach model to table
     ui->pro_list->setModel( data_model );                   //connect the list ui object to the model
+    ui->pro_list->setEditTriggers( QAbstractItemView::NoEditTriggers );
     update_list( );                                         //update local list of profiles
     for( int i = 60; i < 80; i++ ) {                        //hide extra rows since 15 min is default
         ui->pro_table->setRowHidden( i, true );
@@ -387,7 +388,7 @@ void MainWindow::on_remove_button_clicked( )
     const QString str = "Removed " + coffee_profiles.at( current_index )->get_title( );
     coffee_profiles.remove( current_index );
     list.removeAt( current_index );
-    current_index = -1;
+    current_index = ui->pro_list->currentIndex( ).row( );
     data_model->setStringList( list );
     ui-> status_label->setText( str );
 }
@@ -444,7 +445,8 @@ void MainWindow::contact( ) {
 void MainWindow::save( ) {
     SAVED = true;
     QFile::remove( "profiles.json" );                                                   //remove the file so we can clean
-    if( ui->save_button->isVisible( ) ) ui->save_button->click( );                      //do a local save if in edit/create mode
+    if( ( ui->save_button->isVisible( ) ) && ( coffee_profiles.size( ) > 0 ) ) ui->save_button->click( ); //do a local save if in edit/create mode
+    else if( ui->save_button->isVisible( ) ) ui->cancel_button->click( );
     QFile profiles( "profiles.json" );                                                  //create the file object
     profiles.open( QIODevice::WriteOnly );                                              //open the file again (recreating it)
     QJsonObject json_profiles;                                                          //create json object to hold all the profiles
@@ -541,8 +543,7 @@ void MainWindow::on_pro_list_clicked( const QModelIndex &index ) {
 
 //handles the close event in order to tell the
 //user that they might be exiting without saving
-void MainWindow::closeEvent( QCloseEvent *event )  // show prompt when user wants to close app
-{
+void MainWindow::closeEvent( QCloseEvent *event ) {
     if( SAVED ) {
         event->accept( );
         return;
@@ -561,27 +562,17 @@ void MainWindow::closeEvent( QCloseEvent *event )  // show prompt when user want
 //download from cloud action slot: calls the python code
 //which gets data from the remote aws database and returns
 //the json strings to create profile objects
-//TODO: test/allow multiple profile download
-//TODO: make GUI support for cloud download
 void MainWindow::run_python( ) {
-    QProcess *p = new QProcess( this );                                                         //create a process object pointer
-    QString app_path = "C:/USR_Coffee_Profiles/remote_fetch.py";                                //save the absolute path to the script
-    QString py_path = "C:/Python27/python";                                                     //save the absolute path to Python
-    p->start( py_path, QStringList( ) << app_path );                                            //start the process by running the python code
-    p->waitForFinished( -1 );                                                                   //wait here for the process to finish
-    QString str = p->readAllStandardOutput( );                                                  //get the console output from the python execution
-    str.replace( "\\n", "\n" );                                                                 //replace the literal \n in the string with an actual new line
-    QStringList json_list = str.split( "',), (u'", QString::SplitBehavior::SkipEmptyParts );    //split the string with ',), (u' weird but it is what it is, that's what the output has in between json strings
+    cloud_d = new CloudDialog( dl_queue, this );
+    cloud_d->exec( );
 
-    for( int i = 0; i < json_list.size( ); ++i ) {                                              //loop through the json strings
-        if( json_list.size( ) == 1 )
-            parse_json_str( json_list[i].mid( 4, json_list[i].size( )-6 ) );
-        else if( i == 0 )                                                                       //if it's the first, cleanup the first four chars
-            parse_json_str( json_list[i].mid( 4 ) );
-        else if(  i == json_list.size( )-1 )                                                    //if it's the last, cleanup the last four chars
-            parse_json_str( json_list[i].left( json_list[i].size( )-6 ) );
-        else parse_json_str( json_list[i] );
+    for( int i = 0; i < dl_queue.size( ); ++i ) {
+        coffee_profiles.push_back( dl_queue[i] );
+        list << dl_queue[i]->get_title( );
     }
+
+    data_model->setStringList( list );
+    dl_queue.clear( );
 }
 
 

@@ -16,6 +16,7 @@
 #include <QtSerialPort>
 #include <windows.h>
 #include "coffeeroastingprofile.h"
+#include "clouddialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -68,9 +69,11 @@ private:
     QStringList horizontal_labels;
     QStringList vertical_labels;
     QVector<CoffeeRoastingProfile*> coffee_profiles;
-    bool EDITING;  //true if we are in edit mode
-    bool SAVED;    //true if latest changes have been saved
-    int current_index; //index of the current profile we are editing
+    QVector<CoffeeRoastingProfile*> dl_queue;
+    bool EDITING;                                       //true if we are in edit mode
+    bool SAVED;                                         //true if latest changes have been saved
+    int current_index;                                  //index of the current profile we are editing
+    CloudDialog *cloud_d;
 };
 
 #endif // MAINWINDOW_H
