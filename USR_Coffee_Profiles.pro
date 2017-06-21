@@ -9,8 +9,9 @@ QT       += serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = USR_Coffee_Profiles
+TARGET = USRoasterStudio
 TEMPLATE = app
+RC_FILE = usrstudio.rc
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings

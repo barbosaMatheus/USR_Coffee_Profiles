@@ -2,19 +2,17 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QStringList>
 #include <QStringListModel>
 #include <QAbstractItemView>
 #include <QStandardItemModel>
 #include <QMessageBox>
 #include <QFile>
 #include <QJsonObject>
-#include <QJsonArray>
 #include <QJsonDocument>
 #include <QCloseEvent>
 #include <QProcess>
 #include <QtSerialPort>
-#include <windows.h>
+#include <QSplashScreen>
 #include "coffeeroastingprofile.h"
 #include "clouddialog.h"
 
@@ -25,6 +23,9 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+
+protected:
+    void keyPressEvent( QKeyEvent *event );
 
 public:
     explicit MainWindow(QWidget *parent = 0);

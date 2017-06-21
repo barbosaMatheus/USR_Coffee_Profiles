@@ -20,9 +20,8 @@ MainWindow::MainWindow( QWidget *parent ) :
     ui->pro_list->setModel( data_model );                   //connect the list ui object to the model
     ui->pro_list->setEditTriggers( QAbstractItemView::NoEditTriggers );
     update_list( );                                         //update local list of profiles
-    for( int i = 60; i < 80; i++ ) {                        //hide extra rows since 15 min is default
+    for( int i = 60; i < 80; i++ )                          //hide extra rows since 15 min is default
         ui->pro_table->setRowHidden( i, true );
-    }
 }
 
 
@@ -30,10 +29,22 @@ MainWindow::MainWindow( QWidget *parent ) :
 //style sheet settings for the window background, buttons, the list and the table
 void MainWindow::beautify( ) {
     QColor color( 28, 49, 68 );
+    this->showMaximized( );
+    this->setWindowTitle( "US Roaster Studio" );
+    QIcon icon( "coffee-grain.ico" );
+    this->setWindowIcon( icon );
     this->setStyleSheet( "background-color: white" );
     ui->pro_table->setEditTriggers( QAbstractItemView::NoEditTriggers );
     ui->pro_table->setStyleSheet( "QTableView::item::selected { color: white; background-color: #70161e }" );
-    ui->pro_list->setStyleSheet( "QListView::item { border-bottom: 1px solid black;}"
+    QHeaderView *verticalHeader = ui->pro_table->verticalHeader( );
+    verticalHeader->setSectionResizeMode( QHeaderView::Fixed );
+    verticalHeader->setDefaultSectionSize( 15 );
+    QFont font = ui->pro_table->verticalHeader( )->font( );
+    font.setPointSize( 6 );
+    font.setBold( true );
+    ui->pro_table->verticalHeader( )->setFont( font );
+    ui->pro_list->setStyleSheet( "QListView { background: url(C:/USRoasterStudio/images/splash.jpg); }"
+                                 "QListView::item { background-color: white; border-bottom: 1px solid black;}"
                                  "QListView::item::selected {background-color: #1c3144;"
                                  "color: white;}" );
     ui->new_button->setStyleSheet( "color: white; background-color: #7a7940" );
@@ -97,7 +108,8 @@ void MainWindow::set_up_menu( ) {
     QAction *contact = new QAction( "&Contact Us", this );
     QAction *quit = new QAction( "&Quit", this );
     QAction *save = new QAction( "&Save Profiles", this );
-    QAction *cloud_dl = new QAction( "&Download from Cloud" );
+    QAction *cloud_dl = new QAction( "&Download from Cloud", this );
+    QAction *ctrl_room = new QAction( "&Control Room", this );
     QMenu *Help;                                                                    //make all menu objects
     QMenu *File;
     QMenu *Tools;
@@ -106,9 +118,10 @@ void MainWindow::set_up_menu( ) {
     Tools = menuBar( )->addMenu( "&Tools" );
     Help->addAction( help );                                                        //add actions to menu objects
     Help->addAction( contact );
-    File->addAction( quit );
     File->addAction( save );
+    File->addAction( quit );
     Tools->addAction( cloud_dl );
+    Tools->addAction( ctrl_room );
     connect( help, SIGNAL( triggered( ) ), this, SLOT( help( ) ) );                 //connect menu actions to slots
     connect( quit, SIGNAL( triggered( ) ), this, SLOT( quit( ) ) );
     connect( contact, SIGNAL( triggered( ) ), this, SLOT( contact( ) ) );
@@ -154,8 +167,8 @@ void MainWindow::update_list( ) {
 //populate horizontal and vertical label lists for table
 void MainWindow::set_headers( ) {
     //sets the horizontal headers which are the profile attributes
-    horizontal_labels << "Catalyst Set Point" << "Drum Set Point"
-                      << "Catalyst Heater %" << "Drum Heater %" << "Fan Speed %";
+    horizontal_labels << "Drum Set Point" << "Drum Heat"
+                      << "Catalyst Set Point" << "Catlyst Heat" << "Fan Speed %";
     //sets the vertical headers which are time stamps
     //with 15 seconds intervals
     for( int i = 0; i < 20; i++ ) {  //from 0 to 19 minutes
@@ -489,10 +502,10 @@ void MainWindow::fill_table( ) {
     const int rows = 4*mins;
 
     for( int i = 0; i < rows; ++i ) {
-        table_model->setData( table_model->index( i, 0 ), profile->get( CoffeeRoastingProfile::CAT_SET_PT, i ) );
-        table_model->setData( table_model->index( i, 1 ), profile->get( CoffeeRoastingProfile::DRUM_SET_PT, i ) );
-        table_model->setData( table_model->index( i, 2 ), profile->get( CoffeeRoastingProfile::CAT_HEAT, i ) );
-        table_model->setData( table_model->index( i, 3 ), profile->get( CoffeeRoastingProfile::DRUM_HEAT, i ) );
+        table_model->setData( table_model->index( i, 0 ), profile->get( CoffeeRoastingProfile::DRUM_SET_PT, i ) );
+        table_model->setData( table_model->index( i, 1 ), profile->get( CoffeeRoastingProfile::DRUM_HEAT, i ) );
+        table_model->setData( table_model->index( i, 2 ), profile->get( CoffeeRoastingProfile::CAT_SET_PT, i ) );
+        table_model->setData( table_model->index( i, 3 ), profile->get( CoffeeRoastingProfile::CAT_HEAT, i ) );
         table_model->setData( table_model->index( i, 4 ), profile->get( CoffeeRoastingProfile::FAN_SPEED, i ) );
     }
 }
@@ -507,10 +520,10 @@ void MainWindow::update_profile_object( int index ) {
     const int rows = 4*mins;
 
     for( int i = 0; i < rows; ++i ) {    //loop through the rows in the table and update
-        profile->set( CoffeeRoastingProfile::CAT_SET_PT, i, table_model->data( table_model->index( i, 0 ) ).toInt( ) );
-        profile->set( CoffeeRoastingProfile::DRUM_SET_PT, i, table_model->data( table_model->index( i, 1 ) ).toInt( ) );
-        profile->set( CoffeeRoastingProfile::CAT_HEAT, i, table_model->data( table_model->index( i, 2 ) ).toInt( ) );
-        profile->set( CoffeeRoastingProfile::DRUM_HEAT, i, table_model->data( table_model->index( i, 3 ) ).toInt( ) );
+        profile->set( CoffeeRoastingProfile::DRUM_SET_PT, i, table_model->data( table_model->index( i, 0 ) ).toInt( ) );
+        profile->set( CoffeeRoastingProfile::DRUM_HEAT, i, table_model->data( table_model->index( i, 1 ) ).toInt( ) );
+        profile->set( CoffeeRoastingProfile::CAT_SET_PT, i, table_model->data( table_model->index( i, 2 ) ).toInt( ) );
+        profile->set( CoffeeRoastingProfile::CAT_HEAT, i, table_model->data( table_model->index( i, 3 ) ).toInt( ) );
         profile->set( CoffeeRoastingProfile::FAN_SPEED, i, table_model->data( table_model->index( i, 4 ) ).toInt( ) );
     }
 }
@@ -563,6 +576,7 @@ void MainWindow::closeEvent( QCloseEvent *event ) {
 //which gets data from the remote aws database and returns
 //the json strings to create profile objects
 void MainWindow::run_python( ) {
+    ui->status_label->setText( "Retreiving profiles from cloud" );
     cloud_d = new CloudDialog( dl_queue, this );
     cloud_d->exec( );
 
@@ -572,6 +586,8 @@ void MainWindow::run_python( ) {
     }
 
     data_model->setStringList( list );
+    QString str = QString::number( dl_queue.size( ) ) + " profiles downloaded from cloud";
+    ui->status_label->setText( str );
     dl_queue.clear( );
 }
 
@@ -636,5 +652,17 @@ void MainWindow::send_serial_bytes( QByteArray bytes, QSerialPort *serial ) {
         serial->write( bytes );
         serial->waitForReadyRead( -1 );
         serial->read( &response, 1 );
+    }
+}
+
+
+void MainWindow::keyPressEvent( QKeyEvent *event ) {
+    switch( event->key( ) ) {
+    case Qt::Key_Return:
+    case Qt::Key_Enter:
+        if( ui->value_box->hasFocus( ) ) ui->set_button->click( );
+        break;
+    default:
+       return;
     }
 }
