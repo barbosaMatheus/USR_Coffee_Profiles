@@ -7,7 +7,7 @@ CloudDialog::CloudDialog( QVector<CoffeeRoastingProfile*> &queue, QWidget *paren
     ui->setupUi(this);
     q = &queue;
     data_model = new QStringListModel( this );
-    this->setWindowTitle( "Cloud Download" );
+    this->setWindowTitle( "Online Profiles" );
     ui->cloud_list->setSelectionMode( QAbstractItemView::MultiSelection );
     ui->cloud_list->setModel( data_model );ui->cloud_list->setEditTriggers( QAbstractItemView::NoEditTriggers );
     beautify( );
@@ -29,7 +29,7 @@ void CloudDialog::beautify( ) {
 
 void CloudDialog::run_python( ) {
     QProcess *p = new QProcess( this );                                                         //create a process object pointer
-    QString app_path = "C:/USR_Coffee_Profiles/remote_fetch.py";                                //save the absolute path to the script
+    QString app_path = "C:/USRoasterStudio/remote_fetch.py";                                //save the absolute path to the script
     QString py_path = "C:/Python27/python";                                                     //save the absolute path to Python
     p->start( py_path, QStringList( ) << app_path );                                            //start the process by running the python code
     p->waitForFinished( -1 );                                                                   //wait here for the process to finish
