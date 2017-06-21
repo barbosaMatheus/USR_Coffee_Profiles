@@ -15,7 +15,15 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QListView" name="cloud_list"/>
+    <widget class="QListView" name="cloud_list">
+     <property name="font">
+      <font>
+       <family>Bookman Old Style</family>
+       <pointsize>11</pointsize>
+       <italic>true</italic>
+      </font>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QLabel" name="label">
@@ -44,6 +52,12 @@
    </item>
    <item>
     <widget class="QPushButton" name="download_button">
+     <property name="font">
+      <font>
+       <family>Bookman Old Style</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>Download</string>
      </property>

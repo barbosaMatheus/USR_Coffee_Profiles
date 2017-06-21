@@ -156,7 +156,10 @@ void MainWindow::update_list( ) {
     for( int i = 0; i < json_array.size( ); ++i ) {                     //loop through the json objects
         CoffeeRoastingProfile* profile = new CoffeeRoastingProfile( );  //create new profile object
         const QString title = profile->read( json_array.at( i ) );      //read the json into the profile object and get its title
-        list << title;                                                  //add the title to the list of profiles
+        const QString label = title + ", " + QString::number( profile->get_mins( ) ) + " minutes, " +
+                QString::number( profile->get( CoffeeRoastingProfile::Index::DRUM_SET_PT, ( ( profile->get_mins( ) )*4 ) - 1 ) ) +
+                " F";;
+        list << label;                                                  //add the title to the list of profiles
         coffee_profiles.push_back( profile );                           //add the profile to the current list
     }
 
@@ -317,7 +320,10 @@ void MainWindow::on_save_button_clicked( )
         QString str = ui->name_edit->text( );
         if( !is_invalid( str ) ) {                                      //if the user changes the profile name
             coffee_profiles[current_index]->set_title( str );
-            list[current_index] = str;
+            const QString label = str + ", " + QString::number( coffee_profiles[current_index]->get_mins( ) ) + " minutes, " +
+                    QString::number( coffee_profiles[current_index]->get( CoffeeRoastingProfile::Index::DRUM_SET_PT, ( ( coffee_profiles[current_index]->get_mins( ) )*4 ) - 1 ) ) +
+                    " F";
+            list[current_index] = label;
             data_model->setStringList( list );                          //reset the models string list so it updates
         }
         QString status = str + " updated";                              //inform the user that the profile was updated
@@ -326,7 +332,7 @@ void MainWindow::on_save_button_clicked( )
         hide_right_side( );
         return;
     }
-    QString str = ui->name_edit->text( );
+    const QString str = ui->name_edit->text( );
     if( is_invalid( str ) ) {                                          //if the user tries to create a nameless profile
         QMessageBox msg;
         msg.setWindowTitle( "Action Not Permitted" );
@@ -339,7 +345,10 @@ void MainWindow::on_save_button_clicked( )
     CoffeeRoastingProfile* p = new CoffeeRoastingProfile( str, min );
     coffee_profiles.push_back( p );
     update_profile_object( coffee_profiles.size( )-1 );
-    list << str;                                                    //append new name to the list
+    const QString label = str + ", " + QString::number( p->get_mins( ) ) + " minutes, " +
+            QString::number( p->get( CoffeeRoastingProfile::Index::DRUM_SET_PT, ( ( p->get_mins( ) )*4 ) - 1 ) ) +
+            " F";
+    list << label;                                                  //append new name to the list
     data_model->setStringList( list );                              //reset the models string list so it updates
     QString status = str + " profile added";                        //inform the user that a new profile was added
     ui->status_label->setText( status );
@@ -584,7 +593,10 @@ void MainWindow::run_python( ) {
 
     for( int i = 0; i < dl_queue.size( ); ++i ) {
         coffee_profiles.push_back( dl_queue[i] );
-        list << dl_queue[i]->get_title( );
+        const QString label = dl_queue[i]->get_title( ) + ", " + QString::number( dl_queue[i]->get_mins( ) ) + " minutes, " +
+                QString::number( dl_queue[i]->get( CoffeeRoastingProfile::Index::DRUM_SET_PT, ( ( dl_queue[i]->get_mins( ) )*4 ) - 1 ) ) +
+                " F";;
+        list << label;
     }
 
     data_model->setStringList( list );
@@ -606,7 +618,10 @@ void MainWindow::parse_json_str( QString json_str ) {
         QJsonObject json = doc.object( );
         CoffeeRoastingProfile* profile = new CoffeeRoastingProfile( );  //create new profile object
         const QString title = profile->read( json );                    //read the json into the profile object and get its title
-        list << title;                                                  //add the title to the list of profiles
+        const QString label = title + ", " + QString::number( profile->get_mins( ) ) + " minutes, " +
+                QString::number( profile->get( CoffeeRoastingProfile::Index::DRUM_SET_PT, ( ( profile->get_mins( ) )*4 ) - 1 ) ) +
+                " F";;
+        list << label;                                                  //add the title to the list of profiles
         coffee_profiles.push_back( profile );                           //add the profile to the current list
         data_model->setStringList( list );
     }
