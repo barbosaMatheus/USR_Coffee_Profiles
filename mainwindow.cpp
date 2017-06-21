@@ -6,6 +6,8 @@ MainWindow::MainWindow( QWidget *parent ) :
     ui( new Ui::MainWindow )
 {
     ui->setupUi(this);
+    this->showMaximized( );
+    this->setWindowTitle( "US Roaster Studio" );
     EDITING = false;
     SAVED = true;
     current_index = 0;
