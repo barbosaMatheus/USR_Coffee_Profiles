@@ -129,6 +129,7 @@ void MainWindow::set_up_menu( ) {
     connect( contact, SIGNAL( triggered( ) ), this, SLOT( contact( ) ) );
     connect( save, SIGNAL( triggered( ) ), this, SLOT( save( ) ) );
     connect( cloud_dl, SIGNAL( triggered( ) ), this, SLOT( run_python( ) ) );
+    connect( ctrl_room, SIGNAL( triggered( ) ), this, SLOT( ctrl_room( ) ) );
 }
 
 
@@ -281,10 +282,10 @@ void MainWindow::on_set_button_clicked( )
     if( selected.size( ) > 0 ) {                                                                    //if non-empty
         int val = ui->value_box->value( );                                                          //save value box value
         for( int i = 0; i < selected.size( ); i++ ) {
-            if( ( selected.at( i ).column( ) < 2 ) && ( val >= 0 ) && ( val <= 600 ) ) {            //if set point value is in-bounds
+            if( ( ( selected.at( i ).column( ) == 0 ) || ( selected.at( i ).column( ) == 2 ) ) && ( val >= 0 ) && ( val <= 600 ) ) {//if set point value is in-bounds
                 table_model->setData( selected.at( i ), val );                                      //set cell i to the saved value
             }
-            else if( ( selected.at( i ).column( ) >= 2 ) && ( val >= 0 ) && ( val <= 100 ) ){       //if percentage value is in bounds
+            else if( ( ( selected.at( i ).column( ) == 1 ) || ( selected.at( i ).column( ) >= 2 ) ) && ( val >= 0 ) && ( val <= 100 ) ){       //if percentage value is in bounds
                 table_model->setData( selected.at( i ), val );                                      //set cell i to the saved value
             }
             else {                                                                                  //if values are out of bounds
@@ -363,7 +364,7 @@ void MainWindow::on_save_button_clicked( )
 //If not, it sends a warning message to the user
 void MainWindow::on_download_button_clicked( )
 {
-    if( ( ui->roaster_box->currentIndex( ) > 0 ) && ( list.size( ) > 0 ) ) {        //if a roaster has been chosen
+    if( ( ui->roaster_box->currentIndex( ) > 0 ) && ( list.size( ) > 0 ) && ( current_index >= 0 ) ) {        //if a roaster has been chosen
         ui->progress_bar->setVisible( true );
         ui->progress_bar->setValue( 0 );
         ui->download_button->setEnabled( false );                                   //disable the download button to prevent a crash
@@ -371,7 +372,7 @@ void MainWindow::on_download_button_clicked( )
                 ui->pro_list->currentIndex( ).data( ).toString( ) +
                 " to " + ui->roaster_box->currentText( );                           //build the status string
         ui->status_label->setText( str );                                           //set the status text
-        send_to_roaster( *( coffee_profiles[ui->pro_list->currentIndex( ).row( )] ) );
+        send_to_roaster( *( coffee_profiles[current_index] ) );
         ui->download_button->setEnabled( true );                                    //enable the download button again
         ui->status_label->setText( "..." );
         ui->progress_bar->setValue( 0 );                                            //reset progress bar
@@ -552,7 +553,10 @@ void MainWindow::on_pro_list_clicked( const QModelIndex &index ) {
         QString str = ui->name_edit->text( );
         if( !str.isEmpty( ) ) {                                         //if the user changes the profile name
             coffee_profiles[old_index]->set_title( str );
-            list[old_index] = str;
+            const QString label = str + ", " + QString::number( coffee_profiles[old_index]->get_mins( ) ) + " minutes, " +
+                    QString::number( coffee_profiles[old_index]->get( CoffeeRoastingProfile::Index::DRUM_SET_PT, ( ( coffee_profiles[old_index]->get_mins( ) )*4 ) - 1 ) ) +
+                    " F";
+            list[old_index] = label;
             data_model->setStringList( list );                          //reset the models string list so it updates
         }
         ui->pro_list->selectionModel( )->setCurrentIndex( data_model->index( current_index, 0 ), QItemSelectionModel::Select );
@@ -701,6 +705,11 @@ bool MainWindow::send_serial_bytes( QByteArray bytes, QSerialPort *serial ) {
 }
 
 
+
+//Handles any keypress event for the whole
+//window but really only cares about the enter
+//key being pressed while the value box is in
+//focus
 void MainWindow::keyPressEvent( QKeyEvent *event ) {
     switch( event->key( ) ) {
     case Qt::Key_Return:
@@ -710,4 +719,16 @@ void MainWindow::keyPressEvent( QKeyEvent *event ) {
     default:
        return;
     }
+}
+
+
+
+//control room action slot: opens
+//the control room window so the user
+//can control a roaster from the laptop
+void MainWindow::ctrl_room( ) {
+    ui->status_label->setText( "Running Control Room" );
+    ctrl_d = new ControlRoomDialog( coffee_profiles[current_index], this );
+    ctrl_d->exec( );
+    ui->status_label->setText( "..." );
 }

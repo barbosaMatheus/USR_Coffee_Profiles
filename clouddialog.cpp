@@ -20,6 +20,7 @@ CloudDialog::~CloudDialog()
 }
 
 void CloudDialog::beautify( ) {
+    this->setWindowFlags( this->windowFlags( ) & ~Qt::WindowContextHelpButtonHint );
     ui->cloud_list->setStyleSheet( "QListView::item { border-bottom: 1px solid black;}"
                                    "QListView::item::selected {background-color: #1c3144;"
                                    "color: white;}" );
@@ -53,7 +54,12 @@ QString CloudDialog::get_name( QString str ) {
     if( !doc.isNull( ) ) {
         QJsonObject json = doc.object( );
         profiles.push_back( json );
-        return json["title"].toString( );
+        const int pts = ( json["mins"].toInt( ) ) * 4;
+        const QString data_str = "data_" + QString::number( pts-1 );
+        const QJsonObject data_json = json[data_str].toObject( );
+        const QString str = json["title"].toString( ) + ", " + QString::number( pts/4 ) +
+                " minutes, " + QString::number( data_json["drum_sp"].toInt( ) ) + "F";
+        return str;
     }
     return "Invalid JSON";
 }

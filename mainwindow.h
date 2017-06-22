@@ -15,6 +15,7 @@
 #include <QSplashScreen>
 #include "coffeeroastingprofile.h"
 #include "clouddialog.h"
+#include "controlroomdialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -61,6 +62,7 @@ private slots:
     void save( );
     void on_pro_list_clicked(const QModelIndex &index);
     void run_python( );
+    void ctrl_room( );
 
 private:
     Ui::MainWindow *ui;
@@ -75,6 +77,7 @@ private:
     bool SAVED;                                         //true if latest changes have been saved
     int current_index;                                  //index of the current profile we are editing
     CloudDialog *cloud_d;
+    ControlRoomDialog *ctrl_d;
 };
 
 #endif // MAINWINDOW_H
