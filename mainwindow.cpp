@@ -639,10 +639,27 @@ void MainWindow::send_to_roaster( CoffeeRoastingProfile pro ) {
     serial->setPortName( "COM5" );                                                      //set the serial port
     if( !serial->open( QIODevice::ReadWrite ) ) {                                       //open the serial port for write only
         qDebug( ) << serial->errorString(  );
+        QMessageBox msg;
+        msg.setWindowTitle( "Cannot Communicate with Roaster" );
+        QString str = "Communication with roaster has been interrupted. Either no roaster is plugged in or it has been turned off/disconnected."
+                      " Please connect a roaster and try again.";
+        msg.setText( str );
+        msg.setStandardButtons( QMessageBox::StandardButton::Ok );
+        msg.exec( );
+        return;
     }
     const int num_pts = pro.get_mins( ) * 4;
     char n = num_pts;
-    send_serial_bytes( QByteArray( 1, n ), serial );
+    if( !( send_serial_bytes( QByteArray( 1, n ), serial ) ) ) {
+        QMessageBox msg;
+        msg.setWindowTitle( "Cannot Communicate with Roaster" );
+        QString str = "Communication with roaster has been interrupted. Either no roaster is plugged in or it has been turned off/disconnected."
+                      " Please connect a roaster and try again.";
+        msg.setText( str );
+        msg.setStandardButtons( QMessageBox::StandardButton::Ok );
+        msg.exec( );
+        return;
+    }
     for( int i = 0; i < num_pts; ++i ) {
         char c1 = pro.get( CoffeeRoastingProfile::Index::CAT_SET_PT, i ) / 6;
         char c2 = pro.get( CoffeeRoastingProfile::Index::DRUM_SET_PT, i ) / 6;
@@ -651,7 +668,16 @@ void MainWindow::send_to_roaster( CoffeeRoastingProfile pro ) {
         char c5 = pro.get( CoffeeRoastingProfile::Index::FAN_SPEED, i );
         QByteArray arr;
         arr.append( c1 ).append( c2 ).append( c3 ).append( c4 ).append( c5 );
-        send_serial_bytes( arr, serial );
+        if( !( send_serial_bytes( arr, serial ) ) ) {
+            QMessageBox msg;
+            msg.setWindowTitle( "Cannot Communicate with Roaster" );
+            QString str = "Communication with roaster has been interrupted. Either no roaster is plugged in or it has been turned off/disconnected."
+                          " Please connect a roaster and try again.";
+            msg.setText( str );
+            msg.setStandardButtons( QMessageBox::StandardButton::Ok );
+            msg.exec( );
+            return;
+        }
         ui->progress_bar->setValue( i/num_pts );
     }
     serial->close( );
@@ -661,15 +687,17 @@ void MainWindow::send_to_roaster( CoffeeRoastingProfile pro ) {
 
 //sends a single byte over serial connection
 //if the connection is established before
-void MainWindow::send_serial_bytes( QByteArray bytes, QSerialPort *serial ) {
+bool MainWindow::send_serial_bytes( QByteArray bytes, QSerialPort *serial ) {
     char response = 0;
 
     while( response != 1 ) {
         while( !serial->isWritable( ) );
         serial->write( bytes );
-        serial->waitForReadyRead( -1 );
+        if( !( serial->waitForReadyRead( 10000 ) ) ) return false;
         serial->read( &response, 1 );
     }
+
+    return true;
 }
 
 

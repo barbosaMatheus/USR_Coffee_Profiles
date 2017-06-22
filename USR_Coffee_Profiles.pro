@@ -28,11 +28,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     coffeeroastingprofile.cpp \
-    clouddialog.cpp
+    clouddialog.cpp \
+    controlroomdialog.cpp
 
 HEADERS  += mainwindow.h \
     coffeeroastingprofile.h \
-    clouddialog.h
+    clouddialog.h \
+    controlroomdialog.h
 
 FORMS    += mainwindow.ui \
-    clouddialog.ui
+    clouddialog.ui \
+    controlroomdialog.ui
