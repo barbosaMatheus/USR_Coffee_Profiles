@@ -17,6 +17,11 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="4" column="6" colspan="2">
      <widget class="QSpinBox" name="value_box">
+      <property name="font">
+       <font>
+        <family>Bookman Old Style</family>
+       </font>
+      </property>
       <property name="maximum">
        <number>1000</number>
       </property>
@@ -33,7 +38,7 @@
      <widget class="QLabel" name="choose_label">
       <property name="font">
        <font>
-        <family>Book Antiqua</family>
+        <family>Bookman Old Style</family>
        </font>
       </property>
       <property name="frameShape">
@@ -52,6 +57,11 @@
     </item>
     <item row="6" column="5" colspan="4">
      <widget class="QLineEdit" name="name_edit">
+      <property name="font">
+       <font>
+        <family>Bookman Old Style</family>
+       </font>
+      </property>
       <property name="placeholderText">
        <string>New profile name</string>
       </property>
@@ -61,7 +71,7 @@
      <widget class="QLabel" name="status_label">
       <property name="font">
        <font>
-        <family>Book Antiqua</family>
+        <family>Bookman Old Style</family>
         <pointsize>10</pointsize>
        </font>
       </property>
@@ -106,7 +116,13 @@
      </widget>
     </item>
     <item row="0" column="7" colspan="2">
-     <widget class="QComboBox" name="time_box"/>
+     <widget class="QComboBox" name="time_box">
+      <property name="font">
+       <font>
+        <family>Bookman Old Style</family>
+       </font>
+      </property>
+     </widget>
     </item>
     <item row="0" column="4" rowspan="8">
      <widget class="Line" name="line">
@@ -171,7 +187,7 @@
      <widget class="QLabel" name="label">
       <property name="font">
        <font>
-        <family>Book Antiqua</family>
+        <family>Bookman Old Style</family>
         <pointsize>12</pointsize>
        </font>
       </property>
@@ -213,7 +229,13 @@
      </widget>
     </item>
     <item row="4" column="0" colspan="4">
-     <widget class="QComboBox" name="roaster_box"/>
+     <widget class="QComboBox" name="roaster_box">
+      <property name="font">
+       <font>
+        <family>Bookman Old Style</family>
+       </font>
+      </property>
+     </widget>
     </item>
     <item row="4" column="5">
      <widget class="QPushButton" name="set_button">

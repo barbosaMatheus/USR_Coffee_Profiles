@@ -64,6 +64,8 @@ private slots:
     void run_python( );
     void ctrl_room( );
 
+    void on_pro_list_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
     QStringListModel *data_model;

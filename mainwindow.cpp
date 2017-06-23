@@ -12,8 +12,8 @@ MainWindow::MainWindow( QWidget *parent ) :
     SAVED = true;
     current_index = 0;
     ui->progress_bar->setVisible( false );
-    set_up_menu( );
     beautify( );                                            //changes style sheets for buttons, list and table
+    set_up_menu( );                                         //sets up the menu bar
     hide_right_side( );                                     //hide stuff on the right side that will show up only when needed
     data_model = new QStringListModel( this );              //create an object to the data model
     table_model = new QStandardItemModel( 80, 5, this );    //create an object for the table model
@@ -66,6 +66,7 @@ void MainWindow::beautify( ) {
                                "QMenu::item {background-color: #c9cacc;}"
                                "QMenu::item::selected {background-color: #1c3144;"
                                "color: white;}" );
+    menuBar( )->setFont( QFont( "Bookman Old Style", 12 ) );
     ui->status_label->setStyleSheet( "color: white; background-color: #1c3144;" );
     ui->label->setStyleSheet( "color: white; background-color: #1c3144;" );
     ui->choose_label->setStyleSheet( "color: white; background-color: #1c3144;" );
@@ -77,8 +78,8 @@ void MainWindow::beautify( ) {
 
     //making the roaster drop down look good
     QListView * list1 = new QListView( ui->roaster_box );
-    ui->roaster_box->addItem( "Choose a roaster" );
-    ui->roaster_box->addItem( "Mini Rev 1kg" );
+    ui->roaster_box->addItem( "Choose a COM Port" );
+    for( int i = 1; i < 8; ++i ) ui->roaster_box->addItem( ( "COM" + QString::number( i ) ) );
     list1->setStyleSheet( "QListView {background-color: #c9cacc;}"
                           "QListView::item {"
                           "border-bottom: 1px solid black}"
@@ -107,11 +108,17 @@ void MainWindow::beautify( ) {
 //sets up the menu bar at the top
 void MainWindow::set_up_menu( ) {
     QAction *help = new QAction( "&User Help", this );                              //make all the menu action objects
+    help->setFont( QFont( "Bookman Old Style", 12 ) );
     QAction *contact = new QAction( "&Contact Us", this );
+    contact->setFont( QFont( "Bookman Old Style", 12 ) );
     QAction *quit = new QAction( "&Quit", this );
+    quit->setFont( QFont( "Bookman Old Style", 12 ) );
     QAction *save = new QAction( "&Save Profiles", this );
+    save->setFont( QFont( "Bookman Old Style", 12 ) );
     QAction *cloud_dl = new QAction( "&Download from Cloud", this );
+    cloud_dl->setFont( QFont( "Bookman Old Style", 12 ) );
     QAction *ctrl_room = new QAction( "&Control Room", this );
+    ctrl_room->setFont( QFont( "Bookman Old Style", 12 ) );
     QMenu *Help;                                                                    //make all menu objects
     QMenu *File;
     QMenu *Tools;
@@ -282,7 +289,7 @@ void MainWindow::on_set_button_clicked( )
     if( selected.size( ) > 0 ) {                                                                    //if non-empty
         int val = ui->value_box->value( );                                                          //save value box value
         for( int i = 0; i < selected.size( ); i++ ) {
-            if( ( ( selected.at( i ).column( ) == 0 ) || ( selected.at( i ).column( ) == 2 ) ) && ( val >= 0 ) && ( val <= 600 ) ) {//if set point value is in-bounds
+            if( ( ( selected.at( i ).column( ) == 0 ) || ( selected.at( i ).column( ) == 2 ) ) && ( val >= 0 ) && ( val <= 500 ) ) {//if set point value is in-bounds
                 table_model->setData( selected.at( i ), val );                                      //set cell i to the saved value
             }
             else if( ( ( selected.at( i ).column( ) == 1 ) || ( selected.at( i ).column( ) >= 2 ) ) && ( val >= 0 ) && ( val <= 100 ) ){       //if percentage value is in bounds
@@ -292,7 +299,7 @@ void MainWindow::on_set_button_clicked( )
                 QMessageBox warning;
                 warning.setWindowTitle( "Value Out of Bounds" );
                 QString str = "You entered a value that is not allowed, the property will be unchanged."
-                              "\nUse values between 0-600 for set points, and 0-100 for percentages.";
+                              "\nUse values between 0-500 for set points, and 0-100 for percentages.";
                 warning.setText( str );
                 warning.setStandardButtons( QMessageBox::StandardButton::Ok );
                 warning.exec( );                                                                    //send warning to the user
@@ -381,7 +388,7 @@ void MainWindow::on_download_button_clicked( )
     else {                                                                          //if a roaster has not been chosen
         QMessageBox msg;
         msg.setWindowTitle( "Action Not Permitted" );
-        msg.setText( "You must choose a roaster from the drop down menu and a profile from the list before downloading" );
+        msg.setText( "You must choose a port from the drop down menu and a profile from the list before downloading" );
         msg.addButton( QMessageBox::StandardButton::Ok );
         msg.exec( );
     }
@@ -421,6 +428,7 @@ void MainWindow::on_remove_button_clicked( )
 
 
 //help action slot: displays help text for the user
+//TODO: update help with new crap
 void MainWindow::help( ) {
     QMessageBox help;
     help.setWindowTitle( "User Help" );
@@ -636,11 +644,11 @@ void MainWindow::parse_json_str( QString json_str ) {
 
 //downloads a selected profile to a roaster
 //over serial connection
-//TODO: allow user to choose serial port
+//TODO: send profile name along with roasting data
 void MainWindow::send_to_roaster( CoffeeRoastingProfile pro ) {
     QSerialPort *serial = new QSerialPort( this );                                      //create the serial port object
     serial->setBaudRate( QSerialPort::Baud9600 );                                       //set the  baudrate
-    serial->setPortName( "COM5" );                                                      //set the serial port
+    serial->setPortName( ui->roaster_box->currentText( ) );                                                      //set the serial port
     if( !serial->open( QIODevice::ReadWrite ) ) {                                       //open the serial port for write only
         qDebug( ) << serial->errorString(  );
         QMessageBox msg;
@@ -665,8 +673,8 @@ void MainWindow::send_to_roaster( CoffeeRoastingProfile pro ) {
         return;
     }
     for( int i = 0; i < num_pts; ++i ) {
-        char c1 = pro.get( CoffeeRoastingProfile::Index::CAT_SET_PT, i ) / 6;
-        char c2 = pro.get( CoffeeRoastingProfile::Index::DRUM_SET_PT, i ) / 6;
+        char c1 = pro.get( CoffeeRoastingProfile::Index::CAT_SET_PT, i ) / 2;
+        char c2 = pro.get( CoffeeRoastingProfile::Index::DRUM_SET_PT, i ) / 2;
         char c3 = pro.get( CoffeeRoastingProfile::Index::CAT_HEAT, i );
         char c4 = pro.get( CoffeeRoastingProfile::Index::DRUM_HEAT, i );
         char c5 = pro.get( CoffeeRoastingProfile::Index::FAN_SPEED, i );
@@ -731,4 +739,15 @@ void MainWindow::ctrl_room( ) {
     ctrl_d = new ControlRoomDialog( coffee_profiles[current_index], this );
     ctrl_d->exec( );
     ui->status_label->setText( "..." );
+}
+
+
+
+//list double click slot: handles a double
+//click on a list item and takes the user
+//to edit mode to edit that profile
+void MainWindow::on_pro_list_doubleClicked( const QModelIndex &index ) {
+    if( EDITING ) on_pro_list_clicked( index );
+    current_index = index.row( );
+    on_edit_button_clicked( );
 }

@@ -11,8 +11,7 @@ ControlRoomDialog::ControlRoomDialog( CoffeeRoastingProfile *pro, QWidget *paren
     make_graph( );
 }
 
-ControlRoomDialog::~ControlRoomDialog()
-{
+ControlRoomDialog::~ControlRoomDialog( ) {
     delete ui;
 }
 
@@ -71,13 +70,23 @@ void ControlRoomDialog::make_graph( ) {
     const int pts = ( profile->get_mins( ) ) * 4;
     for( int i = 0; i < pts; ++i ) {
         const int temp = profile->get( CoffeeRoastingProfile::Index::DRUM_SET_PT, i );
-        series->append( i, temp );
+        series->append( i*15, temp );
     }
     chart = new QChart( );
     chart->legend( )->hide( );
     chart->addSeries( series );
     chart->createDefaultAxes( );
-    chart->setTitle( "Live Roast" );
+    const QString title = "Profile Graph: " + profile->get_title( ) + ", " +
+            QString::number( profile->get_mins( ) ) + " minutes";
+    QFont font = chart->titleFont( );
+    font.setBold( true );
+    font.setPointSize( 13 );
+    chart->setTitleFont( font );
+    chart->setTitle( title );
+    chart->axisX( )->setTitleText( "Seconds" );
+    chart->axisY( )->setTitleText( "Drum Set Point (F)" );
     chart_view = new QChartView( chart, ui->graph_widget );
+    chart_view->setContentsMargins( 0, 0, 0, 0 );
+    chart_view->resize( 1000, 400 );
     chart_view->setRenderHint( QPainter::Antialiasing );
 }
