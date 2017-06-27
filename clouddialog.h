@@ -7,6 +7,7 @@
 #include <QJsonDocument>
 #include <QStringListModel>
 #include <QProcess>
+#include <QProgressBar>
 #include "coffeeroastingprofile.h"
 
 namespace Ui {

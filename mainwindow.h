@@ -63,7 +63,7 @@ private slots:
     void on_pro_list_clicked(const QModelIndex &index);
     void run_python( );
     void ctrl_room( );
-
+    void cloud_dl( );
     void on_pro_list_doubleClicked(const QModelIndex &index);
 
 private:

@@ -26,9 +26,8 @@ MainWindow::MainWindow( QWidget *parent ) :
         ui->pro_table->setRowHidden( i, true );
 }
 
-
-
-//style sheet settings for the window background, buttons, the list and the table
+//style sheet settings for the window background,
+//buttons, the list, the table and more
 void MainWindow::beautify( ) {
     QColor color( 28, 49, 68 );
     this->showMaximized( );
@@ -103,22 +102,26 @@ void MainWindow::beautify( ) {
     ui->time_box->setPalette( p1 );
 }
 
-
-
 //sets up the menu bar at the top
 void MainWindow::set_up_menu( ) {
     QAction *help = new QAction( "&User Help", this );                              //make all the menu action objects
     help->setFont( QFont( "Bookman Old Style", 12 ) );
+    help->setShortcut( QKeySequence( "Ctrl+H" ) );
     QAction *contact = new QAction( "&Contact Us", this );
     contact->setFont( QFont( "Bookman Old Style", 12 ) );
+    contact->setShortcut( QKeySequence( "Ctrl+U" ) );
     QAction *quit = new QAction( "&Quit", this );
+    quit->setShortcut( QKeySequence( "Ctrl+X" ) );
     quit->setFont( QFont( "Bookman Old Style", 12 ) );
     QAction *save = new QAction( "&Save Profiles", this );
     save->setFont( QFont( "Bookman Old Style", 12 ) );
+    save->setShortcut( QKeySequence( "Ctrl+S" ) );
     QAction *cloud_dl = new QAction( "&Download from Cloud", this );
     cloud_dl->setFont( QFont( "Bookman Old Style", 12 ) );
+    cloud_dl->setShortcut( QKeySequence( "Ctrl+D" ) );
     QAction *ctrl_room = new QAction( "&Control Room", this );
     ctrl_room->setFont( QFont( "Bookman Old Style", 12 ) );
+    ctrl_room->setShortcut( QKeySequence( "Ctrl+R" ) );
     QMenu *Help;                                                                    //make all menu objects
     QMenu *File;
     QMenu *Tools;
@@ -135,18 +138,13 @@ void MainWindow::set_up_menu( ) {
     connect( quit, SIGNAL( triggered( ) ), this, SLOT( quit( ) ) );
     connect( contact, SIGNAL( triggered( ) ), this, SLOT( contact( ) ) );
     connect( save, SIGNAL( triggered( ) ), this, SLOT( save( ) ) );
-    connect( cloud_dl, SIGNAL( triggered( ) ), this, SLOT( run_python( ) ) );
+    connect( cloud_dl, SIGNAL( triggered( ) ), this, SLOT( cloud_dl( ) ) );
     connect( ctrl_room, SIGNAL( triggered( ) ), this, SLOT( ctrl_room( ) ) );
 }
 
-
-
-MainWindow::~MainWindow( )
-{
+MainWindow::~MainWindow( ) {
     delete ui;
 }
-
-
 
 //updating profiles list with mock profiles for now
 void MainWindow::update_list( ) {
@@ -175,8 +173,6 @@ void MainWindow::update_list( ) {
     data_model->setStringList( list );                                  //update the data model
 }
 
-
-
 //populate horizontal and vertical label lists for table
 void MainWindow::set_headers( ) {
     //sets the horizontal headers which are the profile attributes
@@ -197,8 +193,6 @@ void MainWindow::set_headers( ) {
     table_model->setVerticalHeaderLabels( vertical_labels );
 }
 
-
-
 //hides the right side of the window for when the
 //user doesn't need it
 void MainWindow::hide_right_side( ) {
@@ -215,8 +209,6 @@ void MainWindow::hide_right_side( ) {
     ui-> status_label->setText( " ..." );
 }
 
-
-
 //button click handler for the new profile button:
 //makes the right side visible so the user can
 //use the table
@@ -227,8 +219,6 @@ void MainWindow::on_new_button_clicked( )
     SAVED = false;
     show_right_side( );
 }
-
-
 
 //button click handler for the cancel button:
 //hides the right side of the window and resets
@@ -243,8 +233,6 @@ void MainWindow::on_cancel_button_clicked( )
     table_model->setVerticalHeaderLabels( vertical_labels );
     EDITING = false;                                                //in case we were editing
 }
-
-
 
 //button click handler for the select button:
 //hides or shows extra rows in the table
@@ -264,18 +252,15 @@ void MainWindow::on_select_button_clicked( )
     else return;
 }
 
-
-
 //click event handler for the table cells:
 //takes the data from the table and puts
 //it in the spinner box for editing
-void MainWindow::on_pro_table_clicked(const QModelIndex &index)
+void MainWindow::on_pro_table_clicked( const QModelIndex &index )
 {
     int val = index.data( ).toInt( );       //save the value of the clicked cell
     ui->value_box->setValue( val );         //set the value box value to the saved value
+    ui->value_box->setFocus( );
 }
-
-
 
 //button click handler for the set button:
 //fetches all selected cells and changes
@@ -309,14 +294,11 @@ void MainWindow::on_set_button_clicked( )
     }
 }
 
-
 //checks if a string is empty or whitespace
 bool MainWindow::is_invalid( QString str ) {
     if( str.trimmed( ).isEmpty( ) ) return true;
     return false;
 }
-
-
 
 //button click handler for the save button:
 //checks to see if we have a valid profile name
@@ -363,8 +345,6 @@ void MainWindow::on_save_button_clicked( )
     hide_right_side( );
 }
 
-
-
 //button click handler for the download button:
 //checks to see if a roaster was selected. If
 //yes, downloads the current profile to the roaster.
@@ -373,7 +353,7 @@ void MainWindow::on_download_button_clicked( )
 {
     if( ( ui->roaster_box->currentIndex( ) > 0 ) && ( list.size( ) > 0 ) && ( current_index >= 0 ) ) {        //if a roaster has been chosen
         ui->progress_bar->setVisible( true );
-        ui->progress_bar->setValue( 0 );
+        ui->progress_bar->setRange( 0, 0 );
         ui->download_button->setEnabled( false );                                   //disable the download button to prevent a crash
         auto str = "Downloading " +
                 ui->pro_list->currentIndex( ).data( ).toString( ) +
@@ -382,7 +362,6 @@ void MainWindow::on_download_button_clicked( )
         send_to_roaster( *( coffee_profiles[current_index] ) );
         ui->download_button->setEnabled( true );                                    //enable the download button again
         ui->status_label->setText( "..." );
-        ui->progress_bar->setValue( 0 );                                            //reset progress bar
         ui->progress_bar->setVisible( false );
     }
     else {                                                                          //if a roaster has not been chosen
@@ -393,8 +372,6 @@ void MainWindow::on_download_button_clicked( )
         msg.exec( );
     }
 }
-
-
 
 //button click handler for the edit button:
 void MainWindow::on_edit_button_clicked( )
@@ -411,8 +388,6 @@ void MainWindow::on_edit_button_clicked( )
     ui->status_label->setText( str );
 }
 
-
-
 //button click handler for the remove button:
 void MainWindow::on_remove_button_clicked( )
 {
@@ -425,39 +400,37 @@ void MainWindow::on_remove_button_clicked( )
     ui-> status_label->setText( str );
 }
 
-
-
 //help action slot: displays help text for the user
-//TODO: update help with new crap
 void MainWindow::help( ) {
     QMessageBox help;
     help.setWindowTitle( "User Help" );
     QString str = "This program is used to download, create, edit and share coffee roasting profiles:"
-                  "<ul><li>The list on the left labelled \"Current Profiles\" contains the profiles available to download or edit.</li>"
+                  "<ul><li>The list on the left labelled \"Offline Profiles\" contains the profiles available to download or edit.</li>"
                   "<li>Click on any item in the list to highlight it. Once highlighted, it can be downloaded, edited, or removed.</li>"
-                  "<li>Use the \"Choose a roaster\" dropdown menu to select your roaster type. Click the \"Download\" button to download the highlighted profile to the selected roaster.</li>"
+                  "<li>Double-click to edit an item, once in edit mode, click other list items to switch between them (this will not save progress)</li>"
+                  "<li>Use the \"Choose a COM Port\" dropdown menu to select your COM port. Click the \"Download\" button to download the highlighted profile to the selected COM Port.</li>"
                   "<li>The text on the bottom left is the status indicator, which will relay messages to the user. Its default message is \"...\" if nothing is happening.</li>"
                   "<li>Click the \"New Profile\" button to start the creation of a new profile. The right side of the window will show the controls.</li></ul>"
                   "<li>To create a new profile:</li>"
                   "<ol><li>Choose the length from the dropdown menu on the top left (15 or 20 minutes).</li>"
                   "<li>Press \"Select\" (or \"Cancel\" if you change your mind).</li>"
                   "<li>Use the table to create a profile. Each column is a different aspect of the profile, and each row represents a 15 second period.</li>"
-                  "<ul><li>To edit a cell's value, highlight it and use the value box to the right of the \"set\" button to enter a value (you may use your keyboard or the arrows next to the box).</li>"
+                  "<ul><li>To edit a cell's value, highlight it and use the value box to the right of the \"Set\" button to enter a value (you can press \"Set\" or use the return key to change values).</li>"
                   "<li>Multiple cells may be highlighted and edited at the same time.</li></ul>"
-                  "<li>When the profile is done, give it a name in the \"New profile name\" box and click \"Save\" to save it and add it to the list.</li></ol><br/>";
+                  "<li>When the profile is done, give it a name in the \"New profile name\" box and click \"Save\" to save it and add it to the list.</li></ol>"
+                  "<li>To save profiles locally (on your disk) go to File->Save Profiles. The status indicator will indicate that the profiles have been saved.</li>"
+                  "<li>To see what profiles are available on the cloud, click Tools->Download From Cloud. Once the window shows up, you can browse, highlight, and click \"Download\" to download the highlighted profiles.</li>"
+                  "<li>The same profile can be downloaded multiple times from the cloud, this is to allow users to download profiles and have different versions of the same one. The same name can be used but it is recommended to rename duplicates once downloaded.</li>"
+                  "<li>There is a tool which is under development and it allows users to control and monitor a live roast from their desktop/laptop. Highlight a profile from the list, then click Tools->Control Room to open the dialog box.</li><br/>";
     help.setText( str );
     help.setStandardButtons( QMessageBox::StandardButton::Ok );
     help.exec( );
 }
 
-
-
 //quit action slot: exits the program
 void MainWindow::quit( ) {
     QApplication::quit( );
 }
-
-
 
 //contact action slot: gives contact information
 void MainWindow::contact( ) {
@@ -470,8 +443,6 @@ void MainWindow::contact( ) {
     msg.setStandardButtons( QMessageBox::StandardButton::Ok );
     msg.exec( );
 }
-
-
 
 //save action slot: deletes old file and creates
 //new file with current profile information
@@ -495,8 +466,6 @@ void MainWindow::save( ) {
     ui->status_label->setText( "Profile information saved to computer" );               //notify user
 }
 
-
-
 //shows all the widgets on the right side of the window
 void MainWindow::show_right_side( ) {
     ui->choose_label->setVisible( true );
@@ -511,8 +480,6 @@ void MainWindow::show_right_side( ) {
     ui->name_edit->setVisible( true );
     ui->name_edit->setText( "" );
 }
-
-
 
 //fills the qtableview in the window with the selected
 //profile's information
@@ -530,8 +497,6 @@ void MainWindow::fill_table( ) {
     }
 }
 
-
-
 //updates the data for the chosen profile
 //using the data in the table
 void MainWindow::update_profile_object( int index ) {
@@ -547,8 +512,6 @@ void MainWindow::update_profile_object( int index ) {
         profile->set( CoffeeRoastingProfile::FAN_SPEED, i, table_model->data( table_model->index( i, 4 ) ).toInt( ) );
     }
 }
-
-
 
 //click handler for profiles list:
 //if in edit mode, saves and changes the profile being edited
@@ -575,8 +538,6 @@ void MainWindow::on_pro_list_clicked( const QModelIndex &index ) {
     }
 }
 
-
-
 //handles the close event in order to tell the
 //user that they might be exiting without saving
 void MainWindow::closeEvent( QCloseEvent *event ) {
@@ -593,16 +554,18 @@ void MainWindow::closeEvent( QCloseEvent *event ) {
 
 }
 
-
-
 //download from cloud action slot: calls the python code
 //which gets data from the remote aws database and returns
 //the json strings to create profile objects
 void MainWindow::run_python( ) {
-    ui->status_label->setText( "Retreiving profiles from cloud" );
     cloud_d = new CloudDialog( dl_queue, this );
     cloud_d->exec( );
 
+    if( dl_queue.size( ) == 0 ) {
+        ui->status_label->setText( "..." );
+        ui->progress_bar->setVisible( false );
+        return;
+    }
     for( int i = 0; i < dl_queue.size( ); ++i ) {
         coffee_profiles.push_back( dl_queue[i] );
         const QString label = dl_queue[i]->get_title( ) + ", " + QString::number( dl_queue[i]->get_mins( ) ) + " minutes, " +
@@ -615,9 +578,18 @@ void MainWindow::run_python( ) {
     QString str = QString::number( dl_queue.size( ) ) + " profiles downloaded from cloud";
     ui->status_label->setText( str );
     dl_queue.clear( );
+    ui->progress_bar->setVisible( false );
 }
 
-
+//cloud download slot: does a couple graphic
+//things to entertain the user while we go
+//fetch data from the cloud
+void MainWindow::cloud_dl( ) {
+    ui->progress_bar->setRange( 0, 0 );
+    ui->progress_bar->setVisible( true );
+    ui->status_label->setText( "Opening Cloud Download Tool" );
+    run_python( );
+}
 
 //parses a json string into a json doc
 //then takes the object out of it. Also
@@ -640,11 +612,8 @@ void MainWindow::parse_json_str( QString json_str ) {
     else ui->status_label->setText( "Invalid JSON" );
 }
 
-
-
 //downloads a selected profile to a roaster
 //over serial connection
-//TODO: send profile name along with roasting data
 void MainWindow::send_to_roaster( CoffeeRoastingProfile pro ) {
     QSerialPort *serial = new QSerialPort( this );                                      //create the serial port object
     serial->setBaudRate( QSerialPort::Baud9600 );                                       //set the  baudrate
@@ -690,12 +659,30 @@ void MainWindow::send_to_roaster( CoffeeRoastingProfile pro ) {
             msg.exec( );
             return;
         }
-        ui->progress_bar->setValue( i/num_pts );
+    }
+    char s = pro.get_title( ).toLatin1( ).size( );
+    if( !( send_serial_bytes( QByteArray( 1, s ), serial ) ) ) {
+        QMessageBox msg;
+        msg.setWindowTitle( "Cannot Communicate with Roaster" );
+        QString str = "Communication with roaster has been interrupted. Either no roaster is plugged in or it has been turned off/disconnected."
+                      " Please connect a roaster and try again.";
+        msg.setText( str );
+        msg.setStandardButtons( QMessageBox::StandardButton::Ok );
+        msg.exec( );
+        return;
+    }
+    if( !( send_serial_bytes( pro.get_title( ).toLatin1( ), serial ) ) ) {
+        QMessageBox msg;
+        msg.setWindowTitle( "Cannot Communicate with Roaster" );
+        QString str = "Communication with roaster has been interrupted. Either no roaster is plugged in or it has been turned off/disconnected."
+                      " Please connect a roaster and try again.";
+        msg.setText( str );
+        msg.setStandardButtons( QMessageBox::StandardButton::Ok );
+        msg.exec( );
+        return;
     }
     serial->close( );
 }
-
-
 
 //sends a single byte over serial connection
 //if the connection is established before
@@ -712,8 +699,6 @@ bool MainWindow::send_serial_bytes( QByteArray bytes, QSerialPort *serial ) {
     return true;
 }
 
-
-
 //Handles any keypress event for the whole
 //window but really only cares about the enter
 //key being pressed while the value box is in
@@ -723,13 +708,12 @@ void MainWindow::keyPressEvent( QKeyEvent *event ) {
     case Qt::Key_Return:
     case Qt::Key_Enter:
         if( ui->value_box->hasFocus( ) ) ui->set_button->click( );
+        else if( ui->name_edit->hasFocus( ) ) ui->save_button->click( );
         break;
     default:
        return;
     }
 }
-
-
 
 //control room action slot: opens
 //the control room window so the user
@@ -740,8 +724,6 @@ void MainWindow::ctrl_room( ) {
     ctrl_d->exec( );
     ui->status_label->setText( "..." );
 }
-
-
 
 //list double click slot: handles a double
 //click on a list item and takes the user

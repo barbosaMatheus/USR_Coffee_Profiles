@@ -30,7 +30,7 @@ void CloudDialog::beautify( ) {
 
 void CloudDialog::run_python( ) {
     QProcess *p = new QProcess( this );                                                         //create a process object pointer
-    QString app_path = "C:/USRoasterStudio/remote_fetch.py";                                //save the absolute path to the script
+    QString app_path = "C:/USRoasterStudio/remote_fetch.py";                                    //save the absolute path to the script
     QString py_path = "C:/Python27/python";                                                     //save the absolute path to Python
     p->start( py_path, QStringList( ) << app_path );                                            //start the process by running the python code
     p->waitForFinished( -1 );                                                                   //wait here for the process to finish

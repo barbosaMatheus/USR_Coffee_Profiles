@@ -36,7 +36,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>817</x>
@@ -126,116 +126,272 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>530</y>
-     <width>634</width>
-     <height>121</height>
+     <x>10</x>
+     <y>644</y>
+     <width>441</width>
+     <height>27</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="dsp_label">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QPushButton" name="start_button">
+      <property name="font">
+       <font>
+        <family>Book Antiqua</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
-       <string>Drum Set Point: 100F</string>
+       <string>Start</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QLabel" name="dh_label">
-      <property name="text">
-       <string>Drum Heat: 0%</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="2">
-     <widget class="QLabel" name="csp_label">
-      <property name="text">
-       <string>Cat Set Point: 100F</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="3">
-     <widget class="QLabel" name="ch_label">
-      <property name="text">
-       <string>Cat Heat: 0%</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="4">
-     <widget class="QLabel" name="fs_label">
-      <property name="text">
-       <string>Fan Speed: 0%</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="5">
-     <widget class="QLabel" name="ds_label">
-      <property name="text">
-       <string>Drum Speed: 0%</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QDial" name="dsp_dial">
-      <property name="minimum">
-       <number>100</number>
-      </property>
-      <property name="maximum">
-       <number>600</number>
-      </property>
-      <property name="notchesVisible">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QDial" name="dh_dial">
-      <property name="maximum">
-       <number>99</number>
-      </property>
-      <property name="notchesVisible">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="2">
-     <widget class="QDial" name="csp_dial">
-      <property name="minimum">
-       <number>100</number>
-      </property>
-      <property name="maximum">
-       <number>600</number>
-      </property>
-      <property name="notchesVisible">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="3">
-     <widget class="QDial" name="ch_dial">
-      <property name="notchesVisible">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="4">
-     <widget class="QDial" name="fs_dial">
-      <property name="notchesVisible">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="5">
-     <widget class="QDial" name="ds_dial">
-      <property name="notchesVisible">
-       <bool>true</bool>
+    <item>
+     <widget class="QComboBox" name="com_box">
+      <property name="font">
+       <font>
+        <family>Book Antiqua</family>
+        <pointsize>10</pointsize>
+       </font>
       </property>
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QLabel" name="info_label">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>645</y>
+     <width>311</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Bookman Old Style</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <property name="lineWidth">
+    <number>5</number>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="dsp_label">
+   <property name="geometry">
+    <rect>
+     <x>11</x>
+     <y>501</y>
+     <width>122</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Bookman Old Style</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>Drum Set Point: 100F</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="csp_label">
+   <property name="geometry">
+    <rect>
+     <x>265</x>
+     <y>501</y>
+     <width>109</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Bookman Old Style</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>Cat Set Point: 100F</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="dh_label">
+   <property name="geometry">
+    <rect>
+     <x>153</x>
+     <y>501</y>
+     <width>86</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Bookman Old Style</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>Drum Heat: 0%</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ch_label">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>501</y>
+     <width>73</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Bookman Old Style</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>Cat Heat: 0%</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="fs_label">
+   <property name="geometry">
+    <rect>
+     <x>516</x>
+     <y>501</y>
+     <width>84</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Bookman Old Style</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>Fan Speed: 0%</string>
+   </property>
+  </widget>
+  <widget class="QDial" name="dh_dial">
+   <property name="geometry">
+    <rect>
+     <x>153</x>
+     <y>522</y>
+     <width>88</width>
+     <height>98</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>99</number>
+   </property>
+   <property name="notchesVisible">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QDial" name="dsp_dial">
+   <property name="geometry">
+    <rect>
+     <x>11</x>
+     <y>522</y>
+     <width>122</width>
+     <height>98</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>100</number>
+   </property>
+   <property name="maximum">
+    <number>600</number>
+   </property>
+   <property name="notchesVisible">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ds_label">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>501</y>
+     <width>94</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Bookman Old Style</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>Drum Speed: 0%</string>
+   </property>
+  </widget>
+  <widget class="QDial" name="ds_dial">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>522</y>
+     <width>94</width>
+     <height>98</height>
+    </rect>
+   </property>
+   <property name="notchesVisible">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QDial" name="fs_dial">
+   <property name="geometry">
+    <rect>
+     <x>516</x>
+     <y>522</y>
+     <width>88</width>
+     <height>98</height>
+    </rect>
+   </property>
+   <property name="notchesVisible">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QDial" name="csp_dial">
+   <property name="geometry">
+    <rect>
+     <x>265</x>
+     <y>522</y>
+     <width>109</width>
+     <height>98</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>100</number>
+   </property>
+   <property name="maximum">
+    <number>600</number>
+   </property>
+   <property name="notchesVisible">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QDial" name="ch_dial">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>522</y>
+     <width>88</width>
+     <height>98</height>
+    </rect>
+   </property>
+   <property name="notchesVisible">
+    <bool>true</bool>
+   </property>
   </widget>
  </widget>
  <resources/>
