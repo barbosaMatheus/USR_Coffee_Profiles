@@ -8,7 +8,7 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QListView>
-#include <QDebug>
+//#include <QDebug>
 #include "coffeeroastingprofile.h"
 using namespace QtCharts;
 
@@ -27,6 +27,9 @@ public:
     void make_graph( );
     void closeEvent( QCloseEvent *event );
     void rescale( );
+    //void mouseMoveEvent( QMouseEvent *e );
+    void mousePressEvent( QMouseEvent *e );
+    QString get_time_str( int sec );
 
 private slots:
     void on_dsp_dial_valueChanged( int value );

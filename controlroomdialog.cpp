@@ -11,6 +11,9 @@ ControlRoomDialog::ControlRoomDialog( CoffeeRoastingProfile *pro, QWidget *paren
     this->profile = pro;
     beautify( );
     make_graph( );
+    //this->setMouseTracking( true );
+    //this->grabMouse( );
+    //ui->graph_widget->setMouseTracking( true );
 }
 
 ControlRoomDialog::~ControlRoomDialog( ) {
@@ -49,6 +52,9 @@ void ControlRoomDialog::beautify( ) {
     for( int i = 1; i < 8; ++i ) ui->com_box->addItem( ( "COM" + QString::number( i ) ) );
     ui->info_label->setStyleSheet( "color: white; background-color: #1c3144;" );
     ui->info_label->setAlignment( Qt::AlignLeft | Qt::AlignTop );
+    ui->info_label->setHidden( true );
+    ui->x_pos->setStyleSheet( "color: white; background-color: #1c3144;" );
+    ui->y_pos->setStyleSheet( "color: white; background-color: #1c3144;" );
 }
 
 void ControlRoomDialog::on_dsp_dial_valueChanged( int value ) {
@@ -89,10 +95,12 @@ void ControlRoomDialog::make_graph( ) {
         series->append( i*15, temp );
     }
     chart = new QChart( );
-    live = new QSplineSeries( );
     chart->addSeries( series );
-    chart->addSeries( live );
-    chart->legend( )->hide( );
+    series->setName( profile->get_title( ) );
+    auto s_pen = series->pen( );
+    s_pen.setWidth( 7 );
+    series->setPen( s_pen );
+    //series->setPointLabelsVisible( true );
     chart->createDefaultAxes( );
     const QString title = "Profile Graph: " + profile->get_title( ) + ", " +
             QString::number( profile->get_mins( ) ) + " minutes";
@@ -102,12 +110,12 @@ void ControlRoomDialog::make_graph( ) {
     chart->setTitleFont( font );
     chart->setTitle( title );
     chart->axisX( )->setTitleText( "Seconds" );
-    chart->axisX( )->setRange( 0, 1200 );
-    chart->axisY( )->setRange( 70, 500 );
-    chart->axisY( )->setTitleText( "Drum Set Point (F)" );
+    chart->axisX( )->setRange( 0, 950 );
+    chart->axisY( )->setRange( 200, 500 );
+    chart->axisY( )->setTitleText( "Temperature (F)" );
     chart_view = new QChartView( chart, ui->graph_widget );
     chart_view->setContentsMargins( 0, 0, 0, 0 );
-    chart_view->resize( 1000, 500 );
+    chart_view->resize( 1021, 401 );
     chart_view->setRenderHint( QPainter::Antialiasing );
 }
 
@@ -179,7 +187,11 @@ void ControlRoomDialog::on_start_button_clicked( ) {
         msg.exec( );
         return;
     }
-    //live = new QLineSeries( );
+    live = new QSplineSeries( );
+    auto l_pen = live->pen( );
+    l_pen.setWidth( 7 );
+    live->setPen( l_pen );
+    live->setName( "Live Roast" );
     chart->addSeries( live );
     rescale( );
     timer = new QTimer( this );
@@ -196,37 +208,16 @@ void ControlRoomDialog::on_start_button_clicked( ) {
 
 void ControlRoomDialog::update_chart( ) {
     if( LIVE ) {
-        /*if( !( serial->waitForReadyRead( 30000 ) ) ) {
-            QMessageBox msg;
-            msg.setWindowTitle( "Cannot Receive Data" );
-            QString str = "Data acquisition from roaster has been interrupted. Either no roaster is plugged in or it has been turned off/disconnected."
-                          " Please connect a roaster and try again.\n\nError: " + serial->errorString( );
-            msg.setText( str );
-            msg.setStandardButtons( QMessageBox::StandardButton::Ok );
-            msg.exec( );
-            ui->info_label->clear( );
-            chart->removeSeries( live );
-            const QString title = "Profile Graph: " + profile->get_title( ) + ", " +
-                    QString::number( profile->get_mins( ) ) + " minutes";
-            chart->setTitle( title );
-            chart_view->repaint( );
-            ui->start_button->setText( "Start" );
-            timer->stop( );
-            live->clear( );
-            serial->close( );
-            LIVE = false;
-            return;
-        }*/
         if( serial->bytesAvailable( ) < 1 ) return;
         char temp[1];
         serial->read( temp, 1 );
         serial->clear( );
-        //const uint8_t y_8val = ( uint8_t ) temp[0];
-        const int y_val = profile->get( CoffeeRoastingProfile::Index::DRUM_SET_PT, time_index/15 ); //( int )( y_8val ) * 2;
+        const uint8_t y_8val = ( uint8_t ) temp[0];
+        const int y_val = /*profile->get( CoffeeRoastingProfile::Index::DRUM_SET_PT, time_index/15 );*/ ( int )( y_8val ) * 2;
         //const int int_temp = QByteArray( temp, 2 ).toInt( );
-        const QString str = "Current drum temperature: " + QString::number( y_val-10 ) + "F";
+        const QString str = "Current drum temperature: " + QString::number( y_val ) + "F";
         ui->info_label->setText( str );
-        live->append( time_index, y_val-10 );
+        live->append( time_index, y_val );
         chart->removeSeries( live );
         chart->addSeries( live );
         rescale( );
@@ -264,10 +255,50 @@ void ControlRoomDialog::on_com_box_currentTextChanged( const QString &arg1 ) {
 void ControlRoomDialog::rescale( ) {
     chart->createDefaultAxes( );
     chart->axisX( )->setTitleText( "Seconds" );
-    chart->axisX( )->setRange( 0, 1200 );
+    chart->axisX( )->setRange( 0, 950 );
     chart->axisY( )->setRange( 200, 500 );
-    chart->axisY( )->setTitleText( "Drum Set Point (F)" );
+    chart->axisY( )->setTitleText( "Temperature (F)" );
     chart_view->setContentsMargins( 0, 0, 0, 0 );
-    chart_view->resize( 1000, 500 );
+    chart_view->resize( 1021, 401 );
     chart_view->setRenderHint( QPainter::Antialiasing );
+}
+
+/*void ControlRoomDialog::mouseMoveEvent( QMouseEvent *e ) {
+    QPoint pos = this->mouseGrabber( )->cursor( ).pos( );
+    if( pos.x( ) < 532 || pos.x( ) > 1424 || pos.y( ) < 244 || pos.y( ) > 519 ) {
+        ui->x_pos->setText( "X: " );
+        ui->y_pos->setText( "Y: " );
+        releaseMouse( );
+        e->accept( );
+        grabMouse( );
+    }
+    else {
+        QString pos_str = "X: " + QString::number( pos.x( ) );
+        ui->x_pos->setText( pos_str );
+        pos_str = "Y: " + QString::number( pos.y( ) );
+        ui->y_pos->setText( pos_str );
+    }
+}*/
+
+void ControlRoomDialog::mousePressEvent( QMouseEvent *e ) {
+    if( e->pos( ).x( ) < 80 || e->pos( ).x( ) > 975 || e->pos( ).y( ) < 60 || e->pos( ).y( ) > 335 ) {
+        ui->x_pos->setText( "X: " );
+        ui->y_pos->setText( "Y: " );
+        e->accept( );
+    }
+    else {
+        const int map_x = ( ( e->pos( ).x( ) )-80 )*( 240.0/179.0 );
+        QString pos = "X: " + get_time_str( map_x );
+        ui->x_pos->setText( pos );
+        const int map_y = ( int )( 200.0 + ( 335.0 - ( double )( e->pos( ).y( ) ) )*( 12.0/11.0 ) );
+        pos = "Y: " + QString::number( map_y ) + "F";
+        ui->y_pos->setText( pos );
+    }
+}
+
+QString ControlRoomDialog::get_time_str( int sec ) {
+    const int min = sec / 60;
+    const int s = sec % 60;
+    const QString time_str = ( min < 10 ? "0" : "" ) + QString::number( min ) + ":" + ( s < 10 ? "0" : "" ) + QString::number( s );
+    return time_str;
 }

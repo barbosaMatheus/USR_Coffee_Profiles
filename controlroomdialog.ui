@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>9</x>
-     <y>480</y>
+     <y>400</y>
      <width>1003</width>
      <height>16</height>
     </rect>
@@ -32,7 +32,7 @@
      <x>0</x>
      <y>0</y>
      <width>1021</width>
-     <height>481</height>
+     <height>401</height>
     </rect>
    </property>
   </widget>
@@ -40,7 +40,7 @@
    <property name="geometry">
     <rect>
      <x>817</x>
-     <y>491</y>
+     <y>490</y>
      <width>191</width>
      <height>188</height>
     </rect>
@@ -130,9 +130,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>644</y>
+     <y>650</y>
      <width>441</width>
-     <height>27</height>
+     <height>21</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -165,9 +165,9 @@
    <property name="geometry">
     <rect>
      <x>480</x>
-     <y>645</y>
+     <y>650</y>
      <width>311</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">
@@ -196,7 +196,7 @@
    <property name="geometry">
     <rect>
      <x>11</x>
-     <y>501</y>
+     <y>460</y>
      <width>122</width>
      <height>16</height>
     </rect>
@@ -214,7 +214,7 @@
    <property name="geometry">
     <rect>
      <x>265</x>
-     <y>501</y>
+     <y>460</y>
      <width>109</width>
      <height>16</height>
     </rect>
@@ -232,7 +232,7 @@
    <property name="geometry">
     <rect>
      <x>153</x>
-     <y>501</y>
+     <y>460</y>
      <width>86</width>
      <height>16</height>
     </rect>
@@ -250,7 +250,7 @@
    <property name="geometry">
     <rect>
      <x>400</x>
-     <y>501</y>
+     <y>460</y>
      <width>73</width>
      <height>16</height>
     </rect>
@@ -268,7 +268,7 @@
    <property name="geometry">
     <rect>
      <x>516</x>
-     <y>501</y>
+     <y>460</y>
      <width>84</width>
      <height>16</height>
     </rect>
@@ -285,10 +285,10 @@
   <widget class="QDial" name="dh_dial">
    <property name="geometry">
     <rect>
-     <x>153</x>
-     <y>522</y>
-     <width>88</width>
-     <height>98</height>
+     <x>140</x>
+     <y>480</y>
+     <width>101</width>
+     <height>121</height>
     </rect>
    </property>
    <property name="maximum">
@@ -302,9 +302,9 @@
    <property name="geometry">
     <rect>
      <x>11</x>
-     <y>522</y>
-     <width>122</width>
-     <height>98</height>
+     <y>480</y>
+     <width>111</width>
+     <height>121</height>
     </rect>
    </property>
    <property name="minimum">
@@ -320,8 +320,8 @@
   <widget class="QLabel" name="ds_label">
    <property name="geometry">
     <rect>
-     <x>630</x>
-     <y>501</y>
+     <x>640</x>
+     <y>460</y>
      <width>94</width>
      <height>16</height>
     </rect>
@@ -338,10 +338,10 @@
   <widget class="QDial" name="ds_dial">
    <property name="geometry">
     <rect>
-     <x>630</x>
-     <y>522</y>
-     <width>94</width>
-     <height>98</height>
+     <x>640</x>
+     <y>490</y>
+     <width>91</width>
+     <height>91</height>
     </rect>
    </property>
    <property name="notchesVisible">
@@ -351,10 +351,10 @@
   <widget class="QDial" name="fs_dial">
    <property name="geometry">
     <rect>
-     <x>516</x>
-     <y>522</y>
-     <width>88</width>
-     <height>98</height>
+     <x>510</x>
+     <y>480</y>
+     <width>101</width>
+     <height>111</height>
     </rect>
    </property>
    <property name="notchesVisible">
@@ -365,9 +365,9 @@
    <property name="geometry">
     <rect>
      <x>265</x>
-     <y>522</y>
+     <y>459</y>
      <width>109</width>
-     <height>98</height>
+     <height>161</height>
     </rect>
    </property>
    <property name="minimum">
@@ -383,13 +383,75 @@
   <widget class="QDial" name="ch_dial">
    <property name="geometry">
     <rect>
-     <x>400</x>
-     <y>522</y>
-     <width>88</width>
-     <height>98</height>
+     <x>390</x>
+     <y>480</y>
+     <width>101</width>
+     <height>111</height>
     </rect>
    </property>
    <property name="notchesVisible">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="x_pos">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>420</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Bookman Old Style</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <property name="lineWidth">
+    <number>5</number>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="y_pos">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>420</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Bookman Old Style</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <property name="lineWidth">
+    <number>5</number>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="wordWrap">
     <bool>true</bool>
    </property>
   </widget>
