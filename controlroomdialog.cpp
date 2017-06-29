@@ -98,7 +98,7 @@ void ControlRoomDialog::make_graph( ) {
     chart->addSeries( series );
     series->setName( profile->get_title( ) );
     auto s_pen = series->pen( );
-    s_pen.setWidth( 7 );
+    s_pen.setWidth( 5 );
     series->setPen( s_pen );
     //series->setPointLabelsVisible( true );
     chart->createDefaultAxes( );
@@ -110,7 +110,7 @@ void ControlRoomDialog::make_graph( ) {
     chart->setTitleFont( font );
     chart->setTitle( title );
     chart->axisX( )->setTitleText( "Seconds" );
-    chart->axisX( )->setRange( 0, 950 );
+    chart->axisX( )->setRange( 0, 1200 );
     chart->axisY( )->setRange( 200, 500 );
     chart->axisY( )->setTitleText( "Temperature (F)" );
     chart_view = new QChartView( chart, ui->graph_widget );
@@ -189,10 +189,12 @@ void ControlRoomDialog::on_start_button_clicked( ) {
     }
     live = new QSplineSeries( );
     auto l_pen = live->pen( );
-    l_pen.setWidth( 7 );
+    l_pen.setWidth( 5 );
     live->setPen( l_pen );
     live->setName( "Live Roast" );
     chart->addSeries( live );
+
+
     rescale( );
     timer = new QTimer( this );
     time_index = 0;
@@ -218,10 +220,10 @@ void ControlRoomDialog::update_chart( ) {
         const QString str = "Current drum temperature: " + QString::number( y_val ) + "F";
         ui->info_label->setText( str );
         live->append( time_index, y_val );
-        chart->removeSeries( live );
-        chart->addSeries( live );
+        //chart->removeSeries( live );
+        //chart->addSeries( live );
         rescale( );
-        //chart_view->repaint( );
+        chart_view->repaint( );
         //chart->scroll( 0, 0 );
         time_index++;
         if( time_index >= profile->get_mins( ) * 60 ) {
@@ -255,7 +257,7 @@ void ControlRoomDialog::on_com_box_currentTextChanged( const QString &arg1 ) {
 void ControlRoomDialog::rescale( ) {
     chart->createDefaultAxes( );
     chart->axisX( )->setTitleText( "Seconds" );
-    chart->axisX( )->setRange( 0, 950 );
+    chart->axisX( )->setRange( 0, 1200 );
     chart->axisY( )->setRange( 200, 500 );
     chart->axisY( )->setTitleText( "Temperature (F)" );
     chart_view->setContentsMargins( 0, 0, 0, 0 );
