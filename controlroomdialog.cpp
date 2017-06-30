@@ -31,10 +31,7 @@ void ControlRoomDialog::beautify( ) {
     ui->dmp3_button->setStyleSheet( "color: white; background-color: #7a7940" );
     ui->dmp4_button->setStyleSheet( "color: white; background-color: #7a7940" );
     ui->start_button->setStyleSheet( "color: white; background-color: #7a7940" );
-    ui->ch_dial->setStyleSheet( "color: white; background-color: #1c3144" );
-    ui->csp_dial->setStyleSheet( "color: white; background-color: #1c3144" );
     ui->dh_dial->setStyleSheet( "color: white; background-color: #1c3144" );
-    ui->ds_dial->setStyleSheet( "color: white; background-color: #1c3144" );
     ui->fs_dial->setStyleSheet( "color: white; background-color: #1c3144" );
     ui->dsp_dial->setStyleSheet( "color: white; background-color: #1c3144" );
 
@@ -70,24 +67,9 @@ void ControlRoomDialog::on_dh_dial_valueChanged( int value ) {
     ui->dh_label->setText( str );
 }
 
-void ControlRoomDialog::on_csp_dial_valueChanged( int value ) {
-    const QString str = "Cat Set Point: " + QString::number( value ) + "F";
-    ui->csp_label->setText( str );
-}
-
-void ControlRoomDialog::on_ch_dial_valueChanged( int value ) {
-    const QString str = "Cat Heat: " + QString::number( value ) + "%";
-    ui->ch_label->setText( str );
-}
-
 void ControlRoomDialog::on_fs_dial_valueChanged( int value ) {
     const QString str = "Fan Speed: " + QString::number( value ) + "%";
     ui->fs_label->setText( str );
-}
-
-void ControlRoomDialog::on_ds_dial_valueChanged( int value ) {
-    const QString str = "Drum Speed: " + QString::number( value ) + "%";
-    ui->ds_label->setText( str );
 }
 
 void ControlRoomDialog::make_graph( ) {
@@ -190,6 +172,7 @@ void ControlRoomDialog::on_start_button_clicked( ) {
         msg.exec( );
         return;
     }
+    serial->clear( );
     live = new QSplineSeries( );
     auto l_pen = live->pen( );
     l_pen.setWidth( 3 );
@@ -208,41 +191,47 @@ void ControlRoomDialog::on_start_button_clicked( ) {
     connect( timer, SIGNAL( timeout( ) ), this, SLOT( update_chart( ) ) );
     timer->start( INTERVAL );
     TIMER_STARTED = true;
-    LIVE = true;                                                                                //go live
+    LIVE = true;
 }
 
 void ControlRoomDialog::update_chart( ) {
     if( LIVE ) {
         if( serial->bytesAvailable( ) < 4 ) return;
-        qDebug( ) << "HERE MOFO";
-        char temp[4];
-        serial->read( temp, 4 );
+        char buff[4];
+        serial->read( buff, 4 );
         serial->clear( );
-        const uint8_t y_8val = ( uint8_t ) temp[0];
-        const uint8_t dsp_8val = ( uint8_t ) temp[1];
-        const uint8_t dh = ( uint8_t ) temp[2];
-        const uint8_t fs = ( uint8_t ) temp[3];
+        const uint8_t y_8val = ( uint8_t ) buff[0];
         const int y_val = ( int )( y_8val ) * 2;
+        if( y_val >= 200 ) {
+            live->append( time_index, y_val );
+            rescale( );
+            chart_view->repaint( );
+            time_index++;
+        }
+
+        //if( serial->bytesAvailable( ) < 1 ) return;
+        //serial->read( buff, 1 );
+        const uint8_t dsp_8val = ( uint8_t ) buff[1];
         const int dsp_val = ( int )( dsp_8val ) * 2;
-        const QString str = "Current drum temperature: " + QString::number( y_val ) + "F";
-        ui->info_label->setText( str );
-        ui->dh_dial->setValue( dh );
         ui->dsp_dial->setValue( dsp_val );
+
+        //if( serial->bytesAvailable( ) < 1 ) return;
+        //serial->read( buff, 1 );
+        const uint8_t dh = ( uint8_t ) buff[2];
+        ui->dh_dial->setValue( dh );
+
+        //if( serial->bytesAvailable( ) < 1 ) return;
+        //serial->read( buff, 1 );
+        const uint8_t fs = ( uint8_t ) buff[3];
         ui->fs_dial->setValue( fs );
-        live->append( time_index, y_val );
-        rescale( );
-        chart_view->repaint( );
-        time_index++;
+
         if( time_index >= profile->get_mins( ) * 60 ) {
             ui->info_label->clear( );
-            //chart->removeSeries( live );
             const QString title = "Profile Graph: " + profile->get_title( ) + ", " +
                     QString::number( profile->get_mins( ) ) + " minutes";
             chart->setTitle( title );
-            //chart_view->repaint( );
             ui->start_button->setText( "Start" );
             timer->stop( );
-            //live->clear( );
             serial->close( );
             LIVE = false;
         }
