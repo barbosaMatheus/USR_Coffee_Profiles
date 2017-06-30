@@ -31,10 +31,7 @@ void ControlRoomDialog::beautify( ) {
     ui->dmp3_button->setStyleSheet( "color: white; background-color: #7a7940" );
     ui->dmp4_button->setStyleSheet( "color: white; background-color: #7a7940" );
     ui->start_button->setStyleSheet( "color: white; background-color: #7a7940" );
-    ui->ch_dial->setStyleSheet( "color: white; background-color: #1c3144" );
-    ui->csp_dial->setStyleSheet( "color: white; background-color: #1c3144" );
     ui->dh_dial->setStyleSheet( "color: white; background-color: #1c3144" );
-    ui->ds_dial->setStyleSheet( "color: white; background-color: #1c3144" );
     ui->fs_dial->setStyleSheet( "color: white; background-color: #1c3144" );
     ui->dsp_dial->setStyleSheet( "color: white; background-color: #1c3144" );
 
@@ -70,24 +67,9 @@ void ControlRoomDialog::on_dh_dial_valueChanged( int value ) {
     ui->dh_label->setText( str );
 }
 
-void ControlRoomDialog::on_csp_dial_valueChanged( int value ) {
-    const QString str = "Cat Set Point: " + QString::number( value ) + "F";
-    ui->csp_label->setText( str );
-}
-
-void ControlRoomDialog::on_ch_dial_valueChanged( int value ) {
-    const QString str = "Cat Heat: " + QString::number( value ) + "%";
-    ui->ch_label->setText( str );
-}
-
 void ControlRoomDialog::on_fs_dial_valueChanged( int value ) {
     const QString str = "Fan Speed: " + QString::number( value ) + "%";
     ui->fs_label->setText( str );
-}
-
-void ControlRoomDialog::on_ds_dial_valueChanged( int value ) {
-    const QString str = "Drum Speed: " + QString::number( value ) + "%";
-    ui->ds_label->setText( str );
 }
 
 void ControlRoomDialog::make_graph( ) {
@@ -214,7 +196,6 @@ void ControlRoomDialog::on_start_button_clicked( ) {
 void ControlRoomDialog::update_chart( ) {
     if( LIVE ) {
         if( serial->bytesAvailable( ) < 4 ) return;
-        qDebug( ) << "HERE MOFO";
         char temp[4];
         serial->read( temp, 4 );
         serial->clear( );

@@ -8,7 +8,7 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QListView>
-#include <QDebug>
+//#include <QDebug>
 #include "coffeeroastingprofile.h"
 using namespace QtCharts;
 
@@ -34,10 +34,7 @@ public:
 private slots:
     void on_dsp_dial_valueChanged( int value );
     void on_dh_dial_valueChanged( int value );
-    void on_csp_dial_valueChanged( int value );
-    void on_ch_dial_valueChanged( int value );
     void on_fs_dial_valueChanged( int value );
-    void on_ds_dial_valueChanged( int value );
     void update_chart( );
     void on_start_button_clicked();
     void on_com_box_currentTextChanged(const QString &arg1);
