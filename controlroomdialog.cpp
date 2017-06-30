@@ -55,6 +55,9 @@ void ControlRoomDialog::beautify( ) {
     ui->info_label->setHidden( true );
     ui->x_pos->setStyleSheet( "color: white; background-color: #1c3144;" );
     ui->y_pos->setStyleSheet( "color: white; background-color: #1c3144;" );
+    ui->drum_sp->setStyleSheet( "color: white; background-color: #1c3144;" );
+    ui->drum_heat->setStyleSheet( "color: white; background-color: #1c3144;" );
+    ui->fan_sp->setStyleSheet( "color: white; background-color: #1c3144;" );
 }
 
 void ControlRoomDialog::on_dsp_dial_valueChanged( int value ) {
@@ -98,7 +101,7 @@ void ControlRoomDialog::make_graph( ) {
     chart->addSeries( series );
     series->setName( profile->get_title( ) );
     auto s_pen = series->pen( );
-    s_pen.setWidth( 5 );
+    s_pen.setWidth( 3 );
     series->setPen( s_pen );
     //series->setPointLabelsVisible( true );
     chart->createDefaultAxes( );
@@ -189,7 +192,7 @@ void ControlRoomDialog::on_start_button_clicked( ) {
     }
     live = new QSplineSeries( );
     auto l_pen = live->pen( );
-    l_pen.setWidth( 5 );
+    l_pen.setWidth( 3 );
     live->setPen( l_pen );
     live->setName( "Live Roast" );
     chart->addSeries( live );
@@ -210,21 +213,25 @@ void ControlRoomDialog::on_start_button_clicked( ) {
 
 void ControlRoomDialog::update_chart( ) {
     if( LIVE ) {
-        if( serial->bytesAvailable( ) < 1 ) return;
-        char temp[1];
-        serial->read( temp, 1 );
+        if( serial->bytesAvailable( ) < 4 ) return;
+        qDebug( ) << "HERE MOFO";
+        char temp[4];
+        serial->read( temp, 4 );
         serial->clear( );
         const uint8_t y_8val = ( uint8_t ) temp[0];
-        const int y_val = /*profile->get( CoffeeRoastingProfile::Index::DRUM_SET_PT, time_index/15 );*/ ( int )( y_8val ) * 2;
-        //const int int_temp = QByteArray( temp, 2 ).toInt( );
+        const uint8_t dsp_8val = ( uint8_t ) temp[1];
+        const uint8_t dh = ( uint8_t ) temp[2];
+        const uint8_t fs = ( uint8_t ) temp[3];
+        const int y_val = ( int )( y_8val ) * 2;
+        const int dsp_val = ( int )( dsp_8val ) * 2;
         const QString str = "Current drum temperature: " + QString::number( y_val ) + "F";
         ui->info_label->setText( str );
+        ui->dh_dial->setValue( dh );
+        ui->dsp_dial->setValue( dsp_val );
+        ui->fs_dial->setValue( fs );
         live->append( time_index, y_val );
-        //chart->removeSeries( live );
-        //chart->addSeries( live );
         rescale( );
         chart_view->repaint( );
-        //chart->scroll( 0, 0 );
         time_index++;
         if( time_index >= profile->get_mins( ) * 60 ) {
             ui->info_label->clear( );
@@ -286,15 +293,25 @@ void ControlRoomDialog::mousePressEvent( QMouseEvent *e ) {
     if( e->pos( ).x( ) < 80 || e->pos( ).x( ) > 975 || e->pos( ).y( ) < 60 || e->pos( ).y( ) > 335 ) {
         ui->x_pos->setText( "X: " );
         ui->y_pos->setText( "Y: " );
+        ui->drum_heat->setText( "Drum Heat: " );
+        ui->drum_sp->setText( "Drum Set Point: " );
+        ui->fan_sp->setText( "Fan: " );
         e->accept( );
     }
     else {
         const int map_x = ( ( e->pos( ).x( ) )-80 )*( 240.0/179.0 );
         QString pos = "X: " + get_time_str( map_x );
         ui->x_pos->setText( pos );
-        const int map_y = ( int )( 200.0 + ( 335.0 - ( double )( e->pos( ).y( ) ) )*( 12.0/11.0 ) );
+        const int map_y = ( int )( 200.0 + ( 334.0 - ( double )( e->pos( ).y( ) ) )*( 100.0/79.0 ) );
         pos = "Y: " + QString::number( map_y ) + "F";
         ui->y_pos->setText( pos );
+        const int time = e->pos( ).x( ) / 15;
+        const QString dh = "Drum Heat: " + QString::number( profile->get( CoffeeRoastingProfile::Index::DRUM_HEAT, time ) ) + "%";
+        ui->drum_heat->setText( dh );
+        const QString dsp = "Drum Set Point: " + QString::number( profile->get( CoffeeRoastingProfile::Index::DRUM_SET_PT, time ) ) + "F";
+        ui->drum_sp->setText( dsp );
+        const QString fsp = "Fan: " + QString::number( profile->get( CoffeeRoastingProfile::Index::FAN_SPEED, time ) ) + "%";
+        ui->fan_sp->setText( fsp );
     }
 }
 

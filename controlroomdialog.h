@@ -8,7 +8,7 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QListView>
-//#include <QDebug>
+#include <QDebug>
 #include "coffeeroastingprofile.h"
 using namespace QtCharts;
 
