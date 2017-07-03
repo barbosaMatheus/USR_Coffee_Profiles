@@ -199,6 +199,8 @@ void ControlRoomDialog::update_chart( ) {
         if( serial->bytesAvailable( ) < 4 ) return;
         char buff[4];
         serial->read( buff, 4 );
+        char temp[4];
+        serial->read( temp, 4 );
         serial->clear( );
         const uint8_t y_8val = ( uint8_t ) buff[0];
         const int y_val = ( int )( y_8val ) * 2;
