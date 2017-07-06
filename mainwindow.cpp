@@ -44,7 +44,7 @@ void MainWindow::beautify( ) {
     font.setPointSize( 6 );
     font.setBold( true );
     ui->pro_table->verticalHeader( )->setFont( font );
-    ui->pro_list->setStyleSheet( "QListView { background: url(C:/USRoasterStudio/images/splash.jpg); }"
+    ui->pro_list->setStyleSheet( "QListView { background: url(C:/USRoasterStudio/images/3k_image.jpg); }"
                                  "QListView::item { background-color: white; border-bottom: 1px solid black;}"
                                  "QListView::item::selected {background-color: #1c3144;"
                                  "color: white;}" );
@@ -397,7 +397,7 @@ void MainWindow::on_remove_button_clicked( )
     list.removeAt( current_index );
     current_index = ui->pro_list->currentIndex( ).row( );
     data_model->setStringList( list );
-    ui-> status_label->setText( str );
+    ui->status_label->setText( str );
 }
 
 //help action slot: displays help text for the user
@@ -623,7 +623,7 @@ void MainWindow::send_to_roaster( CoffeeRoastingProfile pro ) {
         QMessageBox msg;
         msg.setWindowTitle( "Cannot Communicate with Roaster" );
         QString str = "Communication with roaster has been interrupted. Either no roaster is plugged in or it has been turned off/disconnected."
-                      " Please connect a roaster and try again.";
+                      " Please connect a roaster and try again.\n\nError: " + serial->errorString( );
         msg.setText( str );
         msg.setStandardButtons( QMessageBox::StandardButton::Ok );
         msg.exec( );
@@ -635,7 +635,7 @@ void MainWindow::send_to_roaster( CoffeeRoastingProfile pro ) {
         QMessageBox msg;
         msg.setWindowTitle( "Cannot Communicate with Roaster" );
         QString str = "Communication with roaster has been interrupted. Either no roaster is plugged in or it has been turned off/disconnected."
-                      " Please connect a roaster and try again.";
+                      " Please connect a roaster and try again.\n\nError: " + serial->errorString( );
         msg.setText( str );
         msg.setStandardButtons( QMessageBox::StandardButton::Ok );
         msg.exec( );
@@ -653,7 +653,7 @@ void MainWindow::send_to_roaster( CoffeeRoastingProfile pro ) {
             QMessageBox msg;
             msg.setWindowTitle( "Cannot Communicate with Roaster" );
             QString str = "Communication with roaster has been interrupted. Either no roaster is plugged in or it has been turned off/disconnected."
-                          " Please connect a roaster and try again.";
+                          " Please connect a roaster and try again.\n\nError: " + serial->errorString( );
             msg.setText( str );
             msg.setStandardButtons( QMessageBox::StandardButton::Ok );
             msg.exec( );
@@ -665,7 +665,7 @@ void MainWindow::send_to_roaster( CoffeeRoastingProfile pro ) {
         QMessageBox msg;
         msg.setWindowTitle( "Cannot Communicate with Roaster" );
         QString str = "Communication with roaster has been interrupted. Either no roaster is plugged in or it has been turned off/disconnected."
-                      " Please connect a roaster and try again.";
+                      " Please connect a roaster and try again\n\nError: " + serial->errorString( );
         msg.setText( str );
         msg.setStandardButtons( QMessageBox::StandardButton::Ok );
         msg.exec( );
@@ -675,7 +675,7 @@ void MainWindow::send_to_roaster( CoffeeRoastingProfile pro ) {
         QMessageBox msg;
         msg.setWindowTitle( "Cannot Communicate with Roaster" );
         QString str = "Communication with roaster has been interrupted. Either no roaster is plugged in or it has been turned off/disconnected."
-                      " Please connect a roaster and try again.";
+                      " Please connect a roaster and try again.\n\nError: " + serial->errorString( );
         msg.setText( str );
         msg.setStandardButtons( QMessageBox::StandardButton::Ok );
         msg.exec( );

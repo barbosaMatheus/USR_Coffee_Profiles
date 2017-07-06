@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1021</width>
-    <height>690</height>
+    <height>768</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>9</x>
-     <y>400</y>
+     <y>430</y>
      <width>1003</width>
      <height>16</height>
     </rect>
@@ -40,9 +40,9 @@
    <property name="geometry">
     <rect>
      <x>817</x>
-     <y>490</y>
+     <y>450</y>
      <width>191</width>
-     <height>188</height>
+     <height>197</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -126,79 +126,13 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>650</y>
-     <width>441</width>
-     <height>27</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QPushButton" name="start_button">
-      <property name="font">
-       <font>
-        <family>Book Antiqua</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Start</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QComboBox" name="com_box">
-      <property name="font">
-       <font>
-        <family>Book Antiqua</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QLabel" name="info_label">
-   <property name="geometry">
-    <rect>
-     <x>480</x>
-     <y>650</y>
-     <width>311</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Bookman Old Style</family>
-     <pointsize>9</pointsize>
-    </font>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <property name="lineWidth">
-    <number>5</number>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="wordWrap">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QLabel" name="dsp_label">
    <property name="geometry">
     <rect>
      <x>30</x>
      <y>610</y>
      <width>171</width>
-     <height>16</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">
@@ -214,10 +148,10 @@
   <widget class="QLabel" name="dh_label">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>610</y>
      <width>131</width>
-     <height>16</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">
@@ -236,7 +170,7 @@
      <x>660</x>
      <y>610</y>
      <width>131</width>
-     <height>16</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">
@@ -301,7 +235,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>420</y>
+     <y>410</y>
      <width>101</width>
      <height>21</height>
     </rect>
@@ -332,7 +266,7 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>420</y>
+     <y>410</y>
      <width>101</width>
      <height>21</height>
     </rect>
@@ -363,7 +297,7 @@
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>420</y>
+     <y>410</y>
      <width>161</width>
      <height>21</height>
     </rect>
@@ -394,7 +328,7 @@
    <property name="geometry">
     <rect>
      <x>430</x>
-     <y>420</y>
+     <y>410</y>
      <width>151</width>
      <height>21</height>
     </rect>
@@ -425,7 +359,7 @@
    <property name="geometry">
     <rect>
      <x>600</x>
-     <y>420</y>
+     <y>410</y>
      <width>151</width>
      <height>21</height>
     </rect>
@@ -450,6 +384,146 @@
    </property>
    <property name="wordWrap">
     <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="info">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>700</y>
+     <width>451</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Bookman Old Style</family>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <property name="lineWidth">
+    <number>5</number>
+   </property>
+   <property name="text">
+    <string>Choose a COM Port and press start to monitor a live roast on the graph. Load, save or delete a live waveform using the buttons on the right. Left-click on the graph to get point information. Left then right-click to get the slope of the line.</string>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>700</y>
+     <width>491</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0" rowspan="2">
+     <widget class="QComboBox" name="saved_box">
+      <property name="font">
+       <font>
+        <family>Bookman Old Style</family>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QPushButton" name="load_button">
+      <property name="font">
+       <font>
+        <family>Bookman Old Style</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Load</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QPushButton" name="clear_button">
+      <property name="font">
+       <font>
+        <family>Bookman Old Style</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Clear</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QPushButton" name="save_button">
+      <property name="font">
+       <font>
+        <family>Bookman Old Style</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Save</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QPushButton" name="delete_button">
+      <property name="font">
+       <font>
+        <family>Bookman Old Style</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Delete</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QComboBox" name="com_box">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>662</y>
+     <width>171</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Book Antiqua</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="start_button">
+   <property name="geometry">
+    <rect>
+     <x>11</x>
+     <y>650</y>
+     <width>75</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Bookman Old Style</family>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Start</string>
    </property>
   </widget>
  </widget>

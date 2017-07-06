@@ -8,12 +8,14 @@ ControlRoomDialog::ControlRoomDialog( CoffeeRoastingProfile *pro, QWidget *paren
     ui->setupUi(this);
     LIVE = false;
     TIMER_STARTED = false;
+    SAVED_LOADED = false;
+    LEFT_CLICKED = false;
     this->profile = pro;
     beautify( );
     make_graph( );
-    //this->setMouseTracking( true );
-    //this->grabMouse( );
-    //ui->graph_widget->setMouseTracking( true );
+    load_graphs( );
+    ui->save_button->setEnabled( false );
+    ui->clear_button->setEnabled( false );
 }
 
 ControlRoomDialog::~ControlRoomDialog( ) {
@@ -34,6 +36,12 @@ void ControlRoomDialog::beautify( ) {
     ui->dh_dial->setStyleSheet( "color: white; background-color: #1c3144" );
     ui->fs_dial->setStyleSheet( "color: white; background-color: #1c3144" );
     ui->dsp_dial->setStyleSheet( "color: white; background-color: #1c3144" );
+    ui->save_button->setStyleSheet( "color: white; background-color: #1c3144" );
+    ui->load_button->setStyleSheet( "color: white; background-color: #1c3144" );
+    ui->clear_button->setStyleSheet( "color: white; background-color: #70161e" );
+    ui->delete_button->setStyleSheet( "color: white; background-color: #70161e" );
+    ui->info->setAlignment( Qt::AlignLeft | Qt::AlignTop );
+    ui->info->setStyleSheet( "color: white; background-color: #1c3144;" );
 
     QListView *list1 = new QListView( ui->com_box );
     list1->setStyleSheet( "QListView {background-color: #c9cacc;}"
@@ -47,14 +55,16 @@ void ControlRoomDialog::beautify( ) {
     ui->com_box->setPalette( p );
     ui->com_box->addItem( "Choose a COM Port" );
     for( int i = 1; i < 8; ++i ) ui->com_box->addItem( ( "COM" + QString::number( i ) ) );
-    ui->info_label->setStyleSheet( "color: white; background-color: #1c3144;" );
-    ui->info_label->setAlignment( Qt::AlignLeft | Qt::AlignTop );
-    ui->info_label->setHidden( true );
     ui->x_pos->setStyleSheet( "color: white; background-color: #1c3144;" );
     ui->y_pos->setStyleSheet( "color: white; background-color: #1c3144;" );
     ui->drum_sp->setStyleSheet( "color: white; background-color: #1c3144;" );
     ui->drum_heat->setStyleSheet( "color: white; background-color: #1c3144;" );
     ui->fan_sp->setStyleSheet( "color: white; background-color: #1c3144;" );
+    ui->x_pos->setText( "X: " );
+    ui->y_pos->setText( "Y: " );
+    ui->drum_heat->setText( "Drum Heat: " );
+    ui->drum_sp->setText( "Drum Set Point: " );
+    ui->fan_sp->setText( "Fan: " );
 }
 
 void ControlRoomDialog::on_dsp_dial_valueChanged( int value ) {
@@ -105,13 +115,13 @@ void ControlRoomDialog::make_graph( ) {
 }
 
 void ControlRoomDialog::on_start_button_clicked( ) {
+    ui->save_button->setEnabled( false );
     if( LIVE ) {                                                            //if we are already live
         timer->stop( );                                                     //stop the timer
         LIVE = false;                                                       //leave live
         ui->start_button->setText( "Start" );                               //set up start button
         chart->removeSeries( live );                                        //remove the live graph from the chart
         chart_view->repaint( );                                             //repaint chart view
-        ui->info_label->clear( );                                           //clear label text
         live->clear( );                                                     //clear the info in the live graph
         const QString title = "Profile Graph: " + profile->get_title( ) + ", " +
                 QString::number( profile->get_mins( ) ) + " minutes";
@@ -174,13 +184,14 @@ void ControlRoomDialog::on_start_button_clicked( ) {
     }
     serial->clear( );
     live = new QSplineSeries( );
+    current = new RoastGraph( /*profile->get_title( ), profile->get_mins( )*60*/ );
+    current->set_title( profile->get_title( ) );
     auto l_pen = live->pen( );
     l_pen.setWidth( 3 );
+    l_pen.setColor( Qt::green );
     live->setPen( l_pen );
     live->setName( "Live Roast" );
     chart->addSeries( live );
-
-
     rescale( );
     timer = new QTimer( this );
     time_index = 0;
@@ -206,6 +217,7 @@ void ControlRoomDialog::update_chart( ) {
         const int y_val = ( int )( y_8val ) * 2;
         if( y_val >= 200 ) {
             live->append( time_index, y_val );
+            current->append( y_val );
             rescale( );
             chart_view->repaint( );
             time_index++;
@@ -228,14 +240,15 @@ void ControlRoomDialog::update_chart( ) {
         ui->fs_dial->setValue( fs );
 
         if( time_index >= profile->get_mins( ) * 60 ) {
-            ui->info_label->clear( );
             const QString title = "Profile Graph: " + profile->get_title( ) + ", " +
                     QString::number( profile->get_mins( ) ) + " minutes";
             chart->setTitle( title );
             ui->start_button->setText( "Start" );
+            ui->save_button->setEnabled( true );
             timer->stop( );
             serial->close( );
             LIVE = false;
+            current->set_size( time_index );
         }
     }
 }
@@ -263,23 +276,6 @@ void ControlRoomDialog::rescale( ) {
     chart_view->setRenderHint( QPainter::Antialiasing );
 }
 
-/*void ControlRoomDialog::mouseMoveEvent( QMouseEvent *e ) {
-    QPoint pos = this->mouseGrabber( )->cursor( ).pos( );
-    if( pos.x( ) < 532 || pos.x( ) > 1424 || pos.y( ) < 244 || pos.y( ) > 519 ) {
-        ui->x_pos->setText( "X: " );
-        ui->y_pos->setText( "Y: " );
-        releaseMouse( );
-        e->accept( );
-        grabMouse( );
-    }
-    else {
-        QString pos_str = "X: " + QString::number( pos.x( ) );
-        ui->x_pos->setText( pos_str );
-        pos_str = "Y: " + QString::number( pos.y( ) );
-        ui->y_pos->setText( pos_str );
-    }
-}*/
-
 void ControlRoomDialog::mousePressEvent( QMouseEvent *e ) {
     if( e->pos( ).x( ) < 80 || e->pos( ).x( ) > 975 || e->pos( ).y( ) < 60 || e->pos( ).y( ) > 335 ) {
         ui->x_pos->setText( "X: " );
@@ -303,6 +299,26 @@ void ControlRoomDialog::mousePressEvent( QMouseEvent *e ) {
         ui->drum_sp->setText( dsp );
         const QString fsp = "Fan: " + QString::number( profile->get( CoffeeRoastingProfile::Index::FAN_SPEED, time ) ) + "%";
         ui->fan_sp->setText( fsp );
+
+        if( e->button( ) == Qt::LeftButton  ) {
+            if( LEFT_CLICKED ) LEFT_CLICKED = false;
+            else {
+                LEFT_CLICKED = true;
+                l_pos.setX( map_x );
+                l_pos.setY( map_y );
+            }
+        }
+        else if( e->button( ) == Qt::RightButton ) {
+            if( LEFT_CLICKED ) {
+                LEFT_CLICKED = false;
+                double slope = ( ( float )( map_y - l_pos.y( ) ) ) / ( ( float )( map_x - l_pos.x( ) ) );
+                slope *= 60.0;
+                QMessageBox msg;
+                const QString str = "Slope = " + QString::number( ( int )slope ) + " F/min";
+                msg.setText( str );
+                msg.exec( );
+            }
+        }
     }
 }
 
@@ -311,4 +327,81 @@ QString ControlRoomDialog::get_time_str( int sec ) {
     const int s = sec % 60;
     const QString time_str = ( min < 10 ? "0" : "" ) + QString::number( min ) + ":" + ( s < 10 ? "0" : "" ) + QString::number( s );
     return time_str;
+}
+
+void ControlRoomDialog::load_graphs( ) {
+    QFile graphs( "graphs.json" );
+    if( !graphs.open( QIODevice::ReadOnly ) ) return;
+
+    QByteArray ba = graphs.readAll( );
+    if( ba.size( ) == 0 ) return;
+    QJsonDocument doc( QJsonDocument::fromJson( ba ) );
+    QJsonObject graphs_obj = doc.object( );
+    const int num = graphs_obj["count"].toInt( );
+
+    for( int i = 0; i < num; ++i ) {
+        RoastGraph *r_graph = new RoastGraph( );
+        QJsonObject graph = graphs_obj[QString::number( i )].toObject( );
+        r_graph->fromJSON( graph );
+        ui->saved_box->addItem( r_graph->get_title( ) );
+        saved_graphs.append( r_graph );
+    }
+    graphs.close( );
+}
+
+void ControlRoomDialog::on_load_button_clicked( ) {
+    if( LIVE || saved_graphs.size( ) < 1 ) return;
+    if( SAVED_LOADED ) chart->removeSeries( saved );
+    const int index = ui->saved_box->currentIndex( );
+    RoastGraph *curr_graph = saved_graphs[index];
+    this->saved = new QSplineSeries( );
+    auto s_pen = saved->pen( );
+    s_pen.setWidth( 3 );
+    s_pen.setColor( Qt::gray );
+    saved->setPen( s_pen );
+    const QString t = curr_graph->get_title( );
+    const QString title = t + " (Saved)";
+    for( int i = 0; i < curr_graph->get_size( ); ++i )
+        saved->append( i, curr_graph->get_data( i ) );
+    saved->setName( title );
+    chart->addSeries( saved );
+    rescale( );
+    SAVED_LOADED = true;
+    ui->clear_button->setEnabled( true );
+}
+
+void ControlRoomDialog::on_save_button_clicked( ) {
+    saved_graphs.append( current );
+    update_memory( );
+    QMessageBox msg;
+    msg.setText( "Waveform has been saved, exit and re-enter to load it." );
+    msg.exec( );
+}
+
+void ControlRoomDialog::on_clear_button_clicked( ) {
+    if( LIVE ) return;
+    chart->removeSeries( saved );
+    chart_view->repaint( );
+}
+
+void ControlRoomDialog::on_delete_button_clicked( ) {
+    saved_graphs.remove( ui->saved_box->currentIndex( ) );
+    ui->saved_box->removeItem( ui->saved_box->currentIndex( ) );
+    update_memory( );
+}
+
+void ControlRoomDialog::update_memory( ) {
+    QFile::remove( "graphs.json" );
+    QFile graphs( "graphs.json" );
+    if( !graphs.open( QIODevice::WriteOnly ) ) return;
+    QJsonObject s_graphs;
+    s_graphs["count"] = saved_graphs.size( );
+    for( int i = 0; i < saved_graphs.size( ); ++i ) {
+        QJsonObject json;
+        saved_graphs[i]->toJSON( json );
+        s_graphs[QString::number( i )] = json;
+    }
+    QJsonDocument doc( s_graphs );
+    graphs.write( doc.toJson( ) );
+    graphs.close( );
 }
