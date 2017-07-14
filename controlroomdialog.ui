@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1021</width>
-    <height>768</height>
+    <height>697</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,96 +35,6 @@
      <height>401</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>817</x>
-     <y>450</y>
-     <width>191</width>
-     <height>197</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QPushButton" name="stir_button">
-      <property name="font">
-       <font>
-        <family>Bookman Old Style</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Stir</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="door_button">
-      <property name="font">
-       <font>
-        <family>Bookman Old Style</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Door</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="cooler_button">
-      <property name="font">
-       <font>
-        <family>Bookman Old Style</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Cooler</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="ex_button">
-      <property name="font">
-       <font>
-        <family>Bookman Old Style</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Exhaust</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="dmp3_button">
-      <property name="font">
-       <font>
-        <family>Bookman Old Style</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Damper 3</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="dmp4_button">
-      <property name="font">
-       <font>
-        <family>Bookman Old Style</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Damper 4</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
   </widget>
   <widget class="QLabel" name="dsp_label">
    <property name="geometry">
@@ -386,44 +296,13 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="info">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>700</y>
-     <width>451</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Bookman Old Style</family>
-     <pointsize>8</pointsize>
-    </font>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <property name="lineWidth">
-    <number>5</number>
-   </property>
-   <property name="text">
-    <string>Choose a COM Port and press start to monitor a live roast on the graph. Load, save or delete a live waveform using the buttons on the right. Left-click on the graph to get point information. Left then right-click to get the slope of the line.</string>
-   </property>
-   <property name="wordWrap">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QWidget" name="">
-   <property name="geometry">
-    <rect>
-     <x>520</x>
-     <y>700</y>
-     <width>491</width>
-     <height>60</height>
+     <x>380</x>
+     <y>640</y>
+     <width>631</width>
+     <height>54</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -442,7 +321,9 @@
       <property name="font">
        <font>
         <family>Bookman Old Style</family>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
        </font>
       </property>
       <property name="text">
@@ -455,7 +336,9 @@
       <property name="font">
        <font>
         <family>Bookman Old Style</family>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
        </font>
       </property>
       <property name="text">
@@ -468,7 +351,9 @@
       <property name="font">
        <font>
         <family>Bookman Old Style</family>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
        </font>
       </property>
       <property name="text">
@@ -481,7 +366,9 @@
       <property name="font">
        <font>
         <family>Bookman Old Style</family>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
        </font>
       </property>
       <property name="text">
@@ -520,6 +407,8 @@
     <font>
      <family>Bookman Old Style</family>
      <pointsize>14</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
    </property>
    <property name="text">

@@ -16,6 +16,7 @@
 #include "coffeeroastingprofile.h"
 #include "clouddialog.h"
 #include "controlroomdialog.h"
+#include "graphicalcreatordialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -65,6 +66,7 @@ private slots:
     void ctrl_room( );
     void cloud_dl( );
     void on_pro_list_doubleClicked(const QModelIndex &index);
+    void graphical_creator( void );
 
 private:
     Ui::MainWindow *ui;
@@ -80,6 +82,7 @@ private:
     int current_index;                                  //index of the current profile we are editing
     CloudDialog *cloud_d;
     ControlRoomDialog *ctrl_d;
+    GraphicalCreatorDialog *g_creator;
 };
 
 #endif // MAINWINDOW_H

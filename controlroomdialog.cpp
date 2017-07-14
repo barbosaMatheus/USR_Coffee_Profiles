@@ -16,6 +16,8 @@ ControlRoomDialog::ControlRoomDialog( CoffeeRoastingProfile *pro, QWidget *paren
     load_graphs( );
     ui->save_button->setEnabled( false );
     ui->clear_button->setEnabled( false );
+    //this->showMaximized( );
+    this->setWindowTitle( "Control Room" );
 }
 
 ControlRoomDialog::~ControlRoomDialog( ) {
@@ -26,22 +28,36 @@ void ControlRoomDialog::beautify( ) {
     QColor color( 28, 49, 68 );
     this->setWindowTitle( "Control Room" );
     this->setWindowFlags( this->windowFlags( ) & ~Qt::WindowContextHelpButtonHint );
-    ui->stir_button->setStyleSheet( "color: white; background-color: #7a7940" );
-    ui->door_button->setStyleSheet( "color: white; background-color: #7a7940" );
-    ui->cooler_button->setStyleSheet( "color: white; background-color: #7a7940" );
-    ui->ex_button->setStyleSheet( "color: white; background-color: #7a7940" );
-    ui->dmp3_button->setStyleSheet( "color: white; background-color: #7a7940" );
-    ui->dmp4_button->setStyleSheet( "color: white; background-color: #7a7940" );
-    ui->start_button->setStyleSheet( "color: white; background-color: #7a7940" );
-    ui->dh_dial->setStyleSheet( "color: white; background-color: #1c3144" );
-    ui->fs_dial->setStyleSheet( "color: white; background-color: #1c3144" );
-    ui->dsp_dial->setStyleSheet( "color: white; background-color: #1c3144" );
-    ui->save_button->setStyleSheet( "color: white; background-color: #1c3144" );
-    ui->load_button->setStyleSheet( "color: white; background-color: #1c3144" );
-    ui->clear_button->setStyleSheet( "color: white; background-color: #70161e" );
-    ui->delete_button->setStyleSheet( "color: white; background-color: #70161e" );
-    ui->info->setAlignment( Qt::AlignLeft | Qt::AlignTop );
-    ui->info->setStyleSheet( "color: white; background-color: #1c3144;" );
+    /*ui->stir_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+                                    "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
+    ui->door_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+                                    "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
+    ui->cooler_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+                                      "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
+    ui->ex_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+                                  "QPushButton:hover {border: 5px solid #70161e; background: transparent;color: #70161e;}");
+    ui->dmp3_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+                                    "QPushButton:hover {border: 5px solid #70161e; background: transparent;color: #70161e;}");
+    ui->dmp4_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+                                    "QPushButton:hover {border: 5px solid #70161e; background: transparent;color: #70161e;}");*/
+    ui->start_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+                                     "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
+    //ui->dh_dial->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+    //                            "QPushButton:hover {border: 5px solid #70161e; background: transparent;color: #70161e;}");
+    //ui->fs_dial->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+    //                            "QPushButton:hover {border: 5px solid #70161e; background: transparent;color: #70161e;}");
+    //ui->dsp_dial->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+    //                             "QPushButton:hover {border: 5px solid #70161e; background: transparent;color: #70161e;}");
+    ui->save_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+                                    "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
+    ui->load_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+                                    "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
+    ui->clear_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+                                     "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
+    ui->delete_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+                                      "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
+    //ui->info->setAlignment( Qt::AlignLeft | Qt::AlignTop );
+    //ui->info->setStyleSheet( "color: white; background-color: #1c3144;" );
 
     QListView *list1 = new QListView( ui->com_box );
     list1->setStyleSheet( "QListView {background-color: #c9cacc;}"
@@ -55,6 +71,14 @@ void ControlRoomDialog::beautify( ) {
     ui->com_box->setPalette( p );
     ui->com_box->addItem( "Choose a COM Port" );
     for( int i = 1; i < 8; ++i ) ui->com_box->addItem( ( "COM" + QString::number( i ) ) );
+    QListView *list2 = new QListView( ui->saved_box );
+    list2->setStyleSheet( "QListView {background-color: #c9cacc;}"
+                          "QListView::item {"
+                          "border-bottom: 1px solid black}"
+                          "QListView::item::selected {background-color: #1c3144;"
+                          "color: white;}" );
+    ui->saved_box->setView( list2 );
+    ui->saved_box->setPalette( p );
     ui->x_pos->setStyleSheet( "color: white; background-color: #1c3144;" );
     ui->y_pos->setStyleSheet( "color: white; background-color: #1c3144;" );
     ui->drum_sp->setStyleSheet( "color: white; background-color: #1c3144;" );
@@ -95,7 +119,6 @@ void ControlRoomDialog::make_graph( ) {
     auto s_pen = series->pen( );
     s_pen.setWidth( 3 );
     series->setPen( s_pen );
-    //series->setPointLabelsVisible( true );
     chart->createDefaultAxes( );
     const QString title = "Profile Graph: " + profile->get_title( ) + ", " +
             QString::number( profile->get_mins( ) ) + " minutes";
@@ -184,7 +207,7 @@ void ControlRoomDialog::on_start_button_clicked( ) {
     }
     serial->clear( );
     live = new QSplineSeries( );
-    current = new RoastGraph( /*profile->get_title( ), profile->get_mins( )*60*/ );
+    current = new RoastGraph( );
     current->set_title( profile->get_title( ) );
     auto l_pen = live->pen( );
     l_pen.setWidth( 3 );

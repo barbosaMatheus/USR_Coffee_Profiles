@@ -116,6 +116,8 @@ public:
         QFont font2;
         font2.setFamily(QStringLiteral("Bookman Old Style"));
         font2.setPointSize(12);
+        font2.setBold(true);
+        font2.setWeight(75);
         save_button->setFont(font2);
 
         gridLayout->addWidget(save_button, 7, 8, 1, 1);
@@ -165,7 +167,10 @@ public:
 
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
-        label->setFont(font2);
+        QFont font3;
+        font3.setFamily(QStringLiteral("Bookman Old Style"));
+        font3.setPointSize(12);
+        label->setFont(font3);
         label->setFrameShape(QFrame::StyledPanel);
         label->setFrameShadow(QFrame::Raised);
         label->setLineWidth(5);
@@ -174,22 +179,22 @@ public:
 
         pro_list = new QListView(centralWidget);
         pro_list->setObjectName(QStringLiteral("pro_list"));
-        QFont font3;
-        font3.setFamily(QStringLiteral("Bookman Old Style"));
-        font3.setPointSize(11);
-        font3.setBold(false);
-        font3.setItalic(true);
-        font3.setWeight(50);
-        pro_list->setFont(font3);
+        QFont font4;
+        font4.setFamily(QStringLiteral("Bookman Old Style"));
+        font4.setPointSize(11);
+        font4.setBold(false);
+        font4.setItalic(true);
+        font4.setWeight(50);
+        pro_list->setFont(font4);
 
         gridLayout->addWidget(pro_list, 2, 0, 1, 4);
 
         pro_table = new QTableView(centralWidget);
         pro_table->setObjectName(QStringLiteral("pro_table"));
-        QFont font4;
-        font4.setFamily(QStringLiteral("Bookman Old Style"));
-        font4.setPointSize(7);
-        pro_table->setFont(font4);
+        QFont font5;
+        font5.setFamily(QStringLiteral("Bookman Old Style"));
+        font5.setPointSize(7);
+        pro_table->setFont(font5);
 
         gridLayout->addWidget(pro_table, 2, 5, 1, 4);
 

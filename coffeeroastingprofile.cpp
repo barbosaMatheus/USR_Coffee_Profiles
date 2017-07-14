@@ -120,3 +120,9 @@ CoffeeRoastingProfile::ProfileDataPoint CoffeeRoastingProfile::get_data( int tim
     CoffeeRoastingProfile::ProfileDataPoint pt = data.at( time );
     return pt;
 }
+
+
+void CoffeeRoastingProfile::set_data( int time, ProfileDataPoint p ) {
+    if( time == -1 ) data.append( p );
+    else data[time] = p;
+}

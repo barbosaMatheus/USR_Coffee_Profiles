@@ -29,6 +29,7 @@ public:
     QString get_title( ) const;
     int get_mins( ) const;
     ProfileDataPoint get_data( int time );
+    void set_data( int time, ProfileDataPoint p );
     void set( Index index, int time, int val );
     void set_title( QString title );
     void set_mins( int mins );

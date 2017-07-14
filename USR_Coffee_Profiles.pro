@@ -31,14 +31,17 @@ SOURCES += main.cpp\
     coffeeroastingprofile.cpp \
     clouddialog.cpp \
     controlroomdialog.cpp \
-    roastgraph.cpp
+    roastgraph.cpp \
+    graphicalcreatordialog.cpp
 
 HEADERS  += mainwindow.h \
     coffeeroastingprofile.h \
     clouddialog.h \
     controlroomdialog.h \
-    roastgraph.h
+    roastgraph.h \
+    graphicalcreatordialog.h
 
 FORMS    += mainwindow.ui \
     clouddialog.ui \
-    controlroomdialog.ui
+    controlroomdialog.ui \
+    graphicalcreatordialog.ui

@@ -48,14 +48,22 @@ void MainWindow::beautify( ) {
                                  "QListView::item { background-color: white; border-bottom: 1px solid black;}"
                                  "QListView::item::selected {background-color: #1c3144;"
                                  "color: white;}" );
-    ui->new_button->setStyleSheet( "color: white; background-color: #7a7940" );
-    ui->cancel_button->setStyleSheet( "color: white; background-color: #70161e" );
-    ui->save_button->setStyleSheet( "color: white; background-color: #7a7940" );
-    ui->select_button->setStyleSheet( "color: white; background-color: #7a7940" );
-    ui->set_button->setStyleSheet( "color: white; background-color: #7a7940" );
-    ui->download_button->setStyleSheet( "color: white; background-color: #7a7940" );
-    ui->edit_button->setStyleSheet( "color: white; background-color: #7a7940" );
-    ui->remove_button->setStyleSheet( "color: white; background-color: #70161e" );
+    ui->new_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+                                   "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
+    ui->cancel_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+                                      "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
+    ui->save_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+                                    "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
+    ui->select_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+                                      "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
+    ui->set_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+                                   "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
+    ui->download_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+                                        "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
+    ui->edit_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+                                    "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
+    ui->remove_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
+                                      "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
     menuBar( )->setStyleSheet( "QMenuBar {background-color: #c9cacc;"
                                "color: black;}"
                                "QMenuBar::item:selected {color: white;"
@@ -122,35 +130,41 @@ void MainWindow::set_up_menu( ) {
     QAction *ctrl_room = new QAction( "&Control Room", this );
     ctrl_room->setFont( QFont( "Bookman Old Style", 12 ) );
     ctrl_room->setShortcut( QKeySequence( "Ctrl+R" ) );
+    QAction *graphical_creator = new QAction( "&Graphical Profile Creator", this );
+    graphical_creator->setFont( QFont( "Bookman Old Style", 12 ) );
+    graphical_creator->setShortcut( QKeySequence( "Ctrl+G" ) );
     QMenu *Help;                                                                    //make all menu objects
     QMenu *File;
     QMenu *Tools;
     File = menuBar( )->addMenu( "&File" );                                          //add menus to menus bar and get the objects
-    Help = menuBar( )->addMenu( "&Help" );
     Tools = menuBar( )->addMenu( "&Tools" );
+    Help = menuBar( )->addMenu( "&Help" );
     Help->addAction( help );                                                        //add actions to menu objects
     Help->addAction( contact );
     File->addAction( save );
     File->addAction( quit );
     Tools->addAction( cloud_dl );
     Tools->addAction( ctrl_room );
+    Tools->addAction( graphical_creator );
     connect( help, SIGNAL( triggered( ) ), this, SLOT( help( ) ) );                 //connect menu actions to slots
     connect( quit, SIGNAL( triggered( ) ), this, SLOT( quit( ) ) );
     connect( contact, SIGNAL( triggered( ) ), this, SLOT( contact( ) ) );
     connect( save, SIGNAL( triggered( ) ), this, SLOT( save( ) ) );
     connect( cloud_dl, SIGNAL( triggered( ) ), this, SLOT( cloud_dl( ) ) );
     connect( ctrl_room, SIGNAL( triggered( ) ), this, SLOT( ctrl_room( ) ) );
+    connect( graphical_creator, SIGNAL( triggered( ) ), this, SLOT( graphical_creator( ) ) );
 }
 
 MainWindow::~MainWindow( ) {
     delete ui;
 }
 
-//updating profiles list with mock profiles for now
+//updates the current list of profiles
 void MainWindow::update_list( ) {
     QFile profiles( "profiles.json" );                                  //create the file object to read profiles from json encoding
     if( !profiles.open( QIODevice::ReadOnly ) ) return;                 //if the file fails to open we just get out of here
-
+    coffee_profiles.clear( );
+    list.clear( );
     QByteArray ba = profiles.readAll( );                                //read file information as a byte array
     QJsonDocument doc( QJsonDocument::fromJson( ba ) );                 //create json doc object from byte array
     QVector<QJsonObject> json_array;                                    //create json object array
@@ -463,7 +477,7 @@ void MainWindow::save( ) {
     QJsonDocument doc( json_profiles );                                                 //create json document obect from the json object
     profiles.write( doc.toJson( ) );                                                    //write json info to file as a string
     profiles.close( );                                                                  //close file
-    ui->status_label->setText( "Profile information saved to computer" );               //notify user
+    ui->status_label->setText( "Local profiles updated" );                   //notify user
 }
 
 //shows all the widgets on the right side of the window
@@ -732,4 +746,14 @@ void MainWindow::on_pro_list_doubleClicked( const QModelIndex &index ) {
     if( EDITING ) on_pro_list_clicked( index );
     current_index = index.row( );
     on_edit_button_clicked( );
+}
+
+//graphical creator slot: starts the graphical
+//profile creator dialog box
+void MainWindow::graphical_creator( void ) {
+    ui->status_label->setText( "Running Graphical Creator" );
+    g_creator = new GraphicalCreatorDialog( this );
+    g_creator->exec( );
+    update_list( );
+    ui->status_label->setText( "..." );
 }
