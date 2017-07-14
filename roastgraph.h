@@ -22,7 +22,6 @@ public:
     void set_data( int index, int val );
     void set_size( int size );
     void append( int val );
-    CoffeeRoastingProfile* to_profile( void );
 private:
     QString title;
     int size;

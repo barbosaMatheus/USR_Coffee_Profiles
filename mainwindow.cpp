@@ -44,7 +44,7 @@ void MainWindow::beautify( ) {
     font.setPointSize( 6 );
     font.setBold( true );
     ui->pro_table->verticalHeader( )->setFont( font );
-    ui->pro_list->setStyleSheet( "QListView { background: url(C:/USRoasterStudio/images/3k_image.jpg); }"
+    ui->pro_list->setStyleSheet( "QListView { border-image: url(C:/USRoasterStudio/images/3k_image.jpg); }"
                                  "QListView::item { background-color: white; border-bottom: 1px solid black;}"
                                  "QListView::item::selected {background-color: #1c3144;"
                                  "color: white;}" );
@@ -405,11 +405,12 @@ void MainWindow::on_edit_button_clicked( )
 //button click handler for the remove button:
 void MainWindow::on_remove_button_clicked( )
 {
+    if( coffee_profiles.size( ) < 1 ) return;
     SAVED = false;
     const QString str = "Removed " + coffee_profiles.at( current_index )->get_title( );
     coffee_profiles.remove( current_index );
     list.removeAt( current_index );
-    current_index = ui->pro_list->currentIndex( ).row( );
+    current_index = 0;
     data_model->setStringList( list );
     ui->status_label->setText( str );
 }

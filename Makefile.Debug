@@ -699,8 +699,6 @@ debug/moc_mainwindow.cpp: C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QMainWi
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtSerialPort/QSerialPort \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCore/QTimer \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QListView \
-		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCore/QDebug \
-		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QDial \
 		roastgraph.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCore/QJsonArray \
 		graphicalcreatordialog.h \
@@ -1377,8 +1375,6 @@ debug/moc_controlroomdialog.cpp: C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCore/QTimer \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QListView \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCore/QFile \
-		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCore/QDebug \
-		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QDial \
 		coffeeroastingprofile.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCore/QString \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCore/QVector \
@@ -1933,6 +1929,7 @@ debug/moc_graphicalcreatordialog.cpp: C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWid
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCharts/qvxymodelmapper.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCharts/qxylegendmarker.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCharts/qtchartsversion.h \
+		coffeeroastingprofile.h \
 		graphicalcreatordialog.h \
 		debug/moc_predefs.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/bin/moc.exe
@@ -2537,8 +2534,6 @@ debug/main.o: main.cpp mainwindow.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtSerialPort/QSerialPort \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCore/QTimer \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QListView \
-		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCore/QDebug \
-		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QDial \
 		roastgraph.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCore/QJsonArray \
 		graphicalcreatordialog.h \
@@ -3111,8 +3106,6 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtSerialPort/QSerialPort \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCore/QTimer \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QListView \
-		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCore/QDebug \
-		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QDial \
 		roastgraph.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCore/QJsonArray \
 		graphicalcreatordialog.h \
@@ -3890,8 +3883,6 @@ debug/controlroomdialog.o: controlroomdialog.cpp controlroomdialog.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCore/QTimer \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QListView \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCore/QFile \
-		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCore/QDebug \
-		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QDial \
 		coffeeroastingprofile.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCore/QString \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCore/QVector \
@@ -3903,6 +3894,7 @@ debug/controlroomdialog.o: controlroomdialog.cpp controlroomdialog.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QApplication \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QButtonGroup \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QComboBox \
+		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QDial \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QFrame \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QGridLayout \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QHeaderView \
@@ -4451,7 +4443,8 @@ debug/roastgraph.o: roastgraph.cpp roastgraph.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCharts/qvpiemodelmapper.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCharts/qvxymodelmapper.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCharts/qxylegendmarker.h \
-		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCharts/qtchartsversion.h
+		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCharts/qtchartsversion.h \
+		coffeeroastingprofile.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\roastgraph.o roastgraph.cpp
 
 debug/graphicalcreatordialog.o: graphicalcreatordialog.cpp graphicalcreatordialog.h \
@@ -4998,11 +4991,17 @@ debug/graphicalcreatordialog.o: graphicalcreatordialog.cpp graphicalcreatordialo
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCharts/qvxymodelmapper.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCharts/qxylegendmarker.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtCharts/qtchartsversion.h \
+		coffeeroastingprofile.h \
 		ui_graphicalcreatordialog.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QAction \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QApplication \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QButtonGroup \
-		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QHeaderView
+		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QComboBox \
+		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QHBoxLayout \
+		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QHeaderView \
+		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QLineEdit \
+		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QPushButton \
+		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QVBoxLayout
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\graphicalcreatordialog.o graphicalcreatordialog.cpp
 
 debug/moc_mainwindow.o: debug/moc_mainwindow.cpp 

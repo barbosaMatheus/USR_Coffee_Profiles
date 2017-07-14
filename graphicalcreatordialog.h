@@ -26,7 +26,6 @@ public:
 
 private slots:
     void on_saved_button_clicked();
-    void on_live_button_clicked();
     void on_new_button_clicked();
     void on_load_button_clicked();
     void on_save_button_clicked();
@@ -34,7 +33,6 @@ private slots:
 private:
     Ui::GraphicalCreatorDialog *ui;
     bool SAVED;     //true if making profile from saved graph
-    bool LIVE;      //true if making profile from live graph
     bool NEW;       //true if making profile from new graph
     QVector<RoastGraph*> saved_graphs;
     QSplineSeries *series;

@@ -4,6 +4,7 @@
 #include <QString>
 #include <QVector>
 #include <QJsonObject>
+#include <QDebug>
 
 class CoffeeRoastingProfile {
 public:

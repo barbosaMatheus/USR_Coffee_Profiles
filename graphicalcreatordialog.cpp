@@ -16,7 +16,6 @@ GraphicalCreatorDialog::~GraphicalCreatorDialog( ) {
 
 void GraphicalCreatorDialog::on_saved_button_clicked( ) {
     SAVED = true;
-    LIVE = false;
     NEW = false;
     ui->load_button->setText( "Load" );
     ui->clear_button->setText( "Clear" );
@@ -24,20 +23,9 @@ void GraphicalCreatorDialog::on_saved_button_clicked( ) {
     ui->saved_box->setEnabled( true );
 }
 
-void GraphicalCreatorDialog::on_live_button_clicked( ) {
-    LIVE = true;
-    SAVED = false;
-    NEW = false;
-    ui->load_button->setText( "Start" );
-    ui->clear_button->setText( "Stop" );
-    ui->save_button->setText( "Save" );
-    ui->saved_box->setEnabled( false );
-}
-
 void GraphicalCreatorDialog::on_new_button_clicked( ) {
     NEW = true;
     SAVED = false;
-    LIVE = false;
     ui->load_button->setText( "Start" );
     ui->clear_button->setText( "Clear" );
     ui->save_button->setText( "Save" );
@@ -49,8 +37,6 @@ void GraphicalCreatorDialog::beautify( void ) {
     this->setWindowFlags( this->windowFlags( ) & ~Qt::WindowContextHelpButtonHint );
     ui->saved_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
                                      "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
-    ui->live_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
-                                    "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
     ui->new_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
                                    "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
     ui->load_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
@@ -140,8 +126,12 @@ void GraphicalCreatorDialog::on_save_button_clicked( ) {
             msg.exec( );
             return;
         }
-        CoffeeRoastingProfile *p = saved_graphs[id]->to_profile( );
+        RoastGraph *graph = saved_graphs[id];
+        CoffeeRoastingProfile *p = new CoffeeRoastingProfile( );
         p->set_title( ui->name_edit->text( ) );
+        p->set_mins( graph->get_size( ) / 60 );
+        for( int i = 0; i < graph->get_size( ); i += 15 )
+            p->set_data( -1, {500,graph->get_data( i ),100,100,100} );
         profiles.append( p );
         write_memory( );
         QMessageBox msg;

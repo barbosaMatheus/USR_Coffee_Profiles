@@ -62,7 +62,7 @@
     <string>Profile Name</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -119,7 +119,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>11</x>
@@ -141,21 +141,6 @@
       </property>
       <property name="text">
        <string>From Saved Graph</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="live_button">
-      <property name="font">
-       <font>
-        <family>Bookman Old Style</family>
-        <pointsize>12</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>From Live Graph</string>
       </property>
      </widget>
     </item>

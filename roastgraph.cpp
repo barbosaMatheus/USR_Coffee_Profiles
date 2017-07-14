@@ -46,10 +46,3 @@ void RoastGraph::toJSON( QJsonObject &json ) {
 void RoastGraph::append( int val ) { this->data.push_back( val ); }
 
 void RoastGraph::set_size( int size ) { this->size = size; }
-
-CoffeeRoastingProfile* RoastGraph::to_profile( void ) {
-    CoffeeRoastingProfile *p = new CoffeeRoastingProfile( title, data.size( )/15 );
-    for( int i = 0; i < data.size( ); i += 15 )
-        p->set_data( -1, {500,data[i],100,100,100} );  //-1 does an append
-    return p;
-}

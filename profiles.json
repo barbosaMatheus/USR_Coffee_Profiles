@@ -2,1024 +2,176 @@
     "0": {
         "data_0": {
             "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_1": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_10": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_11": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_12": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_13": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_14": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_15": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_16": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_17": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_18": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_19": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_2": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_20": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_21": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_22": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_23": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_24": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_25": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_26": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_27": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_28": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_29": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_3": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_30": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 50
-        },
-        "data_31": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_32": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_33": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_34": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_35": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_36": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_37": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_38": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_39": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_4": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_40": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_41": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_42": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_43": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_44": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_45": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_46": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_47": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_48": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_49": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_5": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_50": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_51": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_52": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_53": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_54": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_55": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_56": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_57": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_58": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_59": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_6": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_7": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_8": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "data_9": {
-            "cat_heat": 100,
-            "cat_sp": 100,
-            "drum_heat": 100,
-            "drum_sp": 100,
-            "fan_speed": 100
-        },
-        "mins": 15,
-        "title": "Test"
-    },
-    "1": {
-        "data_0": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 450,
-            "fan_speed": 80
-        },
-        "data_1": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 360,
-            "fan_speed": 80
-        },
-        "data_10": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 375,
-            "fan_speed": 80
-        },
-        "data_11": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 375,
-            "fan_speed": 80
-        },
-        "data_12": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 375,
-            "fan_speed": 80
-        },
-        "data_13": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 375,
-            "fan_speed": 80
-        },
-        "data_14": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 375,
-            "fan_speed": 80
-        },
-        "data_15": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 385,
-            "fan_speed": 60
-        },
-        "data_16": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 385,
-            "fan_speed": 60
-        },
-        "data_17": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 385,
-            "fan_speed": 60
-        },
-        "data_18": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 385,
-            "fan_speed": 60
-        },
-        "data_19": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 385,
-            "fan_speed": 60
-        },
-        "data_2": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 360,
-            "fan_speed": 80
-        },
-        "data_20": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 385,
-            "fan_speed": 60
-        },
-        "data_21": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 385,
-            "fan_speed": 60
-        },
-        "data_22": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 385,
-            "fan_speed": 60
-        },
-        "data_23": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 385,
-            "fan_speed": 60
-        },
-        "data_24": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 385,
-            "fan_speed": 60
-        },
-        "data_25": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 395,
-            "fan_speed": 60
-        },
-        "data_26": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 395,
-            "fan_speed": 60
-        },
-        "data_27": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 395,
-            "fan_speed": 60
-        },
-        "data_28": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 395,
-            "fan_speed": 60
-        },
-        "data_29": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 395,
-            "fan_speed": 60
-        },
-        "data_3": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 360,
-            "fan_speed": 80
-        },
-        "data_30": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 395,
-            "fan_speed": 60
-        },
-        "data_31": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 395,
-            "fan_speed": 60
-        },
-        "data_32": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 395,
-            "fan_speed": 60
-        },
-        "data_33": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 395,
-            "fan_speed": 60
-        },
-        "data_34": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 395,
-            "fan_speed": 60
-        },
-        "data_35": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 395,
-            "fan_speed": 60
-        },
-        "data_36": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 395,
-            "fan_speed": 60
-        },
-        "data_37": {
-            "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 400,
-            "fan_speed": 60
-        },
-        "data_38": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 400,
-            "fan_speed": 60
-        },
-        "data_39": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 400,
-            "fan_speed": 60
-        },
-        "data_4": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 360,
-            "fan_speed": 80
-        },
-        "data_40": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 400,
-            "fan_speed": 60
-        },
-        "data_41": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 400,
-            "fan_speed": 60
-        },
-        "data_42": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 400,
-            "fan_speed": 60
-        },
-        "data_43": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 400,
-            "fan_speed": 60
-        },
-        "data_44": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 400,
-            "fan_speed": 60
-        },
-        "data_45": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 400,
-            "fan_speed": 60
-        },
-        "data_46": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 400,
-            "fan_speed": 60
-        },
-        "data_47": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 400,
-            "fan_speed": 60
-        },
-        "data_48": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 400,
-            "fan_speed": 60
-        },
-        "data_49": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 412,
             "fan_speed": 75
-        },
-        "data_5": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 360,
-            "fan_speed": 80
-        },
-        "data_50": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 412,
-            "fan_speed": 75
-        },
-        "data_51": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 412,
-            "fan_speed": 75
-        },
-        "data_52": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 412,
-            "fan_speed": 75
-        },
-        "data_53": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 412,
-            "fan_speed": 75
-        },
-        "data_54": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 412,
-            "fan_speed": 75
-        },
-        "data_55": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 412,
-            "fan_speed": 75
-        },
-        "data_56": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 412,
-            "fan_speed": 75
-        },
-        "data_57": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 412,
-            "fan_speed": 75
-        },
-        "data_58": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 412,
-            "fan_speed": 75
-        },
-        "data_59": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 412,
-            "fan_speed": 75
-        },
-        "data_6": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 375,
-            "fan_speed": 80
-        },
-        "data_7": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 375,
-            "fan_speed": 80
-        },
-        "data_8": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 375,
-            "fan_speed": 80
-        },
-        "data_9": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 375,
-            "fan_speed": 80
-        },
-        "mins": 15,
-        "title": "Slow Roast"
-    },
-    "2": {
-        "data_0": {
-            "cat_heat": 100,
-            "cat_sp": 500,
-            "drum_heat": 100,
-            "drum_sp": 400,
-            "fan_speed": 0
         },
         "data_1": {
             "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 250,
-            "fan_speed": 0
+            "fan_speed": 75
         },
         "data_10": {
             "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 280,
-            "fan_speed": 50
+            "fan_speed": 75
         },
         "data_11": {
             "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 280,
-            "fan_speed": 50
+            "fan_speed": 75
         },
         "data_12": {
             "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 280,
-            "fan_speed": 50
+            "fan_speed": 75
         },
         "data_13": {
             "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 300,
-            "fan_speed": 50
+            "fan_speed": 75
         },
         "data_14": {
             "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 300,
-            "fan_speed": 50
+            "fan_speed": 75
         },
         "data_15": {
             "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 300,
-            "fan_speed": 50
+            "fan_speed": 75
         },
         "data_16": {
             "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 300,
-            "fan_speed": 50
+            "fan_speed": 75
         },
         "data_17": {
             "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 320,
-            "fan_speed": 50
+            "fan_speed": 75
         },
         "data_18": {
             "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 320,
-            "fan_speed": 50
+            "fan_speed": 75
         },
         "data_19": {
             "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 320,
-            "fan_speed": 50
+            "fan_speed": 75
         },
         "data_2": {
             "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 250,
-            "fan_speed": 0
+            "fan_speed": 75
         },
         "data_20": {
             "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 320,
-            "fan_speed": 50
+            "fan_speed": 75
         },
         "data_21": {
             "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 340,
-            "fan_speed": 70
+            "fan_speed": 80
         },
         "data_22": {
             "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 340,
-            "fan_speed": 70
+            "fan_speed": 80
         },
         "data_23": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 10,
+            "drum_heat": 65,
             "drum_sp": 340,
-            "fan_speed": 70
+            "fan_speed": 80
         },
         "data_24": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 10,
+            "drum_heat": 65,
             "drum_sp": 340,
-            "fan_speed": 70
+            "fan_speed": 80
         },
         "data_25": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 10,
+            "drum_heat": 65,
             "drum_sp": 360,
-            "fan_speed": 70
+            "fan_speed": 80
         },
         "data_26": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 10,
+            "drum_heat": 65,
             "drum_sp": 360,
-            "fan_speed": 70
+            "fan_speed": 80
         },
         "data_27": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 10,
+            "drum_heat": 65,
             "drum_sp": 360,
-            "fan_speed": 70
+            "fan_speed": 80
         },
         "data_28": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 10,
+            "drum_heat": 65,
             "drum_sp": 360,
-            "fan_speed": 70
+            "fan_speed": 80
         },
         "data_29": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 10,
+            "drum_heat": 65,
             "drum_sp": 380,
-            "fan_speed": 70
+            "fan_speed": 80
         },
         "data_3": {
             "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 250,
-            "fan_speed": 0
+            "fan_speed": 75
         },
         "data_30": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 10,
+            "drum_heat": 65,
             "drum_sp": 380,
             "fan_speed": 80
         },
@@ -1061,28 +213,28 @@
         "data_36": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 40,
+            "drum_heat": 50,
             "drum_sp": 380,
             "fan_speed": 80
         },
         "data_37": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 40,
+            "drum_heat": 50,
             "drum_sp": 380,
             "fan_speed": 80
         },
         "data_38": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 40,
+            "drum_heat": 50,
             "drum_sp": 380,
             "fan_speed": 80
         },
         "data_39": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 40,
+            "drum_heat": 50,
             "drum_sp": 380,
             "fan_speed": 80
         },
@@ -1091,61 +243,61 @@
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 250,
-            "fan_speed": 0
+            "fan_speed": 75
         },
         "data_40": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 30,
+            "drum_heat": 50,
             "drum_sp": 380,
             "fan_speed": 80
         },
         "data_41": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 30,
+            "drum_heat": 50,
             "drum_sp": 390,
-            "fan_speed": 70
+            "fan_speed": 80
         },
         "data_42": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 30,
+            "drum_heat": 50,
             "drum_sp": 390,
             "fan_speed": 100
         },
         "data_43": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 30,
+            "drum_heat": 50,
             "drum_sp": 390,
             "fan_speed": 100
         },
         "data_44": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 30,
+            "drum_heat": 50,
             "drum_sp": 390,
             "fan_speed": 100
         },
         "data_45": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 30,
+            "drum_heat": 50,
             "drum_sp": 400,
             "fan_speed": 100
         },
         "data_46": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 30,
+            "drum_heat": 50,
             "drum_sp": 400,
             "fan_speed": 100
         },
         "data_47": {
             "cat_heat": 100,
             "cat_sp": 500,
-            "drum_heat": 30,
+            "drum_heat": 50,
             "drum_sp": 400,
             "fan_speed": 100
         },
@@ -1168,7 +320,7 @@
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 260,
-            "fan_speed": 0
+            "fan_speed": 75
         },
         "data_50": {
             "cat_heat": 100,
@@ -1245,31 +397,455 @@
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 260,
-            "fan_speed": 0
+            "fan_speed": 75
         },
         "data_7": {
             "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 260,
-            "fan_speed": 0
+            "fan_speed": 75
         },
         "data_8": {
             "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 260,
-            "fan_speed": 0
+            "fan_speed": 75
         },
         "data_9": {
             "cat_heat": 100,
             "cat_sp": 500,
             "drum_heat": 100,
             "drum_sp": 280,
-            "fan_speed": 0
+            "fan_speed": 75
         },
         "mins": 15,
         "title": "Guatemalan Light"
     },
-    "count": 3
+    "1": {
+        "data_0": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_1": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_10": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_11": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_12": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_13": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_14": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_15": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_16": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_17": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_18": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_19": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_2": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_20": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_21": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_22": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_23": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_24": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_25": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_26": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_27": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_28": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_29": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_3": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_30": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_31": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_32": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_33": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_34": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_35": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_36": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_37": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_38": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_39": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_4": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_40": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_41": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_42": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_43": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_44": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_45": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_46": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_47": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_48": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_49": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_5": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_50": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_51": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_52": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_53": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_54": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_55": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_56": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_57": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_58": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_59": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_6": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_7": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_8": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "data_9": {
+            "cat_heat": 0,
+            "cat_sp": 0,
+            "drum_heat": 0,
+            "drum_sp": 0,
+            "fan_speed": 0
+        },
+        "mins": 15,
+        "title": "Test"
+    },
+    "count": 2
 }

@@ -123,6 +123,6 @@ CoffeeRoastingProfile::ProfileDataPoint CoffeeRoastingProfile::get_data( int tim
 
 
 void CoffeeRoastingProfile::set_data( int time, ProfileDataPoint p ) {
-    if( time == -1 ) data.append( p );
-    else data[time] = p;
+    if( time == -1 ) this->data.push_back( p );
+    else this->data[time] = p;
 }
