@@ -17,19 +17,17 @@ GraphicalCreatorDialog::~GraphicalCreatorDialog( ) {
 void GraphicalCreatorDialog::on_saved_button_clicked( ) {
     SAVED = true;
     NEW = false;
-    ui->load_button->setText( "Load" );
-    ui->clear_button->setText( "Clear" );
-    ui->save_button->setText( "Save" );
     ui->saved_box->setEnabled( true );
+    ui->load_button->setText( "Load" );
 }
 
 void GraphicalCreatorDialog::on_new_button_clicked( ) {
     NEW = true;
     SAVED = false;
-    ui->load_button->setText( "Start" );
-    ui->clear_button->setText( "Clear" );
-    ui->save_button->setText( "Save" );
     ui->saved_box->setEnabled( false );
+    make_graph( false );
+    series->setName( "Custom" );
+    ui->load_button->setText( "Undo" );
 }
 
 void GraphicalCreatorDialog::beautify( void ) {
@@ -57,42 +55,39 @@ void GraphicalCreatorDialog::beautify( void ) {
     ui->saved_box->setPalette( p );
 }
 
-void GraphicalCreatorDialog::make_graph( void ) {
-    const int index = ui->saved_box->currentIndex( );
+void GraphicalCreatorDialog::make_graph( bool for_saved ) {
     series = new QSplineSeries( );
-    const int pts = saved_graphs[index]->get_size( );
-    for( int i = 0; i < pts; ++i ) {
-        const int temp = saved_graphs[index]->get_data( i );
-        series->append( i, temp );
+    if( for_saved ) {
+        const int index = ui->saved_box->currentIndex( );
+        const int pts = saved_graphs[index]->get_size( );
+        for( int i = 0; i < pts; ++i ) {
+            const int temp = saved_graphs[index]->get_data( i );
+            series->append( i, temp );
+        }
+        series->setName( saved_graphs[index]->get_title( ) );
+        const QString title = "Profile Graph: " + saved_graphs[index]->get_title( );
+        QFont font = chart->titleFont( );
+        font.setBold( true );
+        font.setPointSize( 13 );
+        chart->setTitleFont( font );
+        chart->setTitle( title );
     }
     chart = new QChart( );
     chart->addSeries( series );
-    series->setName( saved_graphs[index]->get_title( ) );
     auto s_pen = series->pen( );
     s_pen.setWidth( 3 );
     series->setPen( s_pen );
-    chart->createDefaultAxes( );
-    const QString title = "Profile Graph: " + saved_graphs[index]->get_title( );
-    QFont font = chart->titleFont( );
-    font.setBold( true );
-    font.setPointSize( 13 );
-    chart->setTitleFont( font );
-    chart->setTitle( title );
-    chart->axisX( )->setTitleText( "Seconds" );
-    chart->axisX( )->setRange( 0, 1200 );
-    chart->axisY( )->setRange( 200, 500 );
-    chart->axisY( )->setTitleText( "Temperature (F)" );
     chart_view = new QChartView( chart, ui->graph_widget );
-    chart_view->setContentsMargins( 0, 0, 0, 0 );
-    chart_view->resize( 1011, 401 );
-    chart_view->setRenderHint( QPainter::Antialiasing );
-    chart_view->show( );
+    rescale( );
 }
 
 void GraphicalCreatorDialog::on_load_button_clicked( ) {
     if( SAVED ) {
-        make_graph( );
+        make_graph( true );
         id = ui->saved_box->currentIndex( );
+    }
+    else if( NEW ) {
+        //if( series->)
     }
 }
 
@@ -162,17 +157,48 @@ void GraphicalCreatorDialog::read_memory( void ) {
 }
 
 void GraphicalCreatorDialog::write_memory( void ) {
-    QFile::remove( "profiles.json" );                                                   //remove the file so we can clean
+    QFile::remove( "profiles.json" );                                            //remove the file so we can clean
     QFile p( "profiles.json" );                                                  //create the file object
     p.open( QIODevice::WriteOnly );                                              //open the file again (recreating it)
-    QJsonObject json_profiles;                                                          //create json object to hold all the profiles
+    QJsonObject json_profiles;                                                   //create json object to hold all the profiles
     json_profiles["count"] = profiles.size( );                                   //add the count value to the top json object
     for( int i = 0; i < profiles.size( ); ++i ) {                                //loop through current profiles in RAM
-        QJsonObject json;                                                               //make json object
+        QJsonObject json;                                                        //make json object
         profiles[i]->write( json );                                              //write profile to json
-        json_profiles[QString::number( i )] = json;                                     //insert a profile json object into the top json object
+        json_profiles[QString::number( i )] = json;                              //insert a profile json object into the top json object
     }
     QJsonDocument doc( json_profiles );                                          //create json document obect from the json object
     p.write( doc.toJson( ) );                                                    //write json info to file as a string
     p.close( );                                                                  //close file
+}
+
+void GraphicalCreatorDialog::on_clear_button_clicked( ) {
+    series->clear( );
+    rescale( );
+}
+
+void GraphicalCreatorDialog::rescale( ) {
+    chart->createDefaultAxes( );
+    chart->axisX( )->setTitleText( "Seconds" );
+    chart->axisX( )->setLineVisible( );
+    chart->axisX( )->setRange( 0, 1200 );
+    chart->axisY( )->setLineVisible( );
+    chart->axisY( )->setRange( 200, 500 );
+    chart->axisY( )->setTitleText( "Temperature (F)" );
+    chart_view->setContentsMargins( 0, 0, 0, 0 );
+    chart_view->resize( 1011, 401 );
+    chart_view->setRenderHint( QPainter::Antialiasing );
+    chart_view->show( );
+}
+
+void GraphicalCreatorDialog::mousePressEvent( QMouseEvent *e ) {
+    auto pos = e->pos( );
+    if( !NEW || pos.x( ) > 974 || pos.x( ) < 91 || pos.y( ) > 393 || pos.y( ) < 134 )
+        e->accept( );
+    else {
+        const double x = ( ( double )( pos.x( ) ) - 91.0 ) * 1.359;
+        const double y = 200.0 + ( 393.0 - ( double )( pos.y( ) ) )*1.158;
+        series->append( ( int )x, ( int )y );
+        rescale( );
+    }
 }
