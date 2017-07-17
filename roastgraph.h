@@ -20,8 +20,9 @@ public:
     int get_data( int index );
     void set_title( QString title );
     void set_data( int index, int val );
-    void set_size( int size );
+    void set_size( unsigned int size = 0 );
     void append( int val );
+
 private:
     QString title;
     int size;

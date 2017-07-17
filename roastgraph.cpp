@@ -45,4 +45,7 @@ void RoastGraph::toJSON( QJsonObject &json ) {
 
 void RoastGraph::append( int val ) { this->data.push_back( val ); }
 
-void RoastGraph::set_size( int size ) { this->size = size; }
+void RoastGraph::set_size( unsigned int size ) {
+    if( size == 0 ) this->size = data.size( );
+    else this->size = size;
+}

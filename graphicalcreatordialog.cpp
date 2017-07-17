@@ -87,7 +87,10 @@ void GraphicalCreatorDialog::on_load_button_clicked( ) {
         id = ui->saved_box->currentIndex( );
     }
     else if( NEW ) {
-        //if( series->)
+        if( pts.size( ) < 1 ) return;
+        const QPoint pt = pts.pop( );
+        series->remove( pt.x( ), pt.y( ) );
+        rescale( );
     }
 }
 
@@ -128,12 +131,36 @@ void GraphicalCreatorDialog::on_save_button_clicked( ) {
         for( int i = 0; i < graph->get_size( ); i += 15 )
             p->set_data( -1, {500,graph->get_data( i ),100,100,100} );
         profiles.append( p );
-        write_memory( );
-        QMessageBox msg;
-        msg.setWindowTitle( "Saved" );
-        msg.setText( "Your profile has been created and added, the main window's list will update once you close out of this window." );
-        msg.exec( );
     }
+    else if( NEW ) {
+        if( ui->name_edit->text( ).trimmed( ).isEmpty( ) ) {
+            QMessageBox msg;
+            msg.setWindowTitle( "Action not permitted" );
+            msg.setText( "Please choose a name for your new profile" );
+            msg.exec( );
+            return;
+        }
+        RoastGraph graph;
+        graph.set_title( ui->name_edit->text( ) );
+        for( int i = 0, j = 0; i < 900; i++ ) {
+            if( pts.at( j ).x( ) == i ) {
+                graph.append( pts.at( j ).y( ) );
+                j++;
+            }
+            else graph.append( pts.at( j ).y( ) );
+        }
+        graph.set_size( );
+        CoffeeRoastingProfile *p = new CoffeeRoastingProfile( graph.get_title( ), graph.get_size( )/60 );
+        for( int i = 0; i < graph.get_size( ); i += 15 )
+            p->set_data( -1, {500,graph.get_data( i ),100,100,100} );
+        profiles.append( p );
+    }
+    else return;
+    write_memory( );
+    QMessageBox msg;
+    msg.setWindowTitle( "Saved" );
+    msg.setText( "Your profile has been created and added, the main window's list will update once you close out of this window." );
+    msg.exec( );
 }
 
 void GraphicalCreatorDialog::read_memory( void ) {
@@ -174,6 +201,7 @@ void GraphicalCreatorDialog::write_memory( void ) {
 
 void GraphicalCreatorDialog::on_clear_button_clicked( ) {
     series->clear( );
+    pts.clear( );
     rescale( );
 }
 
@@ -199,6 +227,7 @@ void GraphicalCreatorDialog::mousePressEvent( QMouseEvent *e ) {
         const double x = ( ( double )( pos.x( ) ) - 91.0 ) * 1.359;
         const double y = 200.0 + ( 393.0 - ( double )( pos.y( ) ) )*1.158;
         series->append( ( int )x, ( int )y );
+        pts.push( QPoint( ( int )x, ( int )y ) );
         rescale( );
     }
 }

@@ -42,6 +42,7 @@ private:
     QChart *chart;
     QChartView *chart_view;
     QVector<CoffeeRoastingProfile*> profiles;
+    QStack<QPoint> pts;
     int id;         //index of currently selected graph
 };
 
