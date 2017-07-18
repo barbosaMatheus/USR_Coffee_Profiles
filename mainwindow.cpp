@@ -405,6 +405,13 @@ void MainWindow::on_edit_button_clicked( )
 //button click handler for the remove button:
 void MainWindow::on_remove_button_clicked( )
 {
+    if( ui->save_button->isVisible( ) ) {
+        QMessageBox msg;
+        msg.setWindowTitle( "Action not Permitted" );
+        msg.setText( "Cannot remove while in edit mode, as it can cause loss of data. Click \'Cancel\' to discard changes, or \'Save\' to keep the changes." );
+        msg.exec( );
+        return;
+    }
     if( coffee_profiles.size( ) < 1 ) return;
     SAVED = false;
     const QString str = "Removed " + coffee_profiles.at( current_index )->get_title( );
@@ -464,8 +471,8 @@ void MainWindow::contact( ) {
 void MainWindow::save( ) {
     SAVED = true;
     QFile::remove( "profiles.json" );                                                   //remove the file so we can clean
-    if( ( ui->save_button->isVisible( ) ) && ( coffee_profiles.size( ) > 0 ) ) ui->save_button->click( ); //do a local save if in edit/create mode
-    else if( ui->save_button->isVisible( ) ) ui->cancel_button->click( );
+    /*if( ( ui->save_button->isVisible( ) ) && ( coffee_profiles.size( ) > 0 ) ) ui->save_button->click( ); //do a local save if in edit/create mode
+    else if( ui->save_button->isVisible( ) ) ui->cancel_button->click( );*/
     QFile profiles( "profiles.json" );                                                  //create the file object
     profiles.open( QIODevice::WriteOnly );                                              //open the file again (recreating it)
     QJsonObject json_profiles;                                                          //create json object to hold all the profiles

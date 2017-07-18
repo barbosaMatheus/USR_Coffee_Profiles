@@ -22,6 +22,7 @@ public:
     void set_data( int index, int val );
     void set_size( unsigned int size = 0 );
     void append( int val );
+    void append( int val, int n );
 
 private:
     QString title;

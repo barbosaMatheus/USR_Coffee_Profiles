@@ -5,7 +5,7 @@ CoffeeRoastingProfile::CoffeeRoastingProfile( QString title , int mins ) {
     this->minutes = mins;
     const int rows = mins*4;
     //fill up data with zeros at the start
-    for( int i = 0; i < rows; ++i ) data.push_back( {0,0,0,0,0} );
+    //for( int i = 0; i < rows; ++i ) data.push_back( {0,0,0,0,0} );
 }
 
 CoffeeRoastingProfile::CoffeeRoastingProfile( ) { }

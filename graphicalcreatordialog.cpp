@@ -28,6 +28,7 @@ void GraphicalCreatorDialog::on_new_button_clicked( ) {
     make_graph( false );
     series->setName( "Custom" );
     ui->load_button->setText( "Undo" );
+    drawn_graph_index = 0;
 }
 
 void GraphicalCreatorDialog::beautify( void ) {
@@ -140,19 +141,9 @@ void GraphicalCreatorDialog::on_save_button_clicked( ) {
             msg.exec( );
             return;
         }
-        RoastGraph graph;
-        graph.set_title( ui->name_edit->text( ) );
-        for( int i = 0, j = 0; i < 900; i++ ) {
-            if( pts.at( j ).x( ) == i ) {
-                graph.append( pts.at( j ).y( ) );
-                j++;
-            }
-            else graph.append( pts.at( j ).y( ) );
-        }
-        graph.set_size( );
-        CoffeeRoastingProfile *p = new CoffeeRoastingProfile( graph.get_title( ), graph.get_size( )/60 );
-        for( int i = 0; i < graph.get_size( ); i += 15 )
-            p->set_data( -1, {500,graph.get_data( i ),100,100,100} );
+        CoffeeRoastingProfile *p = new CoffeeRoastingProfile( ui->name_edit->text( ), drawn_graph.get_size( )/60 );
+        for( int i = 0; i < drawn_graph.get_size( ); i += 15 )
+            p->set_data( -1, {500,drawn_graph.get_data( i ),100,100,100} );
         profiles.append( p );
     }
     else return;
@@ -224,10 +215,16 @@ void GraphicalCreatorDialog::mousePressEvent( QMouseEvent *e ) {
     if( !NEW || pos.x( ) > 974 || pos.x( ) < 91 || pos.y( ) > 393 || pos.y( ) < 134 )
         e->accept( );
     else {
-        const double x = ( ( double )( pos.x( ) ) - 91.0 ) * 1.359;
-        const double y = 200.0 + ( 393.0 - ( double )( pos.y( ) ) )*1.158;
-        series->append( ( int )x, ( int )y );
-        pts.push( QPoint( ( int )x, ( int )y ) );
+        const int x = ( int )( ( ( double )( pos.x( ) ) - 91.0 ) * 1.359 );
+        const int y = ( int )( 200.0 + ( 393.0 - ( double )( pos.y( ) ) )*1.158 );
+        series->append( x, y );
+        if( drawn_graph.get_size( ) < 900 ) {
+            drawn_graph.append( y, x - drawn_graph_index );
+            //const QString str = "Y: " + QString::number( y ) + " N: " + QString::number( x - drawn_graph_index );
+            //qDebug( ) << str;
+            drawn_graph_index = x;
+        }
+        pts.push( QPoint( x, y ) );
         rescale( );
     }
 }
