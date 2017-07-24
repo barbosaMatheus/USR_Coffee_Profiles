@@ -25,6 +25,7 @@ public:
     void write_memory( void );
     void rescale( void );
     void mousePressEvent( QMouseEvent *e );
+    void check_slope( int x , int y );
 
 private slots:
     void on_saved_button_clicked();
@@ -43,6 +44,7 @@ private:
     QChartView *chart_view;
     QVector<CoffeeRoastingProfile*> profiles;
     QStack<QPoint> pts;
+    QPoint last_point;
     RoastGraph drawn_graph;
     int drawn_graph_index;
     int id;         //index of currently selected graph

@@ -8,6 +8,7 @@ GraphicalCreatorDialog::GraphicalCreatorDialog( QWidget *parent ) :
     beautify( );
     load_graphs( );
     read_memory( );
+    last_point = QPoint( 0, 500 );
 }
 
 GraphicalCreatorDialog::~GraphicalCreatorDialog( ) {
@@ -218,13 +219,25 @@ void GraphicalCreatorDialog::mousePressEvent( QMouseEvent *e ) {
         const int x = ( int )( ( ( double )( pos.x( ) ) - 91.0 ) * 1.359 );
         const int y = ( int )( 200.0 + ( 393.0 - ( double )( pos.y( ) ) )*1.158 );
         series->append( x, y );
-        if( drawn_graph.get_size( ) < 900 ) {
+        if( drawn_graph.get_size( ) < 900 && x < 900 ) {
+            check_slope( x, y );
             drawn_graph.append( y, x - drawn_graph_index );
-            //const QString str = "Y: " + QString::number( y ) + " N: " + QString::number( x - drawn_graph_index );
-            //qDebug( ) << str;
             drawn_graph_index = x;
         }
         pts.push( QPoint( x, y ) );
         rescale( );
+    }
+}
+
+void GraphicalCreatorDialog::check_slope( int x, int y ) {
+    if( x - last_point.x( ) == 0 ) return;
+    const double slope = ( ( double )( y - last_point.y( ) ) ) / ( ( double )( x - last_point.x( ) ) );
+    last_point = QPoint( x, y );
+    if( slope > 0.7 ) {
+        QMessageBox msg;
+        msg.setWindowTitle( "Temperature Rise May Be Too High" );
+        msg.setText( "The last two points you have drawn have too much of a rise for the time frame between them. The roaster may"
+                     " not be able to handle it. You may keep this, but we suggest clicking \"Undo\" and trying different points." );
+        msg.exec( );
     }
 }
