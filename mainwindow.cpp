@@ -86,12 +86,13 @@ void MainWindow::beautify( ) {
     //making the roaster drop down look good
     QListView * list1 = new QListView( ui->roaster_box );
     ui->roaster_box->addItem( "Choose a COM Port" );
-    for( int i = 1; i < 8; ++i ) ui->roaster_box->addItem( ( "COM" + QString::number( i ) ) );
+    for( int i = 1; i < 20; ++i ) ui->roaster_box->addItem( ( "COM" + QString::number( i ) ) );
     list1->setStyleSheet( "QListView {background-color: #c9cacc;}"
                           "QListView::item {"
                           "border-bottom: 1px solid black}"
                           "QListView::item::selected {background-color: #1c3144;"
                           "color: white;}" );
+    
     ui->roaster_box->setView( list1 );
     QPalette p1 = ui->roaster_box->palette( );
     p1.setColor( QPalette::Highlight, color );
@@ -311,16 +312,16 @@ void MainWindow::on_set_button_clicked( )
 //checks if a string is empty or whitespace
 bool MainWindow::is_invalid( QString str ) {
     if( str.trimmed( ).isEmpty( ) ) return true;
+    if( str.length( ) >= 50 ) return false;
     return false;
 }
 
 //button click handler for the save button:
 //checks to see if we have a valid profile name
 //and if so adds the new name to the list
-void MainWindow::on_save_button_clicked( )
-{
+void MainWindow::on_save_button_clicked( ) {
     if( EDITING ) {
-        update_profile_object( current_index );
+        update_profile_object( current_index, EDITING );
         QString str = ui->name_edit->text( );
         if( !is_invalid( str ) ) {                                      //if the user changes the profile name
             coffee_profiles[current_index]->set_title( str );
@@ -348,7 +349,7 @@ void MainWindow::on_save_button_clicked( )
     const int min = ui->time_box->currentIndex( ) == 0 ? 15 : 20;
     CoffeeRoastingProfile* p = new CoffeeRoastingProfile( str, min );
     coffee_profiles.push_back( p );
-    update_profile_object( coffee_profiles.size( )-1 );
+    update_profile_object( coffee_profiles.size( )-1, false );
     const QString label = str + ", " + QString::number( p->get_mins( ) ) + " minutes, " +
             QString::number( p->get( CoffeeRoastingProfile::Index::DRUM_SET_PT, ( ( p->get_mins( ) )*4 ) - 1 ) ) +
             " F";
@@ -485,7 +486,7 @@ void MainWindow::save( ) {
     QJsonDocument doc( json_profiles );                                                 //create json document obect from the json object
     profiles.write( doc.toJson( ) );                                                    //write json info to file as a string
     profiles.close( );                                                                  //close file
-    ui->status_label->setText( "Local profiles updated" );                   //notify user
+    ui->status_label->setText( "Local profiles updated" );                              //notify user
 }
 
 //shows all the widgets on the right side of the window
@@ -521,17 +522,25 @@ void MainWindow::fill_table( ) {
 
 //updates the data for the chosen profile
 //using the data in the table
-void MainWindow::update_profile_object( int index ) {
+void MainWindow::update_profile_object( int index, bool from_edit ) {
     CoffeeRoastingProfile *profile = coffee_profiles.at( index );
-    const int mins = profile->get_mins( );
+    const int mins = 20;//profile->get_mins( );
     const int rows = 4*mins;
-
     for( int i = 0; i < rows; ++i ) {    //loop through the rows in the table and update
-        profile->set( CoffeeRoastingProfile::DRUM_SET_PT, i, table_model->data( table_model->index( i, 0 ) ).toInt( ) );
-        profile->set( CoffeeRoastingProfile::DRUM_HEAT, i, table_model->data( table_model->index( i, 1 ) ).toInt( ) );
-        profile->set( CoffeeRoastingProfile::CAT_SET_PT, i, table_model->data( table_model->index( i, 2 ) ).toInt( ) );
-        profile->set( CoffeeRoastingProfile::CAT_HEAT, i, table_model->data( table_model->index( i, 3 ) ).toInt( ) );
-        profile->set( CoffeeRoastingProfile::FAN_SPEED, i, table_model->data( table_model->index( i, 4 ) ).toInt( ) );
+        if( table_model->data( table_model->index( i, 0 ) ).isNull( ) ) {
+            profile->set_mins( i / 4 );
+            break;
+        }
+        //qDebug( ) << "ITERATION " << QString::number( i ) << " OF " << profile->get_title( );
+        profile->set_data( from_edit ? i : -1, {table_model->data( table_model->index( i, 2 ) ).toInt( ),       //cat set pt
+                                table_model->data( table_model->index( i, 0 ) ).toInt( ),       //drum set pt
+                                table_model->data( table_model->index( i, 3 ) ).toInt( ),
+                                table_model->data( table_model->index( i, 1 ) ).toInt( ),
+                                table_model->data( table_model->index( i, 4 ) ).toInt( )} );
+        /*if( table_model->data( table_model->index( i, 0 ) ).toInt( ) <= 150 ) {
+            profile->set_mins( i / 4 );
+            break;
+        }*/
     }
 }
 
@@ -542,7 +551,7 @@ void MainWindow::on_pro_list_clicked( const QModelIndex &index ) {
     if( EDITING ) {
         const int old_index = current_index;
         current_index = index.row( );
-        update_profile_object( old_index );
+        update_profile_object( old_index, EDITING );
         QString str = ui->name_edit->text( );
         if( !str.isEmpty( ) ) {                                         //if the user changes the profile name
             coffee_profiles[old_index]->set_title( str );
@@ -634,13 +643,13 @@ void MainWindow::parse_json_str( QString json_str ) {
     else ui->status_label->setText( "Invalid JSON" );
 }
 
-//downloads a selected profile to a roaster
-//over serial connection
+//downloads a selected profile to
+//a roaster over serial connection
 void MainWindow::send_to_roaster( CoffeeRoastingProfile pro ) {
     QSerialPort *serial = new QSerialPort( this );                                      //create the serial port object
-    serial->setBaudRate( QSerialPort::Baud9600 );                                       //set the  baudrate
-    serial->setPortName( ui->roaster_box->currentText( ) );                                                      //set the serial port
-    if( !serial->open( QIODevice::ReadWrite ) ) {                                       //open the serial port for write only
+    serial->setBaudRate( QSerialPort::Baud9600 );                                     //set the  baudrate
+    serial->setPortName( ui->roaster_box->currentText( ) );                             //set the serial port
+    if( !serial->open( QIODevice::WriteOnly ) ) {                                       //open the serial port for write only
         qDebug( ) << serial->errorString(  );
         QMessageBox msg;
         msg.setWindowTitle( "Cannot Communicate with Roaster" );
@@ -651,74 +660,48 @@ void MainWindow::send_to_roaster( CoffeeRoastingProfile pro ) {
         msg.exec( );
         return;
     }
+
     const int num_pts = pro.get_mins( ) * 4;
-    char n = num_pts;
-    if( !( send_serial_bytes( QByteArray( 1, n ), serial ) ) ) {
-        QMessageBox msg;
-        msg.setWindowTitle( "Cannot Communicate with Roaster" );
-        QString str = "Communication with roaster has been interrupted. Either no roaster is plugged in or it has been turned off/disconnected."
-                      " Please connect a roaster and try again.\n\nError: " + serial->errorString( );
-        msg.setText( str );
-        msg.setStandardButtons( QMessageBox::StandardButton::Ok );
-        msg.exec( );
-        return;
-    }
-    for( int i = 0; i < num_pts; ++i ) {
-        char c1 = pro.get( CoffeeRoastingProfile::Index::CAT_SET_PT, i ) / 2;
-        char c2 = pro.get( CoffeeRoastingProfile::Index::DRUM_SET_PT, i ) / 2;
-        char c3 = pro.get( CoffeeRoastingProfile::Index::CAT_HEAT, i );
-        char c4 = pro.get( CoffeeRoastingProfile::Index::DRUM_HEAT, i );
-        char c5 = pro.get( CoffeeRoastingProfile::Index::FAN_SPEED, i );
+    for( int i = 0; i < 60; ++i ) {
+        char c1, c2, c3, c4, c5;
+        if( i >= num_pts ) {
+            c1 = 0;
+            c2 = 0;
+            c3 = 0;
+            c4 = 0;
+            c5 = 0;
+        } else {
+            c1 = pro.get( CoffeeRoastingProfile::Index::CAT_SET_PT, i ) / 2;
+            c2 = pro.get( CoffeeRoastingProfile::Index::DRUM_SET_PT, i ) / 2;
+            c3 = pro.get( CoffeeRoastingProfile::Index::CAT_HEAT, i );
+            c4 = pro.get( CoffeeRoastingProfile::Index::DRUM_HEAT, i );
+            c5 = pro.get( CoffeeRoastingProfile::Index::FAN_SPEED, i );
+        }
         QByteArray arr;
         arr.append( c1 ).append( c2 ).append( c3 ).append( c4 ).append( c5 );
         if( !( send_serial_bytes( arr, serial ) ) ) {
             QMessageBox msg;
-            msg.setWindowTitle( "Cannot Communicate with Roaster" );
-            QString str = "Communication with roaster has been interrupted. Either no roaster is plugged in or it has been turned off/disconnected."
+            msg.setWindowTitle( "Cannot Send Data" );
+            QString str = "Data stream 2 has been interrupted. Either no roaster is plugged in or it has been turned off/disconnected."
                           " Please connect a roaster and try again.\n\nError: " + serial->errorString( );
             msg.setText( str );
             msg.setStandardButtons( QMessageBox::StandardButton::Ok );
             msg.exec( );
+            serial->close( );
             return;
         }
-    }
-    char s = pro.get_title( ).toLatin1( ).size( );
-    if( !( send_serial_bytes( QByteArray( 1, s ), serial ) ) ) {
-        QMessageBox msg;
-        msg.setWindowTitle( "Cannot Communicate with Roaster" );
-        QString str = "Communication with roaster has been interrupted. Either no roaster is plugged in or it has been turned off/disconnected."
-                      " Please connect a roaster and try again\n\nError: " + serial->errorString( );
-        msg.setText( str );
-        msg.setStandardButtons( QMessageBox::StandardButton::Ok );
-        msg.exec( );
-        return;
-    }
-    if( !( send_serial_bytes( pro.get_title( ).toLatin1( ), serial ) ) ) {
-        QMessageBox msg;
-        msg.setWindowTitle( "Cannot Communicate with Roaster" );
-        QString str = "Communication with roaster has been interrupted. Either no roaster is plugged in or it has been turned off/disconnected."
-                      " Please connect a roaster and try again.\n\nError: " + serial->errorString( );
-        msg.setText( str );
-        msg.setStandardButtons( QMessageBox::StandardButton::Ok );
-        msg.exec( );
-        return;
     }
     serial->close( );
 }
 
 //sends a single byte over serial connection
 //if the connection is established before
-bool MainWindow::send_serial_bytes( QByteArray bytes, QSerialPort *serial ) {
-    char response = 0;
-
-    while( response != 1 ) {
-        while( !serial->isWritable( ) );
-        serial->write( bytes );
-        if( !( serial->waitForReadyRead( 10000 ) ) ) return false;
-        serial->read( &response, 1 );
+bool MainWindow::send_serial_bytes( QByteArray outgoing_data, QSerialPort *serial ) {
+    if( serial->isOpen( ) ) {
+        serial->write( outgoing_data );
+        return serial->waitForBytesWritten( 10000 );
     }
-
-    return true;
+    return false;
 }
 
 //Handles any keypress event for the whole

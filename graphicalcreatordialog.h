@@ -38,7 +38,7 @@ private:
     Ui::GraphicalCreatorDialog *ui;
     bool SAVED;     //true if making profile from saved graph
     bool NEW;       //true if making profile from new graph
-    QVector<RoastGraph*> saved_graphs;
+    QVector<CoffeeRoastingProfile*> saved_graphs;
     QSplineSeries *series;
     QChart *chart;
     QChartView *chart_view;

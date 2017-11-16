@@ -13,9 +13,9 @@ public:
     struct ProfileDataPoint {
         int cat_sp;       //set point (temp)
         int drum_sp;      //set point (temp)
-        int cat_heat;     //0 to 100%
-        int drum_heat;    //0 to 100%
-        int fan_speed;    //0 to 100%
+        uint8_t cat_heat;     //0 to 100%
+        uint8_t drum_heat;    //0 to 100%
+        uint8_t fan_speed;    //0 to 100%
     };
 
     enum Index {
@@ -33,10 +33,11 @@ public:
     void set_data( int time, ProfileDataPoint p );
     void set( Index index, int time, int val );
     void set_title( QString title );
-    void set_mins( int mins );
+    void set_mins( int mins = -1 );
     QString read( QJsonObject json );
     void write( QJsonObject &json );
     QByteArray to_byte_array( int time );
+    int num_data_points( void ) const { return this->data.size( ); }
 
 private:
     QString title;                      //profile title

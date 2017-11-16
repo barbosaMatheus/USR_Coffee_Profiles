@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1021</width>
-    <height>697</height>
+    <height>512</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,111 +34,6 @@
      <width>1021</width>
      <height>401</height>
     </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="dsp_label">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>610</y>
-     <width>171</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Bookman Old Style</family>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Drum Set Point: 100F</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="dh_label">
-   <property name="geometry">
-    <rect>
-     <x>350</x>
-     <y>610</y>
-     <width>131</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Bookman Old Style</family>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Drum Heat: 0%</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="fs_label">
-   <property name="geometry">
-    <rect>
-     <x>660</x>
-     <y>610</y>
-     <width>131</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Bookman Old Style</family>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Fan Speed: 0%</string>
-   </property>
-  </widget>
-  <widget class="QDial" name="dh_dial">
-   <property name="geometry">
-    <rect>
-     <x>320</x>
-     <y>450</y>
-     <width>161</width>
-     <height>151</height>
-    </rect>
-   </property>
-   <property name="maximum">
-    <number>99</number>
-   </property>
-   <property name="notchesVisible">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QDial" name="dsp_dial">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>460</y>
-     <width>151</width>
-     <height>141</height>
-    </rect>
-   </property>
-   <property name="minimum">
-    <number>100</number>
-   </property>
-   <property name="maximum">
-    <number>600</number>
-   </property>
-   <property name="notchesVisible">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QDial" name="fs_dial">
-   <property name="geometry">
-    <rect>
-     <x>630</x>
-     <y>450</y>
-     <width>161</width>
-     <height>151</height>
-    </rect>
-   </property>
-   <property name="notchesVisible">
-    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="x_pos">
@@ -300,7 +195,7 @@
    <property name="geometry">
     <rect>
      <x>380</x>
-     <y>640</y>
+     <y>450</y>
      <width>631</width>
      <height>54</height>
     </rect>
@@ -382,7 +277,7 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>662</y>
+     <y>472</y>
      <width>171</width>
      <height>21</height>
     </rect>
@@ -398,7 +293,7 @@
    <property name="geometry">
     <rect>
      <x>11</x>
-     <y>650</y>
+     <y>460</y>
      <width>75</width>
      <height>41</height>
     </rect>

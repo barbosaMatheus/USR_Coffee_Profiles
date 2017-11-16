@@ -3,7 +3,7 @@
 CoffeeRoastingProfile::CoffeeRoastingProfile( QString title , int mins ) {
     this->title = title;
     this->minutes = mins;
-    const int rows = mins*4;
+    //const int rows = mins*4;
     //fill up data with zeros at the start
     //for( int i = 0; i < rows; ++i ) data.push_back( {0,0,0,0,0} );
 }
@@ -11,6 +11,7 @@ CoffeeRoastingProfile::CoffeeRoastingProfile( QString title , int mins ) {
 CoffeeRoastingProfile::CoffeeRoastingProfile( ) { }
 
 int CoffeeRoastingProfile::get( Index index, int time ) const {
+    if( time >= data.size( ) ) return -1;
     auto dat = data.at( time );
     switch( index ) {
         case Index::CAT_SET_PT:
@@ -56,7 +57,8 @@ void CoffeeRoastingProfile::set( Index index, int time, int val ) {
 
 
 void CoffeeRoastingProfile::set_mins( int mins ) {
-    this->minutes = mins;
+    if( mins == -1 ) this->minutes = ( data.size( )/4 ) + 1;
+    else this->minutes = mins;
 }
 
 

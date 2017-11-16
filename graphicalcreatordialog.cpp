@@ -9,6 +9,7 @@ GraphicalCreatorDialog::GraphicalCreatorDialog( QWidget *parent ) :
     load_graphs( );
     read_memory( );
     last_point = QPoint( 0, 500 );
+    ui->saved_button->setEnabled( false );
 }
 
 GraphicalCreatorDialog::~GraphicalCreatorDialog( ) {
@@ -20,6 +21,8 @@ void GraphicalCreatorDialog::on_saved_button_clicked( ) {
     NEW = false;
     ui->saved_box->setEnabled( true );
     ui->load_button->setText( "Load" );
+    ui->saved_button->setEnabled( false );
+    make_graph( true );
 }
 
 void GraphicalCreatorDialog::on_new_button_clicked( ) {
@@ -29,6 +32,7 @@ void GraphicalCreatorDialog::on_new_button_clicked( ) {
     make_graph( false );
     series->setName( "Custom" );
     ui->load_button->setText( "Undo" );
+    ui->saved_button->setEnabled( true );
     drawn_graph_index = 0;
 }
 
@@ -59,11 +63,12 @@ void GraphicalCreatorDialog::beautify( void ) {
 
 void GraphicalCreatorDialog::make_graph( bool for_saved ) {
     series = new QSplineSeries( );
+    chart = new QChart( );
     if( for_saved ) {
         const int index = ui->saved_box->currentIndex( );
-        const int pts = saved_graphs[index]->get_size( );
+        const int pts = saved_graphs[index]->num_data_points( );
         for( int i = 0; i < pts; ++i ) {
-            const int temp = saved_graphs[index]->get_data( i );
+            const int temp = saved_graphs[index]->get( CoffeeRoastingProfile::DRUM_SET_PT, i );
             series->append( i, temp );
         }
         series->setName( saved_graphs[index]->get_title( ) );
@@ -74,7 +79,6 @@ void GraphicalCreatorDialog::make_graph( bool for_saved ) {
         chart->setTitleFont( font );
         chart->setTitle( title );
     }
-    chart = new QChart( );
     chart->addSeries( series );
     auto s_pen = series->pen( );
     s_pen.setWidth( 3 );
@@ -87,6 +91,7 @@ void GraphicalCreatorDialog::on_load_button_clicked( ) {
     if( SAVED ) {
         make_graph( true );
         id = ui->saved_box->currentIndex( );
+        ui->saved_button->setEnabled( true );
     }
     else if( NEW ) {
         if( pts.size( ) < 1 ) return;
@@ -97,7 +102,7 @@ void GraphicalCreatorDialog::on_load_button_clicked( ) {
 }
 
 void GraphicalCreatorDialog::load_graphs( void ) {
-    QFile graphs( "graphs.json" );
+    QFile graphs( "recordings.json" );
     if( !graphs.open( QIODevice::ReadOnly ) ) return;
 
     QByteArray ba = graphs.readAll( );
@@ -107,9 +112,9 @@ void GraphicalCreatorDialog::load_graphs( void ) {
     const int num = graphs_obj["count"].toInt( );
 
     for( int i = 0; i < num; ++i ) {
-        RoastGraph *r_graph = new RoastGraph( );
+        CoffeeRoastingProfile *r_graph = new CoffeeRoastingProfile( );
         QJsonObject graph = graphs_obj[QString::number( i )].toObject( );
-        r_graph->fromJSON( graph );
+        r_graph->read( graph );
         ui->saved_box->addItem( r_graph->get_title( ) );
         saved_graphs.append( r_graph );
     }
@@ -126,13 +131,13 @@ void GraphicalCreatorDialog::on_save_button_clicked( ) {
             msg.exec( );
             return;
         }
-        RoastGraph *graph = saved_graphs[id];
-        CoffeeRoastingProfile *p = new CoffeeRoastingProfile( );
-        p->set_title( ui->name_edit->text( ) );
-        p->set_mins( graph->get_size( ) / 60 );
-        for( int i = 0; i < graph->get_size( ); i += 15 )
-            p->set_data( -1, {500,graph->get_data( i ),100,100,100} );
-        profiles.append( p );
+        //RoastGraph *graph = saved_graphs[id];
+        //CoffeeRoastingProfile *p = new CoffeeRoastingProfile( );
+        //p->set_title( ui->name_edit->text( ) );
+        //p->set_mins( graph->get_size( ) / 60 );
+        //for( int i = 0; i < graph->get_size( ); i += 15 )
+        //    p->set_data( -1, {500,graph->get_data( i ),100,100,100} );
+        profiles.append( saved_graphs[id] );
     }
     else if( NEW ) {
         if( ui->name_edit->text( ).trimmed( ).isEmpty( ) ) {

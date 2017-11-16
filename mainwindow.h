@@ -41,10 +41,10 @@ public:
     void mock_download( );
     void set_up_menu( );
     void fill_table( );
-    void update_profile_object( int index );
+    void update_profile_object( int index, bool from_edit );
     bool is_invalid( QString str );
     void send_to_roaster( CoffeeRoastingProfile pro );
-    bool send_serial_bytes( QByteArray bytes, QSerialPort *serial );
+    bool send_serial_bytes( QByteArray, QSerialPort * );
     void parse_json_str( QString json_str );
 
 private slots:

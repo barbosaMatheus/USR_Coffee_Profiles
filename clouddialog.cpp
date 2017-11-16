@@ -31,17 +31,21 @@ void CloudDialog::beautify( ) {
 void CloudDialog::run_python( ) {
     QProcess *p = new QProcess( this );                                                         //create a process object pointer
     QString app_path = "C:/USRoasterStudio/remote_fetch.py";                                    //save the absolute path to the script
-    QString py_path = "C:/Python27/python";                                                     //save the absolute path to Python
+    QString py_path = "C:/Python/Python36-32/python";                                                     //save the absolute path to Python
     p->start( py_path, QStringList( ) << app_path );                                            //start the process by running the python code
     p->waitForFinished( -1 );                                                                   //wait here for the process to finish
     QString str = p->readAllStandardOutput( );                                                  //get the console output from the python execution
-    str.replace( "\\n", "\n" );                                                                 //replace the literal \n in the string with an actual new line
-    QStringList json_list = str.split( "',), (u'", QString::SplitBehavior::SkipEmptyParts );    //split the string with ',), (u' weird but it is what it is, that's what the output has in between json strings
+    if( str.isEmpty( ) ) qDebug( ) << "NOTHING";
+    else qDebug( ) << str;
+    str.replace( "\\n", "\n" );                                                               //replace the literal \n in the string with an actual new line
+    QStringList json_list = str.split( "',), ('",
+                                       QString::SplitBehavior::SkipEmptyParts );                //split the string with ',), (u' weird but it is what it is,
+                                                                                                //that's what the output has in between json strings
     for( int i = 0; i < json_list.size( ); ++i ) {
         if( json_list.size( ) == 1 )
             list << get_name( json_list[i].mid( 4, json_list[i].size( )-6 ) );
         else if( i == 0 )                                                                       //if it's the first, cleanup the first four chars
-            list << get_name( json_list[i].mid( 4 ) );
+            list << get_name( json_list[i].mid( 3 ) );
         else if(  i == json_list.size( )-1 )                                                    //if it's the last, cleanup the last four chars
             list << get_name( json_list[i].left( json_list[i].size( )-6 ) );
         else list << get_name( json_list[i] );
