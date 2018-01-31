@@ -3120,7 +3120,6 @@ release/mainwindow.o: mainwindow.cpp mainwindow.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QApplication \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QButtonGroup \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QComboBox \
-		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QFrame \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QGridLayout \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QHeaderView \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QLabel \
@@ -3925,7 +3924,6 @@ release/controlroomdialog.o: controlroomdialog.cpp controlroomdialog.h \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QButtonGroup \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QComboBox \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QFrame \
-		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QGridLayout \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QHeaderView \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QLabel \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QPushButton
@@ -5027,7 +5025,6 @@ release/graphicalcreatordialog.o: graphicalcreatordialog.cpp graphicalcreatordia
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QAction \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QApplication \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QButtonGroup \
-		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QComboBox \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QHBoxLayout \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QHeaderView \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/include/QtWidgets/QLineEdit \

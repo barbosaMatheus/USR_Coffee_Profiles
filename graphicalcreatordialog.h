@@ -19,7 +19,7 @@ public:
     ~GraphicalCreatorDialog();
     void beautify( void );
     void make_graph( bool for_saved );
-    void load_graphs( void );
+    //void load_graphs( void );
     void update_list( void );
     void read_memory( void );
     void write_memory( void );
@@ -28,9 +28,9 @@ public:
     void check_slope( int x , int y );
 
 private slots:
-    void on_saved_button_clicked();
+    //void on_saved_button_clicked();
     void on_new_button_clicked();
-    void on_load_button_clicked();
+    //void on_load_button_clicked();
     void on_save_button_clicked();
     void on_clear_button_clicked();
 

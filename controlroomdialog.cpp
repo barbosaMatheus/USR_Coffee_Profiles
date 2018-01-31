@@ -8,16 +8,10 @@ ControlRoomDialog::ControlRoomDialog( CoffeeRoastingProfile *pro, QWidget *paren
     ui->setupUi(this);
     LIVE = false;
     TIMER_STARTED = false;
-    SAVED_LOADED = false;
     LEFT_CLICKED = false;
-    CHANGED_INTERNALLY = false;
     this->profile = pro;
     beautify( );
     make_graph( );
-    load_graphs( );
-    ui->save_button->setEnabled( false );
-    ui->clear_button->setEnabled( false );
-    //this->showMaximized( );
     this->setWindowTitle( "Control Room" );
 }
 
@@ -31,15 +25,6 @@ void ControlRoomDialog::beautify( ) {
     this->setWindowFlags( this->windowFlags( ) & ~Qt::WindowContextHelpButtonHint );
     ui->start_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
                                      "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
-    ui->save_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
-                                    "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
-    ui->load_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
-                                    "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
-    ui->clear_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
-                                     "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
-    ui->delete_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
-                                      "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
-
 
     QListView *list1 = new QListView( ui->com_box );
     list1->setStyleSheet( "QListView {background-color: #c9cacc;}"
@@ -53,14 +38,6 @@ void ControlRoomDialog::beautify( ) {
     ui->com_box->setPalette( p );
     ui->com_box->addItem( "Choose a COM Port" );
     for( int i = 1; i < 20; ++i ) ui->com_box->addItem( ( "COM" + QString::number( i ) ) );
-    QListView *list2 = new QListView( ui->saved_box );
-    list2->setStyleSheet( "QListView {background-color: #c9cacc;}"
-                          "QListView::item {"
-                          "border-bottom: 1px solid black}"
-                          "QListView::item::selected {background-color: #1c3144;"
-                          "color: white;}" );
-    ui->saved_box->setView( list2 );
-    ui->saved_box->setPalette( p );
     ui->x_pos->setStyleSheet( "color: white; background-color: #1c3144;" );
     ui->y_pos->setStyleSheet( "color: white; background-color: #1c3144;" );
     ui->drum_sp->setStyleSheet( "color: white; background-color: #1c3144;" );
@@ -200,7 +177,6 @@ void ControlRoomDialog::make_graph( ) {
 }
 
 void ControlRoomDialog::on_start_button_clicked( ) {
-    ui->save_button->setEnabled( false );
     if( LIVE ) {                                                            //if we are already live
         timer->stop( );                                                     //stop the timer
         LIVE = false;                                                       //leave live
@@ -274,8 +250,6 @@ void ControlRoomDialog::on_start_button_clicked( ) {
     serial->clear( );
     live_bean_graph = new QSplineSeries( );
     live_air_graph = new QSplineSeries( );
-    recorded_profile = new CoffeeRoastingProfile( );
-    recorded_profile->set_title( profile->get_title( ) );
     auto l_pen = live_bean_graph->pen( );
     l_pen.setWidth( 3 );
     l_pen.setColor( Qt::red );
@@ -300,7 +274,6 @@ void ControlRoomDialog::on_start_button_clicked( ) {
 }
 
 void ControlRoomDialog::update_chart( ) {
-    if( time_index == 1 ) ui->save_button->setEnabled( true );
     if( LIVE ) {
         if( serial->bytesAvailable( ) < 8 ) return;
         char buff[8];
@@ -311,26 +284,12 @@ void ControlRoomDialog::update_chart( ) {
             const int bean_y_val = ( int )( bean_y_8val ) * 2;
             const uint8_t air_y_8val = ( uint8_t ) buff[3];
             const int air_y_val = ( int )( air_y_8val ) * 2;
-            const uint8_t burner_val = ( uint8_t ) buff[5];
-            const uint8_t fan_val = ( uint8_t ) buff[7];
-            recorded_profile->set_data( -1, {500,bean_y_val,100,burner_val,fan_val} );
             if( air_y_val >= 200 ) live_air_graph->append( time_index, air_y_val );
             if( bean_y_val >= 200 ) live_bean_graph->append( time_index, bean_y_val );
             if( bean_y_val >= 200 || air_y_val >= 200 ) {
                 rescale( );
                 chart_view->repaint( );
             }
-
-            /*CHANGED_INTERNALLY = true;
-            const uint8_t dsp_8val = ( uint8_t ) buff[3];
-            const int dsp_val = ( int )( dsp_8val ) * 2;
-            ui->dsp_dial->setValue( dsp_val );
-            CHANGED_INTERNALLY = true;
-            const uint8_t dh = ( uint8_t ) buff[5];
-            ui->dh_dial->setValue( dh );
-            CHANGED_INTERNALLY = true;
-            const uint8_t fs = ( uint8_t ) buff[7];
-            ui->fs_dial->setValue( fs );*/
         }
 
         time_index++;
@@ -343,7 +302,6 @@ void ControlRoomDialog::update_chart( ) {
             timer->stop( );
             serial->close( );
             LIVE = false;
-            recorded_profile->set_mins( );
         }
     }
 }
@@ -422,82 +380,4 @@ QString ControlRoomDialog::get_time_str( int sec ) {
     const int s = sec % 60;
     const QString time_str = ( min < 10 ? "0" : "" ) + QString::number( min ) + ":" + ( s < 10 ? "0" : "" ) + QString::number( s );
     return time_str;
-}
-
-void ControlRoomDialog::load_graphs( ) {
-    QFile graphs( "recordings.json" );
-    if( !graphs.open( QIODevice::ReadOnly ) ) return;
-
-    QByteArray ba = graphs.readAll( );
-    if( ba.size( ) == 0 ) return;
-    QJsonDocument doc( QJsonDocument::fromJson( ba ) );
-    QJsonObject graphs_obj = doc.object( );
-    const int num = graphs_obj["count"].toInt( );
-
-    for( int i = 0; i < num; ++i ) {
-        CoffeeRoastingProfile *r_graph = new CoffeeRoastingProfile( );
-        QJsonObject graph = graphs_obj[QString::number( i )].toObject( );
-        r_graph->read( graph );
-        ui->saved_box->addItem( r_graph->get_title( ) );
-        recorded_graphs.append( r_graph );
-    }
-    graphs.close( );
-}
-
-void ControlRoomDialog::on_load_button_clicked( ) {
-    if( LIVE || recorded_graphs.size( ) < 1 ) return;
-    if( SAVED_LOADED ) chart->removeSeries( saved );
-    const int index = ui->saved_box->currentIndex( );
-    CoffeeRoastingProfile *curr_graph = recorded_graphs[index];
-    this->saved = new QSplineSeries( );
-    auto s_pen = saved->pen( );
-    s_pen.setWidth( 3 );
-    s_pen.setColor( Qt::gray );
-    saved->setPen( s_pen );
-    const QString t = curr_graph->get_title( );
-    const QString title = t + " (Saved)";
-    for( int i = 0; i < curr_graph->num_data_points( ); ++i )
-        saved->append( i, curr_graph->get( CoffeeRoastingProfile::DRUM_SET_PT, i ) );
-    saved->setName( title );
-    chart->addSeries( saved );
-    rescale( );
-    SAVED_LOADED = true;
-    ui->clear_button->setEnabled( true );
-}
-
-void ControlRoomDialog::on_save_button_clicked( ) {
-    recorded_profile->set_mins( );
-    recorded_graphs.append( recorded_profile );
-    update_memory( );
-    QMessageBox msg;
-    msg.setText( "Waveform has been saved, exit and re-enter to load it." );
-    msg.exec( );
-}
-
-void ControlRoomDialog::on_clear_button_clicked( ) {
-    if( LIVE ) return;
-    chart->removeSeries( saved );
-    chart_view->repaint( );
-}
-
-void ControlRoomDialog::on_delete_button_clicked( ) {
-    recorded_graphs.remove( ui->saved_box->currentIndex( ) );
-    ui->saved_box->removeItem( ui->saved_box->currentIndex( ) );
-    update_memory( );
-}
-
-void ControlRoomDialog::update_memory( ) {
-    QFile::remove( "recordings.json" );
-    QFile graphs( "recordings.json" );
-    if( !graphs.open( QIODevice::WriteOnly ) ) return;
-    QJsonObject s_graphs;
-    s_graphs["count"] = recorded_graphs.size( );
-    for( int i = 0; i < recorded_graphs.size( ); ++i ) {
-        QJsonObject json;
-        recorded_graphs[i]->write( json );
-        s_graphs[QString::number( i )] = json;
-    }
-    QJsonDocument doc( s_graphs );
-    graphs.write( doc.toJson( ) );
-    graphs.close( );
 }

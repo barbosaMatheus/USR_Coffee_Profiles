@@ -78,7 +78,7 @@ public:
     void retranslateUi(QDialog *CloudDialog)
     {
         CloudDialog->setWindowTitle(QApplication::translate("CloudDialog", "Dialog", Q_NULLPTR));
-        label->setText(QApplication::translate("CloudDialog", "<html><head/><body><p><span style=\" font-size:9pt;\">Select the profiles you wish to donwload and press the button below, or just close the window to cancel.</span></p></body></html>", Q_NULLPTR));
+        label->setText(QApplication::translate("CloudDialog", "<html><head/><body><p><span style=\" font-size:9pt;\">Select the profiles you wish to download and press the button below, or just close the window to cancel.</span></p></body></html>", Q_NULLPTR));
         download_button->setText(QApplication::translate("CloudDialog", "Download", Q_NULLPTR));
     } // retranslateUi
 

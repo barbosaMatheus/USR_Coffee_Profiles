@@ -1,8 +1,10 @@
 #include "coffeeroastingprofile.h"
 
-CoffeeRoastingProfile::CoffeeRoastingProfile( QString title , int mins ) {
+CoffeeRoastingProfile::CoffeeRoastingProfile( QString title , int mins, uint8_t list_id, int main_id ) {
     this->title = title;
     this->minutes = mins;
+    this->list_id = list_id;
+    this->main_id = main_id;
     //const int rows = mins*4;
     //fill up data with zeros at the start
     //for( int i = 0; i < rows; ++i ) data.push_back( {0,0,0,0,0} );
@@ -57,8 +59,12 @@ void CoffeeRoastingProfile::set( Index index, int time, int val ) {
 
 
 void CoffeeRoastingProfile::set_mins( int mins ) {
-    if( mins == -1 ) this->minutes = ( data.size( )/4 ) + 1;
+    if( mins == -1 ) this->minutes = data.size( )/4 ;
     else this->minutes = mins;
+}
+
+void CoffeeRoastingProfile::clear_all( void ) {
+    data.clear( );
 }
 
 
@@ -70,17 +76,23 @@ void CoffeeRoastingProfile::set_title( QString title ) {
 QString CoffeeRoastingProfile::read( QJsonObject json ) {
     title = json["title"].toString( );
     minutes = json["mins"].toInt( );
+    QJsonValue list_id_json = json["list"];
+    if( list_id_json.isUndefined( ) ) list_id = 0;
+    else list_id = list_id_json.toInt( );
     const int num_data_pts = 4*minutes;
 
     for( int i = 0; i < num_data_pts; ++i ) {
         const QString json_key = "data_" + QString::number( i );
         QJsonObject data_pt = json[json_key].toObject( );
-        const int cat_sp = data_pt["cat_sp"].toInt( );
-        const int drum_sp = data_pt["drum_sp"].toInt( );
-        const int cat_heat = data_pt["cat_heat"].toInt( );
-        const int drum_heat = data_pt["drum_heat"].toInt( );
-        const int fan_speed = data_pt["fan_speed"].toInt( );
-        data.push_back( {cat_sp, drum_sp, cat_heat, drum_heat, fan_speed} );
+        if( data_pt.isEmpty( ) ) data.push_back( {0,0,0,0,0} );
+        else {
+            const int cat_sp = data_pt["cat_sp"].toInt( );
+            const int drum_sp = data_pt["drum_sp"].toInt( );
+            const int cat_heat = data_pt["cat_heat"].toInt( );
+            const int drum_heat = data_pt["drum_heat"].toInt( );
+            const int fan_speed = data_pt["fan_speed"].toInt( );
+            data.push_back( {cat_sp, drum_sp, cat_heat, drum_heat, fan_speed} );
+        }
     }
 
     return title;
@@ -90,7 +102,7 @@ QString CoffeeRoastingProfile::read( QJsonObject json ) {
 void CoffeeRoastingProfile::write( QJsonObject &json ) {
     json["title"] = title;
     json["mins"] = minutes;
-
+    json["list"] = list_id;
     for( int i = 0; i < data.size( ); ++i ) {
         const QString key = "data_" + QString::number( i );
         QJsonObject data_pt;
@@ -125,6 +137,21 @@ CoffeeRoastingProfile::ProfileDataPoint CoffeeRoastingProfile::get_data( int tim
 
 
 void CoffeeRoastingProfile::set_data( int time, ProfileDataPoint p ) {
-    if( time == -1 ) this->data.push_back( p );
-    else this->data[time] = p;
+    if( time == -1 || time >= data.size( ) ) this->data.push_back( p );
+    else {
+        //if( time >= data.size( ) ) return;
+        this->data[time] = p;
+    }
 }
+
+uint8_t CoffeeRoastingProfile::get_list_id( void ) {
+    return this->list_id;
+}
+
+void CoffeeRoastingProfile::set_list_id( uint8_t list_id ) {
+    this->list_id = list_id;
+}
+
+int CoffeeRoastingProfile::get_main_id( void ) { return this->main_id; }
+
+void CoffeeRoastingProfile::set_main_id( int main_id ) { this->main_id = main_id; }

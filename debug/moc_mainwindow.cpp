@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[22];
-    char stringdata0[348];
+    QByteArrayData data[26];
+    char stringdata0[435];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,36 +35,42 @@ QT_MOC_LITERAL(0, 0, 10), // "MainWindow"
 QT_MOC_LITERAL(1, 11, 21), // "on_new_button_clicked"
 QT_MOC_LITERAL(2, 33, 0), // ""
 QT_MOC_LITERAL(3, 34, 24), // "on_cancel_button_clicked"
-QT_MOC_LITERAL(4, 59, 24), // "on_select_button_clicked"
-QT_MOC_LITERAL(5, 84, 20), // "on_pro_table_clicked"
-QT_MOC_LITERAL(6, 105, 5), // "index"
-QT_MOC_LITERAL(7, 111, 21), // "on_set_button_clicked"
-QT_MOC_LITERAL(8, 133, 26), // "on_download_button_clicked"
-QT_MOC_LITERAL(9, 160, 22), // "on_save_button_clicked"
-QT_MOC_LITERAL(10, 183, 22), // "on_edit_button_clicked"
-QT_MOC_LITERAL(11, 206, 24), // "on_remove_button_clicked"
-QT_MOC_LITERAL(12, 231, 4), // "help"
-QT_MOC_LITERAL(13, 236, 4), // "quit"
-QT_MOC_LITERAL(14, 241, 7), // "contact"
-QT_MOC_LITERAL(15, 249, 4), // "save"
-QT_MOC_LITERAL(16, 254, 19), // "on_pro_list_clicked"
-QT_MOC_LITERAL(17, 274, 10), // "run_python"
-QT_MOC_LITERAL(18, 285, 9), // "ctrl_room"
-QT_MOC_LITERAL(19, 295, 8), // "cloud_dl"
-QT_MOC_LITERAL(20, 304, 25), // "on_pro_list_doubleClicked"
-QT_MOC_LITERAL(21, 330, 17) // "graphical_creator"
+QT_MOC_LITERAL(4, 59, 20), // "on_pro_table_clicked"
+QT_MOC_LITERAL(5, 80, 5), // "index"
+QT_MOC_LITERAL(6, 86, 21), // "on_set_button_clicked"
+QT_MOC_LITERAL(7, 108, 26), // "on_download_button_clicked"
+QT_MOC_LITERAL(8, 135, 22), // "on_save_button_clicked"
+QT_MOC_LITERAL(9, 158, 22), // "on_edit_button_clicked"
+QT_MOC_LITERAL(10, 181, 24), // "on_remove_button_clicked"
+QT_MOC_LITERAL(11, 206, 4), // "help"
+QT_MOC_LITERAL(12, 211, 4), // "quit"
+QT_MOC_LITERAL(13, 216, 7), // "contact"
+QT_MOC_LITERAL(14, 224, 4), // "save"
+QT_MOC_LITERAL(15, 229, 19), // "on_pro_list_clicked"
+QT_MOC_LITERAL(16, 249, 10), // "run_python"
+QT_MOC_LITERAL(17, 260, 9), // "ctrl_room"
+QT_MOC_LITERAL(18, 270, 8), // "cloud_dl"
+QT_MOC_LITERAL(19, 279, 25), // "on_pro_list_doubleClicked"
+QT_MOC_LITERAL(20, 305, 17), // "graphical_creator"
+QT_MOC_LITERAL(21, 323, 10), // "enable_com"
+QT_MOC_LITERAL(22, 334, 11), // "disable_com"
+QT_MOC_LITERAL(23, 346, 24), // "on_upload_button_clicked"
+QT_MOC_LITERAL(24, 371, 27), // "on_main_save_button_clicked"
+QT_MOC_LITERAL(25, 399, 35) // "on_roaster_list_currentIndexC..."
 
     },
     "MainWindow\0on_new_button_clicked\0\0"
-    "on_cancel_button_clicked\0"
-    "on_select_button_clicked\0on_pro_table_clicked\0"
+    "on_cancel_button_clicked\0on_pro_table_clicked\0"
     "index\0on_set_button_clicked\0"
     "on_download_button_clicked\0"
     "on_save_button_clicked\0on_edit_button_clicked\0"
     "on_remove_button_clicked\0help\0quit\0"
     "contact\0save\0on_pro_list_clicked\0"
     "run_python\0ctrl_room\0cloud_dl\0"
-    "on_pro_list_doubleClicked\0graphical_creator"
+    "on_pro_list_doubleClicked\0graphical_creator\0"
+    "enable_com\0disable_com\0on_upload_button_clicked\0"
+    "on_main_save_button_clicked\0"
+    "on_roaster_list_currentIndexChanged"
 };
 #undef QT_MOC_LITERAL
 
@@ -74,7 +80,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      19,   14, // methods
+      23,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -82,32 +88,34 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  109,    2, 0x08 /* Private */,
-       3,    0,  110,    2, 0x08 /* Private */,
-       4,    0,  111,    2, 0x08 /* Private */,
-       5,    1,  112,    2, 0x08 /* Private */,
-       7,    0,  115,    2, 0x08 /* Private */,
-       8,    0,  116,    2, 0x08 /* Private */,
-       9,    0,  117,    2, 0x08 /* Private */,
-      10,    0,  118,    2, 0x08 /* Private */,
-      11,    0,  119,    2, 0x08 /* Private */,
-      12,    0,  120,    2, 0x08 /* Private */,
-      13,    0,  121,    2, 0x08 /* Private */,
-      14,    0,  122,    2, 0x08 /* Private */,
-      15,    0,  123,    2, 0x08 /* Private */,
-      16,    1,  124,    2, 0x08 /* Private */,
-      17,    0,  127,    2, 0x08 /* Private */,
-      18,    0,  128,    2, 0x08 /* Private */,
-      19,    0,  129,    2, 0x08 /* Private */,
-      20,    1,  130,    2, 0x08 /* Private */,
-      21,    0,  133,    2, 0x08 /* Private */,
+       1,    0,  129,    2, 0x08 /* Private */,
+       3,    0,  130,    2, 0x08 /* Private */,
+       4,    1,  131,    2, 0x08 /* Private */,
+       6,    0,  134,    2, 0x08 /* Private */,
+       7,    0,  135,    2, 0x08 /* Private */,
+       8,    0,  136,    2, 0x08 /* Private */,
+       9,    0,  137,    2, 0x08 /* Private */,
+      10,    0,  138,    2, 0x08 /* Private */,
+      11,    0,  139,    2, 0x08 /* Private */,
+      12,    0,  140,    2, 0x08 /* Private */,
+      13,    0,  141,    2, 0x08 /* Private */,
+      14,    0,  142,    2, 0x08 /* Private */,
+      15,    1,  143,    2, 0x08 /* Private */,
+      16,    0,  146,    2, 0x08 /* Private */,
+      17,    0,  147,    2, 0x08 /* Private */,
+      18,    0,  148,    2, 0x08 /* Private */,
+      19,    1,  149,    2, 0x08 /* Private */,
+      20,    0,  152,    2, 0x08 /* Private */,
+      21,    0,  153,    2, 0x08 /* Private */,
+      22,    0,  154,    2, 0x08 /* Private */,
+      23,    0,  155,    2, 0x08 /* Private */,
+      24,    0,  156,    2, 0x08 /* Private */,
+      25,    1,  157,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void, QMetaType::QModelIndex,    6,
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::QModelIndex,    5,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -116,12 +124,18 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QModelIndex,    6,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::QModelIndex,    5,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QModelIndex,    6,
+    QMetaType::Void, QMetaType::QModelIndex,    5,
     QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,    5,
 
        0        // eod
 };
@@ -134,23 +148,27 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         switch (_id) {
         case 0: _t->on_new_button_clicked(); break;
         case 1: _t->on_cancel_button_clicked(); break;
-        case 2: _t->on_select_button_clicked(); break;
-        case 3: _t->on_pro_table_clicked((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
-        case 4: _t->on_set_button_clicked(); break;
-        case 5: _t->on_download_button_clicked(); break;
-        case 6: _t->on_save_button_clicked(); break;
-        case 7: _t->on_edit_button_clicked(); break;
-        case 8: _t->on_remove_button_clicked(); break;
-        case 9: _t->help(); break;
-        case 10: _t->quit(); break;
-        case 11: _t->contact(); break;
-        case 12: _t->save(); break;
-        case 13: _t->on_pro_list_clicked((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
-        case 14: _t->run_python(); break;
-        case 15: _t->ctrl_room(); break;
-        case 16: _t->cloud_dl(); break;
-        case 17: _t->on_pro_list_doubleClicked((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
-        case 18: _t->graphical_creator(); break;
+        case 2: _t->on_pro_table_clicked((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
+        case 3: _t->on_set_button_clicked(); break;
+        case 4: _t->on_download_button_clicked(); break;
+        case 5: _t->on_save_button_clicked(); break;
+        case 6: _t->on_edit_button_clicked(); break;
+        case 7: _t->on_remove_button_clicked(); break;
+        case 8: _t->help(); break;
+        case 9: _t->quit(); break;
+        case 10: _t->contact(); break;
+        case 11: _t->save(); break;
+        case 12: _t->on_pro_list_clicked((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
+        case 13: _t->run_python(); break;
+        case 14: _t->ctrl_room(); break;
+        case 15: _t->cloud_dl(); break;
+        case 16: _t->on_pro_list_doubleClicked((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
+        case 17: _t->graphical_creator(); break;
+        case 18: _t->enable_com(); break;
+        case 19: _t->disable_com(); break;
+        case 20: _t->on_upload_button_clicked(); break;
+        case 21: _t->on_main_save_button_clicked(); break;
+        case 22: _t->on_roaster_list_currentIndexChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -181,13 +199,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 19)
+        if (_id < 23)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 19;
+        _id -= 23;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 19)
+        if (_id < 23)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 19;
+        _id -= 23;
     }
     return _id;
 }

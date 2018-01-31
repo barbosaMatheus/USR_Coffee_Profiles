@@ -19,7 +19,7 @@ class CloudDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit CloudDialog( QVector<CoffeeRoastingProfile*> &queue, QWidget *parent = 0 );
+    explicit CloudDialog( QVector<CoffeeRoastingProfile*> &queue, QProgressBar *progress_bar, QWidget *parent = 0 );
     ~CloudDialog();
     void beautify( );
     void run_python( );
@@ -34,6 +34,7 @@ private:
     QStringListModel *data_model;
     QVector<QJsonObject> profiles;
     QVector<CoffeeRoastingProfile*> *q;
+    QProgressBar *progress_bar;
 };
 
 #endif // CLOUDDIALOG_H

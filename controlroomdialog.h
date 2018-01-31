@@ -28,19 +28,12 @@ public:
     void make_graph( );
     void closeEvent( QCloseEvent *event );
     void rescale( );
-    //void mouseMoveEvent( QMouseEvent *e );
     void mousePressEvent( QMouseEvent *e );
     QString get_time_str( int sec );
-    void load_graphs( );
-    void update_memory( );
 
 private slots:
     void on_start_button_clicked( );
     void on_com_box_currentTextChanged( const QString &arg1 );
-    void on_load_button_clicked( );
-    void on_save_button_clicked( );
-    void on_clear_button_clicked( );
-    void on_delete_button_clicked( );
     void update_chart( );
 
 private:
@@ -54,16 +47,11 @@ private:
     QChartView *chart_view;
     QSerialPort *serial;
     QTimer *timer;
-    QVector<CoffeeRoastingProfile*> recorded_graphs;
-    //RoastGraph *current;
-    CoffeeRoastingProfile *recorded_profile;
     int time_index;
     const int INTERVAL = 1000;
     bool LIVE;
     bool TIMER_STARTED;
-    bool SAVED_LOADED;
     bool LEFT_CLICKED;
-    bool CHANGED_INTERNALLY;                //true if the dial values were changed internally, like from the roaster sending info rather than a user changing it
     QPoint l_pos;
 };
 
