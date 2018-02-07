@@ -5,9 +5,6 @@ CoffeeRoastingProfile::CoffeeRoastingProfile( QString title , int mins, uint8_t 
     this->minutes = mins;
     this->list_id = list_id;
     this->main_id = main_id;
-    //const int rows = mins*4;
-    //fill up data with zeros at the start
-    //for( int i = 0; i < rows; ++i ) data.push_back( {0,0,0,0,0} );
 }
 
 CoffeeRoastingProfile::CoffeeRoastingProfile( ) { }
@@ -138,10 +135,7 @@ CoffeeRoastingProfile::ProfileDataPoint CoffeeRoastingProfile::get_data( int tim
 
 void CoffeeRoastingProfile::set_data( int time, ProfileDataPoint p ) {
     if( time == -1 || time >= data.size( ) ) this->data.push_back( p );
-    else {
-        //if( time >= data.size( ) ) return;
-        this->data[time] = p;
-    }
+    else this->data[time] = p;
 }
 
 uint8_t CoffeeRoastingProfile::get_list_id( void ) {

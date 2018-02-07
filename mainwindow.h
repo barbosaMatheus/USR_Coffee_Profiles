@@ -17,6 +17,7 @@
 #include "clouddialog.h"
 #include "controlroomdialog.h"
 #include "graphicalcreatordialog.h"
+#include "directorysettingsdialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -47,6 +48,7 @@ public:
     bool send_serial_bytes( QByteArray, QSerialPort * );
     void parse_json_str( QString json_str );
     void update_main_ids( void );
+    void get_directory_names( void );
 
 private slots:
     void on_new_button_clicked( );
@@ -72,6 +74,7 @@ private slots:
     void on_upload_button_clicked( void );
     void on_main_save_button_clicked( );
     void on_roaster_list_currentIndexChanged( int index );
+    void edit_directory_names( void );
     
 private:
     Ui::MainWindow *ui;
@@ -86,9 +89,6 @@ private:
     bool EDITING;                                       //true if we are in edit mode
     bool SAVED;                                         //true if latest changes have been saved
     int current_index;                                  //index of the current profile we are editing
-    CloudDialog *cloud_d;
-    ControlRoomDialog *ctrl_d;
-    GraphicalCreatorDialog *g_creator;
 };
 
 #endif // MAINWINDOW_H

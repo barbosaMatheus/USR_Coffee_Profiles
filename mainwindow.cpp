@@ -25,6 +25,7 @@ MainWindow::MainWindow( QWidget *parent ) :
     ui->upload_button->setEnabled( false );
     update_list( );                                         //update local list of profiles
     update_main_ids( );                                     //updates the indexes for everything
+    get_directory_names( );
 }
 
 //style sheet settings for the window background,
@@ -55,8 +56,6 @@ void MainWindow::beautify( ) {
                                       "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}" );
     ui->save_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
                                     "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}" );
-    /*ui->select_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
-                                      "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}" );*/
     ui->set_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
                                    "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}" );
     ui->download_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
@@ -89,7 +88,7 @@ void MainWindow::beautify( ) {
     menuBar( )-> setPalette( p0 );
 
     //making the roaster drop down look good
-    QListView * list1 = new QListView( ui->roaster_box );
+    QListView *list1 = new QListView( ui->roaster_box );
     ui->roaster_box->addItem( "Choose a COM Port" );
     list1->setStyleSheet( "QListView {background-color: #c9cacc;}"
                           "QListView::item {"
@@ -104,9 +103,6 @@ void MainWindow::beautify( ) {
 
     QListView *list2 = new QListView( ui->roaster_list );
     ui->roaster_list->addItem( "All" );                  //add items to profile time combo box
-    ui->roaster_list->addItem( "Roaster 1" );
-    ui->roaster_list->addItem( "Roaster 2" );
-    ui->roaster_list->addItem( "Roaster 3" );
     list2->setStyleSheet( "QListView {background-color: #c9cacc;}"
                           "QListView::item {"
                           "border-bottom: 1px solid black}"
@@ -117,9 +113,6 @@ void MainWindow::beautify( ) {
 
     QListView *list3 = new QListView( ui->roaster_selector );
     ui->roaster_selector->addItem( "All" );
-    ui->roaster_selector->addItem( "Roaster 1" );
-    ui->roaster_selector->addItem( "Roaster 2" );
-    ui->roaster_selector->addItem( "Roaster 3" );
     list3->setStyleSheet( "QListView {background-color: #c9cacc;}"
                           "QListView::item {"
                           "border-bottom: 1px solid black}"
@@ -158,6 +151,9 @@ void MainWindow::set_up_menu( ) {
     QAction *disable_com = new QAction( "&Disable COM", this );
     disable_com->setFont( QFont( "Bookman Old Style", 12 ) );
     disable_com->setShortcut( QKeySequence( "Ctrl+D" ) );
+    QAction *edit_directory_names = new QAction( "&Edit Directory Names", this );
+    edit_directory_names->setFont( QFont( "Bookman Old Style", 12 ) );
+    edit_directory_names->setShortcut( QKeySequence( "Ctrl+N" ) );
     QMenu *Help;                                                                    //make all menu objects
     QMenu *File;
     QMenu *Tools;
@@ -168,6 +164,7 @@ void MainWindow::set_up_menu( ) {
     Help->addAction( contact );
     File->addAction( save );
     File->addAction( quit );
+    File->addAction( edit_directory_names );
     Tools->addAction( cloud_dl );
     Tools->addAction( ctrl_room );
     Tools->addAction( graphical_creator );
@@ -182,6 +179,7 @@ void MainWindow::set_up_menu( ) {
     connect( graphical_creator, SIGNAL( triggered( ) ), this, SLOT( graphical_creator( ) ) );
     connect( enable_com, SIGNAL( triggered( ) ), this, SLOT( enable_com( ) ) );
     connect( disable_com, SIGNAL( triggered( ) ), this, SLOT( disable_com( ) ) );
+    connect( edit_directory_names, SIGNAL( triggered( ) ), this, SLOT( edit_directory_names( ) ) );
 }
 
 MainWindow::~MainWindow( ) {
@@ -242,9 +240,7 @@ void MainWindow::set_headers( ) {
 //user doesn't need it
 void MainWindow::hide_right_side( ) {
     ui->choose_label->setVisible( false );
-    //ui->time_box->setVisible( false );
     ui->minutes_box->setVisible( false );
-    //ui->select_button->setVisible( false );
     ui->cancel_button->setVisible( false );
     ui->pro_table->setVisible( false );
     ui->set_button->setVisible( false );
@@ -281,24 +277,6 @@ void MainWindow::on_cancel_button_clicked( )
     table_model->setVerticalHeaderLabels( vertical_labels );
     EDITING = false;                                                //in case we were editing
 }
-
-/*//button click handler for the select button:
-//hides or shows extra rows in the table
-//depending on the length of the roast
-void MainWindow::on_select_button_clicked( )
-{
-    if( ui->minutes_box->value( ) <= 15 ) {
-        for( int i = 60; i < 80; i++ ) {                //from row 60 to 79
-            ui->pro_table->setRowHidden( i, true );     //show row i
-        }
-    }
-    else {
-        for( int i = 60; i < 80; i++ ) {                //from row 60 to 79
-            ui->pro_table->setRowHidden( i, false );    //hide row i
-        }
-    }
-    else return;
-}*/
 
 //click event handler for the table cells:
 //takes the data from the table and puts
@@ -515,8 +493,6 @@ void MainWindow::contact( ) {
 void MainWindow::save( ) {
     SAVED = true;
     QFile::remove( "profiles.json" );                                                   //remove the file so we can clean
-    /*if( ( ui->save_button->isVisible( ) ) && ( coffee_profiles.size( ) > 0 ) ) ui->save_button->click( ); //do a local save if in edit/create mode
-    else if( ui->save_button->isVisible( ) ) ui->cancel_button->click( );*/
     QFile profiles( "profiles.json" );                                                  //create the file object
     profiles.open( QIODevice::WriteOnly );                                              //open the file again (recreating it)
     QJsonObject json_profiles;                                                          //create json object to hold all the profiles
@@ -525,6 +501,10 @@ void MainWindow::save( ) {
         QJsonObject json;                                                               //make json object
         coffee_profiles[i]->write( json );                                              //write profile to json
         json_profiles[QString::number( i )] = json;                                     //insert a profile json object into the top json object
+    }
+    for( int i = 1; i < 4; ++i ) {
+        QString key = "dir_" + QString::number( i );
+        json_profiles[key] = ui->roaster_list->itemText( i );
     }
     QJsonDocument doc( json_profiles );                                                 //create json document obect from the json object
     profiles.write( doc.toJson( ) );                                                    //write json info to file as a string
@@ -535,9 +515,7 @@ void MainWindow::save( ) {
 //shows all the widgets on the right side of the window
 void MainWindow::show_right_side( ) {
     ui->choose_label->setVisible( true );
-    //ui->time_box->setVisible( true );
     ui->minutes_box->setVisible( true );
-    //ui->select_button->setVisible( true );
     ui->cancel_button->setVisible( true );
     ui->pro_table->setVisible( true );
     ui->set_button->setVisible( true );
@@ -553,8 +531,6 @@ void MainWindow::show_right_side( ) {
 //profile's information
 void MainWindow::fill_table( ) {
     CoffeeRoastingProfile *profile = current_profiles.at( current_index );
-    //const int mins = profile->get_mins( );
-    //const int rows = 4*mins;
     int data_size = profile->data_size( );
 
     for( int i = 0; i < data_size; i++ ) {
@@ -577,10 +553,6 @@ void MainWindow::fill_table( ) {
 //using the data in the table
 void MainWindow::update_profile_object( int index, bool from_edit ) {
     CoffeeRoastingProfile *profile = current_profiles.at( index );
-    //const int mins = from_edit ? profile->get_mins( ) : 20;
-    //const int rows = 4*mins;
-    //if( !from_edit ) profile->set_mins( 100 );
-    //profile->clear_all( );
     profile->set_mins( 20 );
     profile->set_list_id( ui->roaster_selector->currentIndex( ) );
     profile->set_main_id( index );
@@ -588,19 +560,20 @@ void MainWindow::update_profile_object( int index, bool from_edit ) {
         if( table_model->data( table_model->index( i, 0 ) ).isNull( )
             || table_model->data( table_model->index( i, 0 ) ) <= 100 ) {
             profile->set_mins( i/4 );
+
+            for( int j = i; j < profile->data_size( ); /*++j*/ ) profile->set_data( j, {0,0,0,0,0} );
             break;
         }
         //qDebug( ) << "ITERATION " << QString::number( i ) << " OF " << profile->get_title( );
-        unsigned int d1 = table_model->data( table_model->index( i, 2 ) ).toInt( );
+        int d1 = table_model->data( table_model->index( i, 2 ) ).toInt( );
         if( d1 <= 100 ) d1 = 0;
-        unsigned int d2 = table_model->data( table_model->index( i, 0 ) ).toInt( );
+        int d2 = table_model->data( table_model->index( i, 0 ) ).toInt( );
         if( d2 <= 100 ) d2 = 0;
-        unsigned int d3 = table_model->data( table_model->index( i, 3 ) ).toInt( );
-        unsigned int d4 = table_model->data( table_model->index( i, 1 ) ).toInt( );
-        unsigned int d5 = table_model->data( table_model->index( i, 4 ) ).toInt( );
-        profile->set_data( from_edit ? i : -1, {d1,d2,d3,d4,d5} );
+        int d3 = table_model->data( table_model->index( i, 3 ) ).toInt( );
+        int d4 = table_model->data( table_model->index( i, 1 ) ).toInt( );
+        int d5 = table_model->data( table_model->index( i, 4 ) ).toInt( );
+        profile->set_data( from_edit ? i : -1, {d1,d2,( uint8_t )d3,( uint8_t )d4,( uint8_t )d5} );
     }
-    //if( profile->get_mins( ) == 100 ) profile->set_mins( );
 }
 
 //click handler for profiles list:
@@ -649,9 +622,8 @@ void MainWindow::closeEvent( QCloseEvent *event ) {
 //which gets data from the remote aws database and returns
 //the json strings to create profile objects
 void MainWindow::run_python( ) {
-    cloud_d = new CloudDialog( dl_queue, ui->progress_bar, this );
+    CloudDialog *cloud_d = new CloudDialog( dl_queue, ui->progress_bar, this );
     cloud_d->exec( );
-
     if( dl_queue.size( ) == 0 ) {
         ui->status_label->setText( "..." );
         ui->progress_bar->setVisible( false );
@@ -662,10 +634,9 @@ void MainWindow::run_python( ) {
         current_profiles.push_back( dl_queue[i] );
         const QString label = dl_queue[i]->get_title( ) + ", " + QString::number( dl_queue[i]->get_mins( ) ) + " minutes, " +
                 QString::number( dl_queue[i]->get( CoffeeRoastingProfile::Index::DRUM_SET_PT, 0 ) ) +
-                " F";;
+                " F";
         list << label;
     }
-
     data_model->setStringList( list );
     QString str = QString::number( dl_queue.size( ) ) + " profiles downloaded from cloud";
     ui->status_label->setText( str );
@@ -683,27 +654,6 @@ void MainWindow::cloud_dl( ) {
     if( ui->roaster_list->currentIndex( ) > 0 ) ui->roaster_list->setCurrentIndex( 0 );
     run_python( );
 }
-
-/*//parses a json string into a json doc
-//then takes the object out of it. Also
-//uses the CoffeeRoastingProfile functions
-//to create a new profile from the json
-//object and adds the new names to the list
-void MainWindow::parse_json_str( QString json_str ) {
-    QJsonDocument doc = QJsonDocument::fromJson( json_str.toUtf8( ) );
-    if( !doc.isNull( ) ) {
-        QJsonObject json = doc.object( );
-        CoffeeRoastingProfile* profile = new CoffeeRoastingProfile( );  //create new profile object
-        const QString title = profile->read( json );                    //read the json into the profile object and get its title
-        const QString label = title + ", " + QString::number( profile->get_mins( ) ) + " minutes, " +
-                QString::number( profile->get( CoffeeRoastingProfile::Index::DRUM_SET_PT, 0 ) ) +
-                " F";;
-        list << label;                                                  //add the title to the list of profiles
-        coffee_profiles.push_back( profile );                           //add the profile to the current list
-        data_model->setStringList( list );
-    }
-    else ui->status_label->setText( "Invalid JSON" );
-}*/
 
 //downloads a selected profile to
 //a roaster over serial connection
@@ -802,7 +752,7 @@ void MainWindow::ctrl_room( ) {
         return;
     }
     ui->status_label->setText( "Running Control Room" );
-    ctrl_d = new ControlRoomDialog( current_profiles[current_index], this );
+    ControlRoomDialog *ctrl_d = new ControlRoomDialog( current_profiles[current_index], this );
     ctrl_d->exec( );
     ui->status_label->setText( "..." );
 }
@@ -823,7 +773,7 @@ void MainWindow::on_pro_list_doubleClicked( const QModelIndex &index ) {
 //profile creator dialog box
 void MainWindow::graphical_creator( void ) {
     ui->status_label->setText( "Running Graphical Creator" );
-    g_creator = new GraphicalCreatorDialog( this );
+    GraphicalCreatorDialog *g_creator = new GraphicalCreatorDialog( this );
     g_creator->exec( );
     update_list( );
     ui->status_label->setText( "Graphical Creator currently unavailable" );
@@ -869,11 +819,10 @@ void MainWindow::on_upload_button_clicked( ) {
     }
     serial->clear( );
     CoffeeRoastingProfile *new_profile = new CoffeeRoastingProfile( "New Profile", 20, 0, coffee_profiles.size( ) );
-    //QString str = "";
-    for( int i = 0; i < 80; ++i ) {
+    for( char i = 0; i < 80; ++i ) {
         //QString str = "";
         CoffeeRoastingProfile::ProfileDataPoint data_point;
-        for( int j = 0; j < 5; ++j ) {
+        for( char j = 0; j < 5; ++j ) {
             char output[] = {i,j};
             char input[] = {0};
             serial->write( output, 2 );
@@ -929,7 +878,6 @@ void MainWindow::on_upload_button_clicked( ) {
         //qDebug( ) << str;
     }
     serial->close( );
-    //if( new_profile->get_mins( ) == 0 ) new_profile->set_mins( );
     coffee_profiles.push_back( new_profile );
     current_profiles.push_back( new_profile );
     const QString label = "New Profile, " + QString::number( new_profile->get_mins( ) ) + " minutes, " +
@@ -962,4 +910,33 @@ void MainWindow::on_roaster_list_currentIndexChanged( int index ) {
         }
     }
     data_model->setStringList( list );
+}
+
+void MainWindow::edit_directory_names( void ) {
+    DirectorySettingsDialog *directory_settings_dialog = new DirectorySettingsDialog( ui->roaster_list, this );
+    directory_settings_dialog->exec( );
+    ui->roaster_selector->clear( );
+    for( int i = 0; i < 4; ++i )
+        ui->roaster_selector->addItem( ui->roaster_list->itemText( i ) );
+}
+
+void MainWindow::get_directory_names( void ) {
+    QFile profiles( "profiles.json" );
+    if( !profiles.open( QIODevice::ReadOnly ) ) return;
+    QByteArray ba = profiles.readAll( );
+    QJsonDocument doc( QJsonDocument::fromJson( ba ) );
+    QJsonObject json = doc.object( );
+    for( int i = 1; i < 4; ++i ) {
+        QString key = "dir_" + QString::number( i );
+        QJsonValue json_val = json[key];
+        if( json_val.isUndefined( ) ) {
+            QString dir_name = "Roaster " + QString::number( i );
+            ui->roaster_list->addItem( dir_name );
+            ui->roaster_selector->addItem( dir_name );
+        }
+        else {
+            ui->roaster_list->addItem( json_val.toString( ) );
+            ui->roaster_selector->addItem( json_val.toString( ) );
+        }
+    }
 }

@@ -36,14 +36,12 @@ void CloudDialog::run_python( ) {
     p->start( py_path, QStringList( ) << app_path );                                            //start the process by running the python code
     p->waitForFinished( -1 );                                                                   //wait here for the process to finish
     QString str = p->readAllStandardOutput( );                                                  //get the console output from the python execution
-    //if( str.isEmpty( ) ) qDebug( ) << "NOTHING";
-    //else qDebug( ) << str;
     str.replace( "\\n", "\n" );                                                               //replace the literal \n in the string with an actual new line
     QStringList json_list = str.split( "',), ('",
                                        QString::SplitBehavior::SkipEmptyParts );                //split the string with ',), (u' weird but it is what it is,
                                                                                                 //that's what the output has in between json strings
     for( int i = 0; i < json_list.size( ); ++i ) {
-        int value = ( int )( ( ( double )( i ) / ( double )( json_list.size( ) ) ) * 100.0 );
+        int value = ( int )( ( ( double )( i+1 ) / ( double )( json_list.size( ) ) ) * 100.0 );
         progress_bar->setValue( value );
         if( json_list.size( ) == 1 )
             list << get_name( json_list[i].mid( 4, json_list[i].size( )-6 ) );

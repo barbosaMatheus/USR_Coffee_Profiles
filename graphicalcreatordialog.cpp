@@ -6,7 +6,6 @@ GraphicalCreatorDialog::GraphicalCreatorDialog( QWidget *parent ) :
     ui( new Ui::GraphicalCreatorDialog ) {
     ui->setupUi( this );
     beautify( );
-    //load_graphs( );
     read_memory( );
     last_point = QPoint( 0, 500 );
     ui->save_button->setEnabled( false );
@@ -15,15 +14,6 @@ GraphicalCreatorDialog::GraphicalCreatorDialog( QWidget *parent ) :
 GraphicalCreatorDialog::~GraphicalCreatorDialog( ) {
     delete ui;
 }
-
-/*void GraphicalCreatorDialog::on_saved_button_clicked( ) {
-    SAVED = true;
-    NEW = false;
-    ui->saved_box->setEnabled( true );
-    ui->load_button->setText( "Load" );
-    ui->save_button->setEnabled( false );
-    make_graph( true );
-}*/
 
 void GraphicalCreatorDialog::on_new_button_clicked( ) {
     NEW = true;
@@ -39,8 +29,6 @@ void GraphicalCreatorDialog::on_new_button_clicked( ) {
 void GraphicalCreatorDialog::beautify( void ) {
     this->setWindowTitle( "Graphical Profile Creator" );
     this->setWindowFlags( this->windowFlags( ) & ~Qt::WindowContextHelpButtonHint );
-    //ui->saved_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
-    //                                 "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
     ui->new_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
                                    "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
     ui->load_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
@@ -49,36 +37,11 @@ void GraphicalCreatorDialog::beautify( void ) {
                                      "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
     ui->save_button->setStyleSheet( "QPushButton {color: white; border: 5px solid #70161e; background-color: #70161e;}"
                                     "QPushButton:hover {border: 1px solid #70161e; background: transparent;color: #70161e;}");
-    /*QListView *list1 = new QListView( ui->saved_box);
-    list1->setStyleSheet( "QListView {background-color: #c9cacc;}"
-                          "QListView::item {"
-                          "border-bottom: 1px solid black}"
-                          "QListView::item::selected {background-color: #1c3144;"
-                          "color: white;}" );
-    ui->saved_box->setView( list1 );
-    QPalette p = ui->saved_box->palette( );
-    p.setColor( QPalette::Highlight, QColor( 28, 49, 68 ) );
-    ui->saved_box->setPalette( p );*/
 }
 
 void GraphicalCreatorDialog::make_graph( bool for_saved ) {
     series = new QSplineSeries( );
     chart = new QChart( );
-    /*if( for_saved ) {
-        const int index = ui->saved_box->currentIndex( );
-        const int pts = saved_graphs[index]->data_size( );
-        for( int i = 0; i < pts; ++i ) {
-            const int temp = saved_graphs[index]->get( CoffeeRoastingProfile::DRUM_SET_PT, i );
-            series->append( i, temp );
-        }
-        series->setName( saved_graphs[index]->get_title( ) );
-        const QString title = "Profile Graph: " + saved_graphs[index]->get_title( );
-        QFont font = chart->titleFont( );
-        font.setBold( true );
-        font.setPointSize( 13 );
-        chart->setTitleFont( font );
-        chart->setTitle( title );
-    }*/
     chart->addSeries( series );
     auto s_pen = series->pen( );
     s_pen.setWidth( 3 );
@@ -87,72 +50,18 @@ void GraphicalCreatorDialog::make_graph( bool for_saved ) {
     rescale( );
 }
 
-/*void GraphicalCreatorDialog::on_load_button_clicked( ) {
-    if( SAVED ) {
-        make_graph( true );
-        id = ui->saved_box->currentIndex( );
-        ui->save_button->setEnabled( true );
-    }
-    else if( NEW ) {
-        if( pts.size( ) < 1 ) return;
-        const QPoint pt = pts.pop( );
-        series->remove( pt.x( ), pt.y( ) );
-        rescale( );
-    }
-}
-
-void GraphicalCreatorDialog::load_graphs( void ) {
-    QFile graphs( "recordings.json" );
-    if( !graphs.open( QIODevice::ReadOnly ) ) return;
-
-    QByteArray ba = graphs.readAll( );
-    if( ba.size( ) == 0 ) return;
-    QJsonDocument doc( QJsonDocument::fromJson( ba ) );
-    QJsonObject graphs_obj = doc.object( );
-    const int num = graphs_obj["count"].toInt( );
-
-    for( int i = 0; i < num; ++i ) {
-        CoffeeRoastingProfile *r_graph = new CoffeeRoastingProfile( );
-        QJsonObject graph = graphs_obj[QString::number( i )].toObject( );
-        r_graph->read( graph );
-        ui->saved_box->addItem( r_graph->get_title( ) );
-        saved_graphs.append( r_graph );
-    }
-    graphs.close( );
-}*/
-
 void GraphicalCreatorDialog::on_save_button_clicked( ) {
-    /*if( SAVED ) {
-        if( saved_graphs.size( ) < 1 ) return;
-        if( ui->name_edit->text( ).trimmed( ).isEmpty( ) ) {
-            QMessageBox msg;
-            msg.setWindowTitle( "Action not permitted" );
-            msg.setText( "Please choose a name for your new profile" );
-            msg.exec( );
-            return;
-        }
-        //RoastGraph *graph = saved_graphs[id];
-        //CoffeeRoastingProfile *p = new CoffeeRoastingProfile( );
-        //p->set_title( ui->name_edit->text( ) );
-        //p->set_mins( graph->get_size( ) / 60 );
-        //for( int i = 0; i < graph->get_size( ); i += 15 )
-        //    p->set_data( -1, {500,graph->get_data( i ),100,100,100} );
-        profiles.append( saved_graphs[id] );
+    if( ui->name_edit->text( ).trimmed( ).isEmpty( ) ) {
+        QMessageBox msg;
+        msg.setWindowTitle( "Action not permitted" );
+        msg.setText( "Please choose a name for your new profile" );
+        msg.exec( );
+        return;
     }
-    else if( NEW ) {*/
-        if( ui->name_edit->text( ).trimmed( ).isEmpty( ) ) {
-            QMessageBox msg;
-            msg.setWindowTitle( "Action not permitted" );
-            msg.setText( "Please choose a name for your new profile" );
-            msg.exec( );
-            return;
-        }
-        CoffeeRoastingProfile *p = new CoffeeRoastingProfile( ui->name_edit->text( ), drawn_graph.get_size( )/60, 0, profiles.size( ) );
-        for( int i = 0; i < drawn_graph.get_size( ); i += 15 )
-            p->set_data( -1, {500,drawn_graph.get_data( i ),100,100,100} );
-        profiles.append( p );
-    //}
-    //else return;
+    CoffeeRoastingProfile *p = new CoffeeRoastingProfile( ui->name_edit->text( ), drawn_graph.get_size( )/60, 0, profiles.size( ) );
+    for( int i = 0; i < drawn_graph.get_size( ); i += 15 )
+        p->set_data( -1, {500,drawn_graph.get_data( i ),100,100,100} );
+    profiles.append( p );
     write_memory( );
     QMessageBox msg;
     msg.setWindowTitle( "Saved" );
